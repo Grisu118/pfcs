@@ -156,6 +156,13 @@ public class GLBase1
        currentColor[3] = 1;
     }
 
+    public void setColor(float r, float g, float b, float a)             // aktuelle Vertexfarbe setzen
+    {  currentColor[0] = r;
+        currentColor[1] = g;
+        currentColor[2] = b;
+        currentColor[3] = a;
+    }
+
 
     public void putVertex(float x, float y, float z)            // Vertex-Daten in Buffer speichern
     {  vertexBuf.put(x);

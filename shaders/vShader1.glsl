@@ -1,7 +1,7 @@
 //  ------  Vertex-Shader   ----------
 
 
-#version 130
+#version 410
  
 uniform mat4 viewMatrix, projMatrix;    // Transformationsmatrizen
 
