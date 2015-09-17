@@ -110,6 +110,14 @@ public class AirTrain extends GLBase1 {
         }
     }
 
+    void drawRectangle(GL4 gl, float x, float y, float z, float length, float width, float height) {
+        rewindBuffer(gl);
+        putVertex(x, y, z);
+        putVertex(x + length, y, z);
+        putVertex(x + length, y + width, z);
+        putVertex(x, y + width, z);
+    }
+
     void drawBorders(GL4 gl) {
         {
             rewindBuffer(gl);
