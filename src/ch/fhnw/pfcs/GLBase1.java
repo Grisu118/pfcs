@@ -1,4 +1,4 @@
-//  -------------   JOGL Basis-Programm (fuer Erweiterungenh mittels 'extends')  -------------------
+package ch.fhnw.pfcs;//  -------------   JOGL Basis-Programm (fuer Erweiterungenh mittels 'extends')  -------------------
 //
 //                                                            E.Gutknecht, Juli 2015
 //  adaptiert von:

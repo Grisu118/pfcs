@@ -1,4 +1,4 @@
-//  -------------   JOGL 2D-Programm  -------------------
+package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
 import javax.media.opengl.*;
 
 public class MyFirst2D extends GLBase1

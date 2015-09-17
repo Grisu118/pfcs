@@ -1,4 +1,4 @@
-//  --------  Interface to OpenGL 3.0  --------------
+package ch.fhnw.pfcs;//  --------  Interface to OpenGL 3.0  --------------
 //                                        E. Gutknecht Juli 2015
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;

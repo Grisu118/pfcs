@@ -1,4 +1,4 @@
-//  -------------   JOGL 2D-Programm  -------------------
+package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
 
 import com.jogamp.opengl.util.FPSAnimator;
 
