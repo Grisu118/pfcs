@@ -30,3 +30,6 @@
 ## File-based project format:
 *.ipr
 *.iws
+
+# IntelliJ
+/out/
