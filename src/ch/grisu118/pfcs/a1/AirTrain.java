@@ -6,6 +6,11 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL4;
 import javax.media.opengl.GLAutoDrawable;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,20 +30,63 @@ public class AirTrain extends GLBase1 {
     float k = 1f;
 
     volatile long time = 0;
+    volatile boolean run = true;
 
     //  ---------  Methoden  ----------------------------------
 
     private List<Train> trainList = new LinkedList<>();
+    private Thread t;
 
     public AirTrain() {
+        TextField kt = new TextField("1", 5);
+        Button b = new Button("ReStart");
+        Label l = new Label("k: ");
+        headerPanel.add(l);
+        headerPanel.add(kt);
+        headerPanel.add(b);
+
+        kt.addTextListener(new TextListener() {
+            @Override
+            public void textValueChanged(TextEvent e) {
+                String t = kt.getText();
+                float k1 = 0;
+                try {
+                    k1 = Float.parseFloat(t);
+                } catch (NumberFormatException ex) {
+                    kt.setText("1");
+                    return;
+                }
+                if (k1 < 0 || k1 > 1) {
+                    kt.setText("1");
+                }
+            }
+        });
+
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                k = Float.parseFloat(kt.getText());
+                runSimulation();
+            }
+        });
+
+        runSimulation();
+    }
+
+    private void runSimulation() {
+        trainList.clear();
         trainList.add(new Train(this));
         trainList.add(new Train(1.4f, -0.4f, this));
         trainList.add(new Train(-1.4f, -0.7f, this));
-
-        Thread t = new Thread(new Runnable() {
+        run = false;
+        while (t != null && t.isAlive()) {
+            //wait
+        }
+        run = true;
+        t = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (run) {
                     if (time == 0) {
                         update(0);
                     } else {
