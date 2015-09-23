@@ -108,7 +108,11 @@ public class AirTrain extends GLBase1 {
 
     void update(float dt) {
         for (Train t : trainList) {
-            if (t.getPosition() + t.getHalfLength() >= 2 || t.getPosition() - t.getHalfLength() <= -2) {
+            if (t.getPosition() + t.getHalfLength() >= 2) {
+                t.setPosition(2 - t.getHalfLength());
+                t.invertSpeed();
+            } else if (t.getPosition() - t.getHalfLength() <= -2) {
+                t.setPosition(-2 + t.getHalfLength());
                 t.invertSpeed();
             }
             for (Train t2 : trainList) {
