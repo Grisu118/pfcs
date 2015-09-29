@@ -5,16 +5,39 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.media.opengl.GL4;
 import javax.media.opengl.GLAutoDrawable;
 
-public class FPendel extends GLBase1 {
+public class Wurfparabel extends GLBase1 {
 
     //  ---------  globale Daten  ---------------------------
 
-    float left = -4, right = 5;             // ViewingVolume
+    float left = 0, right = 80;             // ViewingVolume
     float bottom, top;
     float near = -10, far = 1000;
 
-    float R = 2;
-    float phi = 0;
+    /**
+     * Erdbeschleunigung
+     */
+    final static double g = 9.81;
+
+    /**
+     * Position
+     */
+    float x = left;
+    float y = 0;
+    /**
+     * Geschwindigkeit
+     */
+    double vx0=20, vy0=20;
+    double vx=vx0, vy=vy0;
+    /**
+     * Beschleunigungen
+     */
+    double ax=0, ay = -g;
+
+    /**
+     * Zeitschritt
+     */
+    double dt = 0.01;
+
     private FPSAnimator fpsAnimator;
 
     //  ---------  Methoden  ----------------------------------
@@ -75,11 +98,17 @@ public class FPendel extends GLBase1 {
         setColor(1, 1, 1);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
         setColor(1, 0, 0);
-        zeichneKreis(gl, 0, 0, R, false, 40);
-
-        zeichneKreis(gl,(float) (R*Math.cos(phi)), (float)(R*Math.sin(phi)), 0.25f, true, 30);
-        zeichneKreis(gl,0, (float)(R*Math.sin(phi)), 0.25f, true, 30);
-        phi += 0.01;
+        zeichneKreis(gl,x, y, 0.25f, true, 30);
+        x += vx*dt;
+        y += vy*dt;
+        vx += ax*dt;
+        vy += ay*dt;
+        if (x > right || y < bottom) {
+            x = 0;
+            y = 0;
+            vx = vx0;
+            vy = vy0;
+        }
     }
 
 
@@ -100,7 +129,7 @@ public class FPendel extends GLBase1 {
     //  -----------  main-Methode  ---------------------------
 
     public static void main(String[] args) {
-        new FPendel();
+        new Wurfparabel();
     }
 
 }

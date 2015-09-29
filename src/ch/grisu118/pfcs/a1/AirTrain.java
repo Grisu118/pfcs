@@ -6,6 +6,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.media.opengl.GL;
 import javax.media.opengl.GL4;
 import javax.media.opengl.GLAutoDrawable;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by benjamin on 17.09.2015.
@@ -39,45 +41,48 @@ public class AirTrain extends GLBase1 {
 
     public AirTrain() {
         TextField kt = new TextField("1", 5);
-        Button b = new Button("ReStart");
-        Label l = new Label("k: ");
+        JButton b = new JButton("ReStart");
+        JLabel l = new JLabel("k: ");
+        JButton clear = new JButton("Clear");
+        JButton add = new JButton("Add");
         headerPanel.add(l);
         headerPanel.add(kt);
         headerPanel.add(b);
+        headerPanel.add(add);
+        headerPanel.add(clear);
+        jFrame.setSize(1000, 800);
 
-        kt.addTextListener(new TextListener() {
-            @Override
-            public void textValueChanged(TextEvent e) {
-                String t = kt.getText();
-                float k1 = 0;
-                try {
-                    k1 = Float.parseFloat(t);
-                } catch (NumberFormatException ex) {
-                    kt.setText("1");
-                    return;
-                }
-                if (k1 < 0 || k1 > 1) {
-                    kt.setText("1");
-                }
+        kt.addTextListener(e -> {
+            String t1 = kt.getText();
+            float k1 = 0;
+            try {
+                k1 = Float.parseFloat(t1);
+            } catch (NumberFormatException ex) {
+                kt.setText("1");
             }
+            if (k1 < 0 || k1 > 1) {
+                kt.setText("1");
+            }
+            k = Float.parseFloat(kt.getText());
         });
 
-        b.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                k = Float.parseFloat(kt.getText());
-                runSimulation();
-            }
+        b.addActionListener(e -> {
+            runSimulation();
         });
+
+        clear.addActionListener(e -> trainList.clear());
+
+        add.addActionListener(e -> addTrain(new Train(this)));
+
 
         runSimulation();
     }
 
     private void runSimulation() {
         trainList.clear();
-        trainList.add(new Train(this));
-        trainList.add(new Train(1.4f, -0.4f, this));
-        trainList.add(new Train(-1.4f, -0.7f, this));
+        addTrain(new Train(this));
+        addTrain(new Train(this));
+        addTrain(new Train(this));
         run = false;
         while (t != null && t.isAlive()) {
             //wait
@@ -104,6 +109,25 @@ public class AirTrain extends GLBase1 {
             }
         });
         t.start();
+    }
+
+    private void addTrain(Train t) {
+        if (trainList.size() == 0) {
+            trainList.add(t);
+        } else {
+            boolean solved;
+            Random r = new Random();
+            do {
+                solved = true;
+                for (Train t2 : trainList) {
+                    if (t.checkCollision(t2)) {
+                        t.setPosition(((float)r.nextInt(400)-200) / 100);
+                        solved = false;
+                    }
+                }
+            } while (!solved);
+            trainList.add(t);
+        }
     }
 
     void update(float dt) {
@@ -177,8 +201,8 @@ public class AirTrain extends GLBase1 {
             putVertex(leftEnd, -10, 0);
             putVertex(rightEnd, 10, 0);
             putVertex(rightEnd, -10, 0);
-            putVertex(leftEnd, -0.05f, 0);
-            putVertex(rightEnd, -0.05f, 0);
+            putVertex(leftEnd, 0, 0);
+            putVertex(rightEnd, 0, 0);
             int nVertices = 6;
             copyBuffer(gl, nVertices);
             gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);

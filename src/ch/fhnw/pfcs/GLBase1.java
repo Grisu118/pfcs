@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
+import javax.swing.*;
 import java.nio.*;
 import java.util.*;
 
@@ -23,8 +24,8 @@ public class GLBase1
     String windowTitle = "JOGL-Application";
     int windowWidth = 800;
     int windowHeight = 600;
-    String vShader = "shaders/vShader1.glsl";               // Filename Vertex-Shader
-    String fShader = "shaders/fShader1.glsl";               // Filename Fragment-Shader
+    String vShader = "vShader1.glsl";               // Filename Vertex-Shader
+    String fShader = "fShader1.glsl";               // Filename Fragment-Shader
     int maxVerts = 2048;                            // max. Anzahl Vertices im Vertex-Array
 
 
@@ -60,7 +61,8 @@ public class GLBase1
     int projMatrixLoc, viewMatrixLoc;                   // Uniform Shader Variables
 
     int vPositionLocation, vColorLocation;              // Vertex Attribute Shader Variables
-    protected Panel headerPanel;
+    protected JPanel headerPanel;
+    protected JFrame jFrame;
 
 
     //  ------------- Methoden  ---------------------------
@@ -90,7 +92,8 @@ public class GLBase1
 
     private void createFrame()                         // Fenster erzeugen
     {
-        Frame f = new Frame(windowTitle);
+        jFrame = new JFrame(windowTitle);
+        JFrame f = jFrame;
         f.setLayout(new BorderLayout());
         f.setSize(windowWidth, windowHeight);
         f.addWindowListener(this);
@@ -99,7 +102,7 @@ public class GLBase1
         canvas = new GLCanvas(glCaps);
         canvas.addGLEventListener(this);
         f.add(canvas, BorderLayout.CENTER);
-        headerPanel = new Panel();
+        headerPanel = new JPanel();
         f.add(headerPanel, BorderLayout.NORTH);
         f.setVisible(true);
         canvas.addKeyListener(this);
