@@ -9,7 +9,7 @@ public class Wurfparabel extends GLBase1 {
 
     //  ---------  globale Daten  ---------------------------
 
-    float left = 0, right = 80;             // ViewingVolume
+    float left = -40, right = 40;             // ViewingVolume
     float bottom, top;
     float near = -10, far = 1000;
 
@@ -22,7 +22,9 @@ public class Wurfparabel extends GLBase1 {
      * Position
      */
     float x = left;
+    float x0 = left;
     float y = 0;
+    float y0 = 0;
     /**
      * Geschwindigkeit
      */
@@ -78,6 +80,35 @@ public class Wurfparabel extends GLBase1 {
 
     }
 
+    public void zeichneBahn(GL4 gl, double x0, double y0, double vx0, double vy0, double dt, int nPunkte) {
+        double x1, y1, t;
+        for (int i = 0; i < nPunkte; i++) {
+            t = i*dt;
+            x1 = vx0 * t + x0;
+            y1 = -0.5 * g * t * t + vy0 * t + y0;
+            putVertex((float)x1, (float)y1, 0);
+        }
+        copyBuffer(gl, nPunkte);
+        gl.glDrawArrays(GL4.GL_LINE_STRIP, 0, nPunkte);
+    }
+
+    public void zeichneSpeer(GL4 gl, float w, float h) {
+        w *= 0.5f;
+        h *= 0.5f;
+        float w2 = 0.8f*w;
+        rewindBuffer(gl);
+        putVertex(-w, 0, 0);
+        putVertex(-w2, -h, 0);
+        putVertex(w2, -h, 0);
+        putVertex(w, 0, 0);
+        putVertex(w2, h, 0);
+        putVertex(-w2, h, 0);
+
+        int nVertices = 6;
+        copyBuffer(gl, nVertices);
+        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+    }
+
     //  ----------  OpenGL-Events   ---------------------------
 
     @Override
@@ -86,7 +117,7 @@ public class Wurfparabel extends GLBase1 {
         GL4 gl = drawable.getGL().getGL4();
         gl.glClearColor(1, 1, 1, 1);                         // Hintergrundfarbe (RGBA)
         gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
-        fpsAnimator = new FPSAnimator(drawable, 40, true);
+        fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
     }
 
@@ -95,17 +126,22 @@ public class Wurfparabel extends GLBase1 {
     public void display(GLAutoDrawable drawable) {
         GL4 gl = drawable.getGL().getGL4();
         gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
-        setColor(1, 1, 1);
-        drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
+        setColor(0, 0, 0);
+        loadIdentity(gl);
+        drawAxis(gl, 50, 50, 50);
+        zeichneBahn(gl, left, 0, vx0, vy0, 0.1, 100);
         setColor(1, 0, 0);
-        zeichneKreis(gl,x, y, 0.25f, true, 30);
+        translate(gl, x, y, 0);
+        double alpha = Math.toDegrees(Math.atan(vy/vx));
+        rotate(gl, (float)alpha, 0, 0, 1);
+        zeichneSpeer(gl, 10, 0.5f);
         x += vx*dt;
         y += vy*dt;
         vx += ax*dt;
         vy += ay*dt;
         if (x > right || y < bottom) {
-            x = 0;
-            y = 0;
+            x = x0;
+            y = y0;
             vx = vx0;
             vy = vy0;
         }
