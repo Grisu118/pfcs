@@ -61,6 +61,20 @@ public class Train {
     }
 
     public boolean checkCollision(Train t2) {
+        if (v > 0) { //Moving from left to right
+            if (this.getPosition() <= t2.getPosition()) {
+                return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
+            }
+        } else if (v < 0) {
+            if (this.getPosition() >= t2.getPosition()) {
+                return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
+            }
+        }
+
+        return false;
+    }
+
+    public boolean checkPosition(Train t2) {
         return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
     }
 

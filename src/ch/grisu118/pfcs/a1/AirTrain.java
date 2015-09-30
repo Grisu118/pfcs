@@ -120,7 +120,7 @@ public class AirTrain extends GLBase1 {
             do {
                 solved = true;
                 for (Train t2 : trainList) {
-                    if (t.checkCollision(t2)) {
+                    if (t.checkPosition(t2)) {
                         t.setPosition(((float)r.nextInt(400)-200) / 100);
                         solved = false;
                     }
