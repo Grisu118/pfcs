@@ -107,6 +107,10 @@ public class ParkingCar extends GLBase1 {
         putVertex(x, y + width, z);
     }
 
+    void drawCar(GL4 gl) {
+
+    }
+
     void drawBorders(GL4 gl) {
         {
             rewindBuffer(gl);
