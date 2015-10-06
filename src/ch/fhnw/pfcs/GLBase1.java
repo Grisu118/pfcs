@@ -195,6 +195,10 @@ public class GLBase1
         vertexBuf.put(currentColor[3]);
     }
 
+    public void putVertex(double x, double y, double z) {
+        putVertex((float)x, (float)y, (float)z);
+    }
+
 
     public void copyBuffer(GL gl, int nVertices)                // Vertex-Array in OpenGL-Buffer kopieren
     {
@@ -447,5 +451,10 @@ public class GLBase1
     public static void main(String[] args) {
         new GLBase1();
     }
+
+    public void translate(GL4 gl, double x, double y, double z) {
+        translate(gl, (float)x, (float)y, (float)z);
+    }
+
 
 }

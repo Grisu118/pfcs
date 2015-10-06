@@ -8,6 +8,7 @@ import javax.media.opengl.GL4;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,7 @@ import java.util.Random;
 public class ParkingCar extends GLBase1 {
     //  ---------  globale Daten  ---------------------------
 
-    float left = -3, right = 3;             // ViewingVolume
+    float left = -30, right = 30;             // ViewingVolume
     float bottom, top;
     float near = -10, far = 1000;
 
@@ -33,6 +34,7 @@ public class ParkingCar extends GLBase1 {
     //  ---------  Methoden  ----------------------------------
 
     private Thread t;
+    private List<Vehicle> vehicles = new ArrayList<>();
 
     public ParkingCar() {
 
@@ -73,6 +75,7 @@ public class ParkingCar extends GLBase1 {
 
 
     void update(float dt) {
+
     }
 
 
@@ -92,39 +95,16 @@ public class ParkingCar extends GLBase1 {
 
     @Override
     public void display(GLAutoDrawable drawable) {
+
         GL4 gl = drawable.getGL().getGL4();
         gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        loadIdentity(gl);
         setColor(1, 1, 1);
-        drawBorders(gl);
+        drawAxis(gl, 20, 20, 20);
         setColor(1, 0, 0);
+        new Car(this).draw(gl);
     }
 
-    void drawRectangle(GL4 gl, float x, float y, float z, float length, float width, float height) {
-        rewindBuffer(gl);
-        putVertex(x, y, z);
-        putVertex(x + length, y, z);
-        putVertex(x + length, y + width, z);
-        putVertex(x, y + width, z);
-    }
-
-    void drawCar(GL4 gl) {
-
-    }
-
-    void drawBorders(GL4 gl) {
-        {
-            rewindBuffer(gl);
-            putVertex(leftEnd, 10, 0);           // Eckpunkte in VertexArray speichern
-            putVertex(leftEnd, -10, 0);
-            putVertex(rightEnd, 10, 0);
-            putVertex(rightEnd, -10, 0);
-            putVertex(leftEnd, 0, 0);
-            putVertex(rightEnd, 0, 0);
-            int nVertices = 6;
-            copyBuffer(gl, nVertices);
-            gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
-        }
-    }
 
 
     @Override
