@@ -8,6 +8,7 @@ import javax.media.opengl.GL4;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,11 +36,15 @@ public class ParkingCar extends GLBase1 {
 
     private Thread t;
     private List<Vehicle> vehicles = new ArrayList<>();
+    private int keyModifier = 1;
 
     public ParkingCar() {
 
         jFrame.setSize(1000, 800);
-
+        Vehicle v = new Car(this);
+        v.setAlpha(0);
+        v.setSpeed(0);
+        vehicles.add(v);
         runSimulation();
     }
 
@@ -75,7 +80,11 @@ public class ParkingCar extends GLBase1 {
 
 
     void update(float dt) {
-
+        for (Vehicle v : vehicles) {
+            double omega = v.getSpeed() / v.getYm();
+            v.setAngle((omega*dt));
+            v.setX(v.getSpeed()/50.0*dt);
+        }
     }
 
 
@@ -102,7 +111,20 @@ public class ParkingCar extends GLBase1 {
         setColor(1, 1, 1);
         drawAxis(gl, 20, 20, 20);
         setColor(1, 0, 0);
-        new Car(this).draw(gl);
+        for (Vehicle v : vehicles) {
+            if (v.getMatrix() != null) {
+                setModelViewMatrix(gl, v.getMatrix());
+            }
+            if (v.getAlpha() != 0) {
+                translate(gl, 0, v.getYm(), 0);
+                rotate(gl, (float) v.getAngle(), 0, 0, 1);
+                translate(gl, 0, -v.getYm(), 0);
+            } else {
+                translate(gl, v.getX(), 0, 0);
+            }
+            v.setMatrix(getModelViewMatrix(gl));
+            v.draw(gl);
+        }
     }
 
 
@@ -126,4 +148,53 @@ public class ParkingCar extends GLBase1 {
     public static void main(String[] args) {
         new ParkingCar();
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        super.keyTyped(e);
+        System.out.println(e.getKeyChar());
+        switch (e.getKeyChar()) {
+            case 'w' :
+            {
+                for (Vehicle v : vehicles) {
+                    v.setSpeed(v.getSpeed() + 1);
+                }
+                break;
+            }
+            case 'W' : {
+                for (Vehicle v : vehicles) {
+                    v.setSpeed(v.getSpeed() + 50);
+                }
+                break;
+            }
+            case 'S' :
+            case 's' : {
+                for (Vehicle v : vehicles) {
+                    v.setSpeed(v.getSpeed() - 1);
+                }
+                break;
+            }
+            case 'D' :
+            case 'd' : {
+                for (Vehicle v : vehicles) {
+                    v.setAlpha(v.getAlpha() - 1);
+                }
+                break;
+            }
+            case 'A' :
+            case 'a' : {
+                for (Vehicle v : vehicles) {
+                    v.setAlpha(v.getAlpha() + 1);
+                }
+                break;
+            }
+            case KeyEvent.VK_SPACE : {
+                for (Vehicle v : vehicles) {
+                    v.setSpeed(0);
+                }
+                break;
+            }
+        }
+    }
+
 }

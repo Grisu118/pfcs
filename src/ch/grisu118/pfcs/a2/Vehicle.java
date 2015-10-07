@@ -1,5 +1,7 @@
 package ch.grisu118.pfcs.a2;
 
+import ch.fhnw.util.math.Mat4;
+
 import javax.media.opengl.GL4;
 
 /**
@@ -15,9 +17,16 @@ public interface Vehicle {
     void setAngle(double angle);
     double getAngle();
 
-    public double getX();
-    public void setX(double x);
+    double getX();
+    void setX(double x);
 
-    public double getY();
-    public void setY(double y);
+    double getY();
+    void setY(double y);
+
+    double getAlpha();
+    void setAlpha(double alpha);
+    double getYm();
+
+    Mat4 getMatrix();
+    void setMatrix(Mat4 matrix);
 }

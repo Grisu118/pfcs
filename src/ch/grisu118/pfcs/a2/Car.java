@@ -1,5 +1,7 @@
 package ch.grisu118.pfcs.a2;
 
+import ch.fhnw.util.math.Mat4;
+
 import javax.media.opengl.GL4;
 
 /**
@@ -8,13 +10,15 @@ import javax.media.opengl.GL4;
 public class Car implements Vehicle {
 
     private ParkingCar context;
+    private Mat4 matrix;
 
     private double x = 0;
     private double y = 0;
-    private double speed = 0;
+    private volatile double speed = 0;
     private double angle = 0;
+    private volatile double ym = 0;
 
-    private double alpha = 0;
+    private volatile double alpha = 0;
     private double beta = 0;
 
     private float width = 1.8f;
@@ -52,17 +56,22 @@ public class Car implements Vehicle {
 
     @Override
     public void draw(GL4 gl) {
-        context.loadIdentity(gl);
-        context.translate(gl, x, y, 0);
-        context.rotate(gl, (float) angle, 0,0,1);
         drawBody(gl);
         context.setColor(0.01f,0.01f,0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
         drawWheels(gl, wheelSize, wheelWidth, 0, -(width/2-wheelWidth)); //backright
 
         //Dynamic
-        drawWheels(gl, wheelSize, wheelWidth, +axisDistance, (width/2-wheelWidth));
-        drawWheels(gl, wheelSize, wheelWidth, axisDistance, -(width/2-wheelWidth));
+        context.pushMatrix(gl);
+        context.translate(gl, axisDistance, width/2-wheelWidth, 0);
+        context.rotate(gl, (float) alpha, 0, 0, 1);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        context.popMatrix(gl);
+        context.pushMatrix(gl);
+        context.translate(gl, axisDistance, -width/2+wheelWidth, 0);
+        context.rotate(gl, (float) beta, 0, 0, 1);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        context.popMatrix(gl);
     }
 
 
@@ -111,5 +120,33 @@ public class Car implements Vehicle {
 
     public void setY(double y) {
         this.y = y;
+    }
+
+    @Override
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
+        double b = width/2;
+        this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
+        this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+    }
+
+    @Override
+    public double getAlpha() {
+        return alpha;
+    }
+
+    @Override
+    public double getYm() {
+        return ym;
+    }
+
+    @Override
+    public void setMatrix(Mat4 matrix) {
+        this.matrix = matrix;
+    }
+
+    @Override
+    public Mat4 getMatrix() {
+        return matrix;
     }
 }
