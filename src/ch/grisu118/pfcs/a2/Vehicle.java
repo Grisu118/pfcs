@@ -20,9 +20,6 @@ public interface Vehicle {
     double getX();
     void setX(double x);
 
-    double getY();
-    void setY(double y);
-
     double getAlpha();
     void setAlpha(double alpha);
     double getYm();

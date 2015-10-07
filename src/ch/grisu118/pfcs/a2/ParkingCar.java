@@ -1,7 +1,6 @@
 package ch.grisu118.pfcs.a2;
 
 import ch.fhnw.pfcs.GLBase1;
-import ch.grisu118.pfcs.a1.Train;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL4;
@@ -10,9 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by benjamin on 17.09.2015.
@@ -49,12 +46,34 @@ public class ParkingCar extends GLBase1 {
 
     public ParkingCar() {
 
+
+
+        vehicles.add(new Car(this, "Auto 1"));
+        vehicles.add(new Car(this, "Auto 2"));
+
+
+
+        headerPanel.setLayout(new BorderLayout());
+        JPanel leftPanel = new JPanel(new GridLayout(2,1));
+
+        JList<Vehicle> vList = new JList<>(vehicles.toArray(new Vehicle[1]));
+        vList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        vList.setLayoutOrientation(JList.VERTICAL);
+        vList.setVisibleRowCount(-1);
+        JScrollPane listScroller = new JScrollPane(vList);
+        listScroller.setPreferredSize(new Dimension(250, 80));
+        leftPanel.add(listScroller);
+        JButton select = new JButton("Select Vehicle");
+        select.addActionListener(e -> {
+            if (activeVehicle != null) {
+                activeVehicle.setAngle(0);
+                activeVehicle.setSpeed(0);
+            }
+            activeVehicle=vList.getSelectedValue();
+        });
+        leftPanel.add(select);
+        headerPanel.add(leftPanel, BorderLayout.WEST);
         jFrame.setSize(1000, 800);
-        Vehicle v = new Car(this);
-        v.setAlpha(0);
-        v.setSpeed(0);
-        vehicles.add(v);
-        activeVehicle = v;
         runSimulation();
     }
 
@@ -90,6 +109,9 @@ public class ParkingCar extends GLBase1 {
 
 
     void update(float dt) {
+        if (activeVehicle == null) {
+            return;
+        }
         handleInput(dt);
 
         double omega = activeVehicle.getSpeed() / activeVehicle.getYm();
@@ -120,7 +142,7 @@ public class ParkingCar extends GLBase1 {
         }
 
         if (keys[KEY_SPACE]) {
-            activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500*dt ? 0 : activeVehicle.getSpeed() - 500*dt);
+            activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500*dt ? 0 : activeVehicle.getSpeed() - 500*dt); //FIXME for Reverse driving cars!
         }
     }
 
@@ -148,19 +170,19 @@ public class ParkingCar extends GLBase1 {
         setColor(1, 1, 1);
         drawAxis(gl, 20, 20, 20);
         setColor(1, 0, 0);
-        for (Vehicle v : vehicles) {
-            if (v.getMatrix() != null) {
-                setModelViewMatrix(gl, v.getMatrix());
+        if (activeVehicle != null) {
+            if (activeVehicle.getMatrix() != null) {
+                setModelViewMatrix(gl, activeVehicle.getMatrix());
             }
-            if (v.getAlpha() != 0) {
-                translate(gl, 0, v.getYm(), 0);
-                rotate(gl, (float) v.getAngle(), 0, 0, 1);
-                translate(gl, 0, -v.getYm(), 0);
+            if (activeVehicle.getAlpha() != 0) {
+                translate(gl, 0, activeVehicle.getYm(), 0);
+                rotate(gl, (float) activeVehicle.getAngle(), 0, 0, 1);
+                translate(gl, 0, -activeVehicle.getYm(), 0);
             } else {
-                translate(gl, v.getX(), 0, 0);
+                translate(gl, activeVehicle.getX(), 0, 0);
             }
-            v.setMatrix(getModelViewMatrix(gl));
-            v.draw(gl);
+            activeVehicle.setMatrix(getModelViewMatrix(gl));
+            activeVehicle.draw(gl);
         }
     }
 
