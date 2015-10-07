@@ -36,7 +36,16 @@ public class ParkingCar extends GLBase1 {
 
     private Thread t;
     private List<Vehicle> vehicles = new ArrayList<>();
-    private int keyModifier = 1;
+    private Vehicle activeVehicle;
+    private volatile boolean[] keys = new boolean[7];
+
+    private final static int KEY_W = 0;
+    private final static int KEY_A = 1;
+    private final static int KEY_S = 2;
+    private final static int KEY_D = 3;
+    private final static int KEY_SHIFT = 4;
+    private final static int KEY_SPACE = 5;
+    private final static int KEY_E = 6;
 
     public ParkingCar() {
 
@@ -45,6 +54,7 @@ public class ParkingCar extends GLBase1 {
         v.setAlpha(0);
         v.setSpeed(0);
         vehicles.add(v);
+        activeVehicle = v;
         runSimulation();
     }
 
@@ -80,10 +90,37 @@ public class ParkingCar extends GLBase1 {
 
 
     void update(float dt) {
-        for (Vehicle v : vehicles) {
-            double omega = v.getSpeed() / v.getYm();
-            v.setAngle((omega*dt));
-            v.setX(v.getSpeed()/50.0*dt);
+        handleInput(dt);
+
+        double omega = activeVehicle.getSpeed() / activeVehicle.getYm();
+        activeVehicle.setAngle((omega * dt));
+        activeVehicle.setX(activeVehicle.getSpeed() / 50.0 * dt);
+    }
+
+    private void handleInput(float dt) {
+        double mult = 30;
+        if (keys[KEY_SHIFT]) {
+            mult = 300;
+        }
+        if (keys[KEY_W]) {
+            activeVehicle.setSpeed(activeVehicle.getSpeed() + mult*dt);
+        }
+        if (keys[KEY_S]) {
+            activeVehicle.setSpeed(activeVehicle.getSpeed() - mult*dt);
+        }
+
+        if (keys[KEY_A]) {
+            activeVehicle.setAlpha(activeVehicle.getAlpha() + 100*dt);
+        }
+        if (keys[KEY_D]) {
+            activeVehicle.setAlpha(activeVehicle.getAlpha() - 100*dt);
+        }
+        if (keys[KEY_E]) {
+            activeVehicle.setAlpha(0);
+        }
+
+        if (keys[KEY_SPACE]) {
+            activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500*dt ? 0 : activeVehicle.getSpeed() - 500*dt);
         }
     }
 
@@ -128,7 +165,6 @@ public class ParkingCar extends GLBase1 {
     }
 
 
-
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
@@ -150,51 +186,62 @@ public class ParkingCar extends GLBase1 {
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        super.keyTyped(e);
-        System.out.println(e.getKeyChar());
-        switch (e.getKeyChar()) {
-            case 'w' :
-            {
-                for (Vehicle v : vehicles) {
-                    v.setSpeed(v.getSpeed() + 1);
-                }
+    public void keyPressed(KeyEvent e) {
+        super.keyPressed(e);
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                keys[KEY_W] = true;
                 break;
-            }
-            case 'W' : {
-                for (Vehicle v : vehicles) {
-                    v.setSpeed(v.getSpeed() + 50);
-                }
+            case KeyEvent.VK_S:
+                keys[KEY_S] = true;
                 break;
-            }
-            case 'S' :
-            case 's' : {
-                for (Vehicle v : vehicles) {
-                    v.setSpeed(v.getSpeed() - 1);
-                }
+            case KeyEvent.VK_A:
+                keys[KEY_A] = true;
                 break;
-            }
-            case 'D' :
-            case 'd' : {
-                for (Vehicle v : vehicles) {
-                    v.setAlpha(v.getAlpha() - 1);
-                }
+            case KeyEvent.VK_D:
+                keys[KEY_D] = true;
                 break;
-            }
-            case 'A' :
-            case 'a' : {
-                for (Vehicle v : vehicles) {
-                    v.setAlpha(v.getAlpha() + 1);
-                }
+            case KeyEvent.VK_E:
+                keys[KEY_E] = true;
                 break;
-            }
-            case KeyEvent.VK_SPACE : {
-                for (Vehicle v : vehicles) {
-                    v.setSpeed(0);
-                }
+            case KeyEvent.VK_SPACE:
+                keys[KEY_SPACE] = true;
                 break;
-            }
+            case KeyEvent.VK_SHIFT:
+                keys[KEY_SHIFT] = true;
+                break;
+            default:
+                break;
         }
     }
 
+    @Override
+    public void keyReleased(KeyEvent e) {
+        super.keyReleased(e);
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                keys[KEY_W] = false;
+                break;
+            case KeyEvent.VK_S:
+                keys[KEY_S] = false;
+                break;
+            case KeyEvent.VK_A:
+                keys[KEY_A] = false;
+                break;
+            case KeyEvent.VK_D:
+                keys[KEY_D] = false;
+                break;
+            case KeyEvent.VK_E:
+                keys[KEY_E] = false;
+                break;
+            case KeyEvent.VK_SPACE:
+                keys[KEY_SPACE] = false;
+                break;
+            case KeyEvent.VK_SHIFT:
+                keys[KEY_SHIFT] = false;
+                break;
+            default:
+                break;
+        }
+    }
 }

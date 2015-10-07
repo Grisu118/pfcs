@@ -27,7 +27,7 @@ public class Car implements Vehicle {
     private float axisDistance = 2.9f;
     private float wheelSize = 0.7f;
     private float wheelWidth = 0.3f;
-
+    private double maxAlpha = 50;
 
 
     public Car(ParkingCar context) {
@@ -57,38 +57,37 @@ public class Car implements Vehicle {
     @Override
     public void draw(GL4 gl) {
         drawBody(gl);
-        context.setColor(0.01f,0.01f,0.01f);
+        context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, 0, -(width/2-wheelWidth)); //backright
+        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
 
         //Dynamic
         context.pushMatrix(gl);
-        context.translate(gl, axisDistance, width/2-wheelWidth, 0);
+        context.translate(gl, axisDistance, width / 2 - wheelWidth, 0);
         context.rotate(gl, (float) alpha, 0, 0, 1);
         drawWheels(gl, wheelSize, wheelWidth, 0, 0);
         context.popMatrix(gl);
         context.pushMatrix(gl);
-        context.translate(gl, axisDistance, -width/2+wheelWidth, 0);
+        context.translate(gl, axisDistance, -width / 2 + wheelWidth, 0);
         context.rotate(gl, (float) beta, 0, 0, 1);
         drawWheels(gl, wheelSize, wheelWidth, 0, 0);
         context.popMatrix(gl);
     }
 
 
-
     private void drawBody(GL4 gl) {
         context.rewindBuffer(gl);
-        context.putVertex(length-backAxis, +width/2, 0);
-        context.putVertex(-backAxis, width/2, 0);
-        context.putVertex(-backAxis, -width/2, 0);
-        context.putVertex(length-backAxis, -width/2, 0);
+        context.putVertex(length - backAxis, +width / 2, 0);
+        context.putVertex(-backAxis, width / 2, 0);
+        context.putVertex(-backAxis, -width / 2, 0);
+        context.putVertex(length - backAxis, -width / 2, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
-        context.putVertex(length-backAxis, 0, 0);
-        context.putVertex(length*(2.0f/3)-backAxis, -width/2, 0);
-        context.putVertex(length*(2.0f/3)-backAxis, width/2, 0);
+        context.putVertex(length - backAxis, 0, 0);
+        context.putVertex(length * (2.0f / 3) - backAxis, -width / 2, 0);
+        context.putVertex(length * (2.0f / 3) - backAxis, width / 2, 0);
         nVertices = 3;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
@@ -97,10 +96,10 @@ public class Car implements Vehicle {
 
     private void drawWheels(GL4 gl, double length, double width, double x, double y) {
         context.rewindBuffer(gl);
-        context.putVertex(x+length/2, y+width/2, 0);
-        context.putVertex(x-length/2, y+width/2, 0);
-        context.putVertex(x-length/2, y-width/2, 0);
-        context.putVertex(x+length/2, y-width/2, 0);
+        context.putVertex(x + length / 2, y + width / 2, 0);
+        context.putVertex(x - length / 2, y + width / 2, 0);
+        context.putVertex(x - length / 2, y - width / 2, 0);
+        context.putVertex(x + length / 2, y - width / 2, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
@@ -124,10 +123,12 @@ public class Car implements Vehicle {
 
     @Override
     public void setAlpha(double alpha) {
-        this.alpha = alpha;
-        double b = width/2;
-        this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
-        this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+        if (Math.abs(alpha) <= maxAlpha) {
+            this.alpha = alpha;
+            double b = width / 2;
+            this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
+            this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+        }
     }
 
     @Override
