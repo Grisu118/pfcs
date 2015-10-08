@@ -1,6 +1,9 @@
 package ch.grisu118.pfcs.a2;
 
 import ch.fhnw.pfcs.GLBase1;
+import ch.grisu118.pfcs.a2.Vehicles.Car;
+import ch.grisu118.pfcs.a2.Vehicles.Trike;
+import ch.grisu118.pfcs.a2.Vehicles.Vehicle;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL4;
@@ -50,6 +53,7 @@ public class ParkingCar extends GLBase1 {
 
         vehicles.add(new Car(this, "Auto 1"));
         vehicles.add(new Car(this, "Auto 2"));
+        vehicles.add(new Trike(this, "Dreirad"));
 
 
 
@@ -132,10 +136,10 @@ public class ParkingCar extends GLBase1 {
         }
 
         if (keys[KEY_A]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() + 100*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() + 200*dt);
         }
         if (keys[KEY_D]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() - 100*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() - 200*dt);
         }
         if (keys[KEY_E]) {
             activeVehicle.setAlpha(0);

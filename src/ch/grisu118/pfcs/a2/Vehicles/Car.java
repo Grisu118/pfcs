@@ -1,6 +1,6 @@
-package ch.grisu118.pfcs.a2;
+package ch.grisu118.pfcs.a2.Vehicles;
 
-import ch.fhnw.util.math.Mat4;
+import ch.grisu118.pfcs.a2.ParkingCar;
 
 import javax.media.opengl.GL4;
 

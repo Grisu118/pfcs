@@ -1,4 +1,4 @@
-package ch.grisu118.pfcs.a2;
+package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.fhnw.util.math.Mat4;
 

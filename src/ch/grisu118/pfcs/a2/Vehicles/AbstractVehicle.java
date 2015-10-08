@@ -1,7 +1,7 @@
-package ch.grisu118.pfcs.a2;
+package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.fhnw.util.math.Mat4;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import ch.grisu118.pfcs.a2.ParkingCar;
 
 import javax.media.opengl.GL4;
 
@@ -22,19 +22,25 @@ public abstract class AbstractVehicle implements Vehicle {
     protected float wheelSize = 0.7f;
     protected float wheelWidth = 0.3f;
     protected double maxAlpha = 50;
+    protected double minAlpha;
     protected String name;
     protected String type;
-    private float length = 4.8f;
-    private float backAxis = 1;
+    protected float length = 4.8f;
+    protected float backAxis = 1;
 
     public AbstractVehicle (ParkingCar context, String name) {
         this.context = context;
         this.name = name;
+
+        double b = width / 2;
+        double ym = b + axisDistance / Math.tan(Math.toRadians(maxAlpha));
+        System.out.println(this.toString() + ": Wendekreis: " + ym + "m");
+        this.minAlpha = -1 * Math.toDegrees(Math.atan(axisDistance / (ym + b)));
     }
 
     @Override
     public void setAlpha(double alpha) {
-        if (Math.abs(alpha) <= maxAlpha) {
+        if (alpha <= maxAlpha && alpha >= minAlpha) {
             this.alpha = alpha;
             double b = width / 2;
             this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
