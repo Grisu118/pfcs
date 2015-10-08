@@ -5,14 +5,22 @@ import ch.grisu118.pfcs.a2.ParkingCar;
 import javax.media.opengl.GL4;
 
 /**
- * Created by benjamin on 06.10.2015.
+ * Created by benjamin on 08.10.2015.
  */
-public class Car extends AbstractVehicle {
-
-    public Car (ParkingCar context, String name) {
+public class SmallTruck extends AbstractVehicle {
+    public SmallTruck(ParkingCar context, String name) {
         super(context, name);
-        this.type = "Car";
+        this.type = "Truck";
+        this.width = 2.3f;
+        this.length = 6.7f;
+        this.backAxis = 2.06f;
+        this.wheelSize = 1;
+        this.wheelWidth = 0.4f;
+        this.axisDistance = 3.4f;
+        this.maxAlpha = 60;
+        this.minAlpha = this.maxAlpha * -1;
 
+        calcMinAlpha();
     }
 
     @Override

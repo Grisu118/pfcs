@@ -32,9 +32,12 @@ public abstract class AbstractVehicle implements Vehicle {
         this.context = context;
         this.name = name;
 
+        calcMinAlpha();
+    }
+
+    protected void calcMinAlpha() {
         double b = width / 2;
         double ym = b + axisDistance / Math.tan(Math.toRadians(maxAlpha));
-        System.out.println(this.toString() + ": Wendekreis: " + ym + "m");
         this.minAlpha = -1 * Math.toDegrees(Math.atan(axisDistance / (ym + b)));
     }
 
