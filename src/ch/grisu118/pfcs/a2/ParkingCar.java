@@ -215,15 +215,19 @@ public class ParkingCar extends GLBase1 {
     public void keyPressed(KeyEvent e) {
         super.keyPressed(e);
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 keys[KEY_W] = true;
                 break;
+            case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 keys[KEY_S] = true;
                 break;
+            case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 keys[KEY_A] = true;
                 break;
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 keys[KEY_D] = true;
                 break;
@@ -245,15 +249,19 @@ public class ParkingCar extends GLBase1 {
     public void keyReleased(KeyEvent e) {
         super.keyReleased(e);
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 keys[KEY_W] = false;
                 break;
+            case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 keys[KEY_S] = false;
                 break;
+            case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 keys[KEY_A] = false;
                 break;
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 keys[KEY_D] = false;
                 break;
