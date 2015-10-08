@@ -182,6 +182,14 @@ public class GLBase1
         currentColor[3] = a;
     }
 
+    public void setColor(float[] color) {
+        currentColor = color;
+    }
+
+    public float[] getColor() {
+        return Arrays.copyOf(currentColor, currentColor.length);
+    }
+
 
     public void putVertex(float x, float y, float z)            // Vertex-Daten in Buffer speichern
     {

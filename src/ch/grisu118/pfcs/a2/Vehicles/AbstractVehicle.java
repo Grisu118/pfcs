@@ -14,6 +14,7 @@ public abstract class AbstractVehicle implements Vehicle {
     protected double x = 0;
     protected volatile double speed = 0;
     protected double angle = 0;
+    protected double angleModifier = 200;
     protected volatile double ym = 0;
     protected volatile double alpha = 0;
     protected double beta = 0;
@@ -75,6 +76,11 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     @Override
+    public double getAngleMofifier() {
+        return angleModifier;
+    }
+
+    @Override
     public double getX() {
         return x;
     }
@@ -129,6 +135,8 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     protected void drawWheels(GL4 gl, double length, double width, double x, double y) {
+        float[] color = context.getColor();
+        context.setColor(0.01f, 0.01f, 0.01f);
         context.rewindBuffer(gl);
         context.putVertex(x + length / 2, y + width / 2, 0);
         context.putVertex(x - length / 2, y + width / 2, 0);
@@ -137,5 +145,6 @@ public abstract class AbstractVehicle implements Vehicle {
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+        context.setColor(color);
     }
 }

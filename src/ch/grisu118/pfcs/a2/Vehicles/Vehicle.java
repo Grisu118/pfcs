@@ -17,6 +17,8 @@ public interface Vehicle {
     void setAngle(double angle);
     double getAngle();
 
+    double getAngleMofifier();
+
     double getX();
     void setX(double x);
 

@@ -54,6 +54,7 @@ public class ParkingCar extends GLBase1 {
         vehicles.add(new Trike(this, "Dreirad"));
         vehicles.add(new SmallTruck(this, "SuLa 10"));
         vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));
+        vehicles.add(new Kiro(this, "Kirovets K700A"));
 
 
 
@@ -136,17 +137,21 @@ public class ParkingCar extends GLBase1 {
         }
 
         if (keys[KEY_A]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() + 200*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() + activeVehicle.getAngleMofifier()*dt);
         }
         if (keys[KEY_D]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() - 200*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() - activeVehicle.getAngleMofifier()*dt);
         }
         if (keys[KEY_E]) {
             activeVehicle.setAlpha(0);
         }
 
         if (keys[KEY_SPACE]) {
-            activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500*dt ? 0 : activeVehicle.getSpeed() - 500*dt); //FIXME for Reverse driving cars!
+            if (activeVehicle.getSpeed() > 0) {
+                activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500 * dt ? 0 : activeVehicle.getSpeed() - 500 * dt);
+            } else {
+                activeVehicle.setSpeed(activeVehicle.getSpeed() >= 500 * dt ? 0 : activeVehicle.getSpeed() + 500 * dt);
+            }
         }
     }
 
