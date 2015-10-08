@@ -21,7 +21,7 @@ public class BigTruck extends AbstractVehicle{
         super(context, name);
         this.type = "Truck";
         this.width = 2.55f;
-        this.length = 9.337f;
+        this.length = 9.137f;
         this.backAxis = 2.887f;
         this.wheelSize = 1;
         this.wheelWidth = 0.4f;
