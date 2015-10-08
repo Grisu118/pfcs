@@ -44,6 +44,9 @@ public abstract class AbstractVehicle implements Vehicle {
     @Override
     public void setAlpha(double alpha) {
         if (alpha <= maxAlpha && alpha >= minAlpha) {
+            if (this.alpha < 0 && alpha > 0 || this.alpha > 0 && alpha < 0) {
+                alpha = 0;
+            }
             this.alpha = alpha;
             double b = width / 2;
             this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));

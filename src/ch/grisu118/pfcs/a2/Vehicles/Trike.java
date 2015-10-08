@@ -42,6 +42,9 @@ public class Trike extends AbstractVehicle {
     @Override
     public void setAlpha(double alpha) {
         if (alpha <= maxAlpha && alpha >= minAlpha) {
+            if (this.alpha < 0 && alpha > 0 || this.alpha > 0 && alpha < 0) {
+                alpha = 0;
+            }
             this.alpha = alpha;
             this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
         }

@@ -1,10 +1,7 @@
 package ch.grisu118.pfcs.a2;
 
 import ch.fhnw.pfcs.GLBase1;
-import ch.grisu118.pfcs.a2.Vehicles.Car;
-import ch.grisu118.pfcs.a2.Vehicles.SmallTruck;
-import ch.grisu118.pfcs.a2.Vehicles.Trike;
-import ch.grisu118.pfcs.a2.Vehicles.Vehicle;
+import ch.grisu118.pfcs.a2.Vehicles.*;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL4;
@@ -56,6 +53,7 @@ public class ParkingCar extends GLBase1 {
         vehicles.add(new Car(this, "Auto 2"));
         vehicles.add(new Trike(this, "Dreirad"));
         vehicles.add(new SmallTruck(this, "SuLa 10"));
+        vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));
 
 
 

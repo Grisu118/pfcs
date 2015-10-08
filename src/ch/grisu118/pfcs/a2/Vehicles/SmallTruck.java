@@ -28,7 +28,9 @@ public class SmallTruck extends AbstractVehicle {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
+        drawWheels(gl, wheelSize, wheelWidth, 0, +width / 2 - 2*wheelWidth-0.008);
         drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
+        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - 2*wheelWidth-0.008));
 
         //Dynamic
         context.pushMatrix(gl);
