@@ -80,6 +80,18 @@ public class BigTruck extends AbstractVehicle{
     }
 
     @Override
+    public void drawDebug(GL4 gl) {
+        super.drawDebug(gl);
+        float[] color = context.getColor();
+        context.setColor(debugColor);
+        drawLine(gl, axisDistance2, width / 2 - wheelWidth, 0, ym);
+        drawLine(gl, axisDistance2, -(width / 2 - wheelWidth), 0, ym);
+        drawLine(gl, axisDistance5, width / 2 - wheelWidth, 0, ym);
+        drawLine(gl, axisDistance5, -(width / 2 - wheelWidth), 0, ym);
+        context.setColor(color);
+    }
+
+    @Override
     public void setAlpha(double alpha) {
         super.setAlpha(alpha);
         if (alpha <= maxAlpha && alpha >= minAlpha) {

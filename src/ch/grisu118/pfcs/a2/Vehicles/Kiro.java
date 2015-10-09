@@ -88,4 +88,19 @@ public class Kiro extends AbstractVehicle {
         drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, -width / 2 + wheelWidth/2);
         context.popMatrix(gl);
     }
+
+    @Override
+    public void drawDebug(GL4 gl) {
+        float[] color = context.getColor();
+        context.setColor(debugColor);
+        drawCenter(gl);
+        drawCircle(gl, 0, ym, ym, false, 100);
+        context.drawAxis(gl, length, (float) ym, 1);
+        context.pushMatrix(gl);
+        context.translate(gl, axisDistance/2, 0, 0);
+        context.rotate(gl, (float) (alpha), 0,0,1);
+        drawLine(gl, axisDistance/2, 0, axisDistance/2, ym);
+        context.popMatrix(gl);
+        context.setColor(color);
+    }
 }

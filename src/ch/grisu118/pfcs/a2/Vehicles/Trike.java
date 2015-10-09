@@ -40,6 +40,17 @@ public class Trike extends AbstractVehicle {
     }
 
     @Override
+    public void drawDebug(GL4 gl) {
+        float[] color = context.getColor();
+        context.setColor(debugColor);
+        drawCenter(gl);
+        drawCircle(gl, 0, ym, ym, false, 100);
+        context.drawAxis(gl, length, (float) ym, 1);
+        drawLine(gl, axisDistance, 0, 0, ym);
+        context.setColor(color);
+    }
+
+    @Override
     public void setAlpha(double alpha) {
         if (alpha <= maxAlpha && alpha >= minAlpha) {
             if (this.alpha < 0 && alpha > 0 || this.alpha > 0 && alpha < 0) {

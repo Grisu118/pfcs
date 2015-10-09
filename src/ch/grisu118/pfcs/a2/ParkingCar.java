@@ -55,7 +55,7 @@ public class ParkingCar extends GLBase1 {
         vehicles.add(new Trike(this, "Dreirad"));
         vehicles.add(new SmallTruck(this, "SuLa 10"));
         vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));
-        vehicles.add(new Kiro(this, "Kirovets K700A"));
+        vehicles.add(new Kiro(this, "Kirovets K700A [BETA]"));
 
 
 
@@ -67,7 +67,7 @@ public class ParkingCar extends GLBase1 {
         vList.setLayoutOrientation(JList.VERTICAL);
         vList.setVisibleRowCount(-1);
         JScrollPane listScroller = new JScrollPane(vList);
-        listScroller.setPreferredSize(new Dimension(250, 80));
+        listScroller.setPreferredSize(new Dimension(250, 50));
         leftPanel.add(listScroller);
         JButton select = new JButton("Select Vehicle");
         select.addActionListener(e -> {

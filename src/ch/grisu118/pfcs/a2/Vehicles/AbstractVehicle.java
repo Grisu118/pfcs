@@ -124,9 +124,19 @@ public abstract class AbstractVehicle implements Vehicle {
         context.setColor(debugColor);
         drawCenter(gl);
         drawCircle(gl, 0, ym, ym, false, 100);
-        context.drawAxis(gl, length, (float)ym, 1);
-
+        context.drawAxis(gl, length, (float) ym, 1);
+        drawLine(gl, axisDistance, width / 2 - wheelWidth, 0, ym);
+        drawLine(gl, axisDistance, -(width / 2 - wheelWidth), 0, ym);
         context.setColor(color);
+    }
+
+    protected void drawLine(GL4 gl, double x0, double y0, double x1, double y1) {
+        context.rewindBuffer(gl);
+        context.putVertex(x0, y0, 0);
+        context.putVertex(x1, y1, 0);
+        context.copyBuffer(gl, 2);
+        gl.glDrawArrays(GL4.GL_LINES, 0, 2);
+        context.rewindBuffer(gl);
     }
 
     protected void drawCenter(GL4 gl) {
