@@ -4,6 +4,7 @@ import ch.fhnw.util.math.Mat4;
 import ch.grisu118.pfcs.a2.ParkingCar;
 
 import javax.media.opengl.GL4;
+import java.awt.*;
 
 /**
  * Created by benjamin on 07.10.2015.
@@ -29,7 +30,9 @@ public abstract class AbstractVehicle implements Vehicle {
     protected float length = 4.8f;
     protected float backAxis = 1;
 
-    public AbstractVehicle (ParkingCar context, String name) {
+    protected float[] debugColor = {1, 1, 0, 1};
+
+    public AbstractVehicle(ParkingCar context, String name) {
         this.context = context;
         this.name = name;
 
@@ -113,6 +116,52 @@ public abstract class AbstractVehicle implements Vehicle {
     @Override
     public String toString() {
         return this.type + ": " + this.name;
+    }
+
+    @Override
+    public void drawDebug(GL4 gl) {
+        float[] color = context.getColor();
+        context.setColor(debugColor);
+        drawCenter(gl);
+        drawCircle(gl, 0, ym, ym, false, 100);
+        context.drawAxis(gl, length, (float)ym, 1);
+
+        context.setColor(color);
+    }
+
+    protected void drawCenter(GL4 gl) {
+        float len = 0.2f;
+        context.rewindBuffer(gl);
+        context.putVertex(0, ym - len, 0);
+        context.putVertex(0, ym + len, 0);
+        context.putVertex(-len, ym, 0);
+        context.putVertex(len, ym, 0);
+        int nVertices = 4;
+        context.copyBuffer(gl, nVertices);
+        gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+        context.rewindBuffer(gl);
+
+    }
+
+    protected void drawCircle(GL4 gl, double xm, double ym, double r, boolean fill, int nPunkte) {
+        context.rewindBuffer(gl);
+        if (fill) {
+            context.putVertex(xm, ym, 0);
+        }
+        double phi = 2 * Math.PI / nPunkte;
+        for (int i = 0; i < nPunkte + 1; i++) {
+            context.putVertex((float) (r * Math.cos(phi * i)) + xm, (float) (r * Math.sin(phi * i)) + ym, 0);
+            //System.out.println((r * Math.cos(phi) * i) + " : " + (r * Math.sin(phi) * i));
+        }
+        if (fill) {
+            context.putVertex((float) (r * Math.cos(0)) + xm, (float) (r * Math.sin(0)) + ym, 0);
+            context.copyBuffer(gl, nPunkte + 2);   // VertexArray in OpenGL-Buffer kopieren
+            gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
+        } else {
+            context.copyBuffer(gl, nPunkte);   // VertexArray in OpenGL-Buffer kopieren
+            gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
+        }
+        context.rewindBuffer(gl);
     }
 
     protected void drawBody(GL4 gl) {

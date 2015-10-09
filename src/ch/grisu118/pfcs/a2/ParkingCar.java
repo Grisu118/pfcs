@@ -44,6 +44,7 @@ public class ParkingCar extends GLBase1 {
     private final static int KEY_SHIFT = 4;
     private final static int KEY_SPACE = 5;
     private final static int KEY_E = 6;
+    private boolean isDebug = false;
 
     public ParkingCar() {
 
@@ -78,6 +79,10 @@ public class ParkingCar extends GLBase1 {
         });
         leftPanel.add(select);
         headerPanel.add(leftPanel, BorderLayout.WEST);
+        JCheckBox debugBos = new JCheckBox("Debug");
+        debugBos.addActionListener(e -> isDebug = !isDebug);
+        headerPanel.add(debugBos, BorderLayout.NORTH);
+
         jFrame.setSize(1000, 800);
         runSimulation();
     }
@@ -192,6 +197,9 @@ public class ParkingCar extends GLBase1 {
             }
             activeVehicle.setMatrix(getModelViewMatrix(gl));
             activeVehicle.draw(gl);
+            if (isDebug) {
+                activeVehicle.drawDebug(gl);
+            }
         }
     }
 
