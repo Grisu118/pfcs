@@ -64,8 +64,8 @@ public class Kiro extends AbstractVehicle {
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
-        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, width / 2 - wheelWidth/2);
-        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, -width / 2 + wheelWidth/2);
+        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, width / 2 - wheelWidth/2, false);
+        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, -width / 2 + wheelWidth/2, false);
         context.popMatrix(gl);
         //Back
         if (debug) {
@@ -86,8 +86,8 @@ public class Kiro extends AbstractVehicle {
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_LINE_STRIP, 0, nVertices);
         context.rewindBuffer(gl);
-        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, width / 2 - wheelWidth/2);
-        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, -width / 2 + wheelWidth/2);
+        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, width / 2 - wheelWidth/2, true);
+        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, -width / 2 + wheelWidth/2, true);
         context.popMatrix(gl);
     }
 

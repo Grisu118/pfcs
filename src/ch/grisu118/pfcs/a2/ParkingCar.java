@@ -44,7 +44,7 @@ public class ParkingCar extends GLBase1 {
     private final static int KEY_SHIFT = 4;
     private final static int KEY_SPACE = 5;
     private final static int KEY_E = 6;
-    private boolean isDebug = false;
+    private final JLabel speedLabel;
 
     public ParkingCar() {
 
@@ -60,28 +60,55 @@ public class ParkingCar extends GLBase1 {
 
 
         headerPanel.setLayout(new BorderLayout());
-        JPanel leftPanel = new JPanel(new GridLayout(2,1));
+        JPanel leftPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.0;
+        c.gridwidth = 3;
+        c.gridx = 0;
+        c.gridy = 0;
 
         JList<Vehicle> vList = new JList<>(vehicles.toArray(new Vehicle[1]));
         vList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         vList.setLayoutOrientation(JList.VERTICAL);
         vList.setVisibleRowCount(-1);
         JScrollPane listScroller = new JScrollPane(vList);
-        listScroller.setPreferredSize(new Dimension(250, 50));
-        leftPanel.add(listScroller);
+        listScroller.setPreferredSize(new Dimension(250, 60));
+        leftPanel.add(listScroller, c);
         JButton select = new JButton("Select Vehicle");
         select.addActionListener(e -> {
             if (activeVehicle != null) {
                 activeVehicle.setAngle(0);
                 activeVehicle.setSpeed(0);
             }
-            activeVehicle=vList.getSelectedValue();
+            activeVehicle = vList.getSelectedValue();
         });
-        leftPanel.add(select);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 1;
+        leftPanel.add(select, c);
         headerPanel.add(leftPanel, BorderLayout.WEST);
-        JCheckBox debugBos = new JCheckBox("Debug");
-        debugBos.addActionListener(e -> vehicles.forEach(v -> v.setDebug(debugBos.isSelected())));
-        headerPanel.add(debugBos, BorderLayout.NORTH);
+        JCheckBox debugBox = new JCheckBox("Debug");
+        debugBox.addActionListener(e -> vehicles.forEach(v -> v.setDebug(debugBox.isSelected())));
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 1;
+        c.gridy = 1;
+        leftPanel.add(debugBox, c);
+
+        JPanel rightPanel = new JPanel(new GridBagLayout());
+        headerPanel.add(rightPanel, BorderLayout.EAST);
+        speedLabel = new JLabel("0 km/h");
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 0;
+        rightPanel.add(speedLabel, c);
 
         jFrame.setSize(1000, 800);
         runSimulation();
@@ -127,6 +154,11 @@ public class ParkingCar extends GLBase1 {
         double omega = activeVehicle.getSpeed() / activeVehicle.getYm();
         activeVehicle.setAngle((omega * dt));
         activeVehicle.setX(activeVehicle.getSpeed() / 50.0 * dt);
+        this.setSpeedLabel(activeVehicle.getSpeed());
+    }
+
+    private void setSpeedLabel(double speed) {
+        speedLabel.setText(String.format("%.2f km/h", speed));
     }
 
     private void handleInput(float dt) {
@@ -154,7 +186,7 @@ public class ParkingCar extends GLBase1 {
         if (keys[KEY_SPACE]) {
             if (activeVehicle.getSpeed() > 0) {
                 activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500 * dt ? 0 : activeVehicle.getSpeed() - 500 * dt);
-            } else {
+            } else if (activeVehicle.getSpeed() < 0) {
                 activeVehicle.setSpeed(activeVehicle.getSpeed() >= 500 * dt ? 0 : activeVehicle.getSpeed() + 500 * dt);
             }
         }

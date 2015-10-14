@@ -29,8 +29,8 @@ public class Trike extends AbstractVehicle {
     public void draw(GL4 gl) {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
-        drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
+        drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth), true); //backleft
+        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth), true); //backright
         if (debug) {
             drawDebug(gl);
         }
@@ -38,7 +38,7 @@ public class Trike extends AbstractVehicle {
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, 0, 0);
         context.rotate(gl, (float) alpha, 0, 0, 1);
-        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
     }
 

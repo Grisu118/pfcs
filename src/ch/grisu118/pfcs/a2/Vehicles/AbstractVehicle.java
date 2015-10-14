@@ -199,7 +199,7 @@ public abstract class AbstractVehicle implements Vehicle {
         context.rewindBuffer(gl);
     }
 
-    protected void drawWheels(GL4 gl, double length, double width, double x, double y) {
+    protected void drawWheels(GL4 gl, double length, double width, double x, double y, boolean isBackAxis) {
         float[] color = context.getColor();
         context.setColor(0.01f, 0.01f, 0.01f);
         context.rewindBuffer(gl);
@@ -210,7 +210,7 @@ public abstract class AbstractVehicle implements Vehicle {
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
-        if (debug) {
+        if (debug && !isBackAxis) {
             context.setColor(debugColor);
             context.rewindBuffer(gl);
             context.putVertex(x, y, 0);

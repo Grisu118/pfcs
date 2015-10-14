@@ -27,10 +27,10 @@ public class SmallTruck extends AbstractVehicle {
     public void draw(GL4 gl) {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
-        drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, 0, +width / 2 - 2*wheelWidth-0.008);
-        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
-        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - 2*wheelWidth-0.008));
+        drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth), true); //backleft
+        drawWheels(gl, wheelSize, wheelWidth, 0, +width / 2 - 2*wheelWidth-0.008, true);
+        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth), true); //backright
+        drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - 2*wheelWidth-0.008), true);
         if (debug) {
             drawDebug(gl);
         }
@@ -39,12 +39,12 @@ public class SmallTruck extends AbstractVehicle {
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, width / 2 - wheelWidth, 0);
         context.rotate(gl, (float) alpha, 0, 0, 1);
-        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, -width / 2 + wheelWidth, 0);
         context.rotate(gl, (float) beta, 0, 0, 1);
-        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
     }
 }

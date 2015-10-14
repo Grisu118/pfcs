@@ -19,8 +19,8 @@ public class Car extends AbstractVehicle {
     public void draw(GL4 gl) {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
-        drawWheels(gl, wheelSize, wheelWidth, 0, wheelDistance); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, 0, -wheelDistance); //backright
+        drawWheels(gl, wheelSize, wheelWidth, 0, wheelDistance, true); //backleft
+        drawWheels(gl, wheelSize, wheelWidth, 0, -wheelDistance, true); //backright
         if (debug) {
             drawDebug(gl);
         }
@@ -29,12 +29,12 @@ public class Car extends AbstractVehicle {
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, wheelDistance, 0);
         context.rotate(gl, (float) alpha, 0, 0, 1);
-        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, -wheelDistance, 0);
         context.rotate(gl, (float) beta, 0, 0, 1);
-        drawWheels(gl, wheelSize, wheelWidth, 0, 0);
+        drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
     }
 }
