@@ -43,6 +43,9 @@ public class BigTruck extends AbstractVehicle{
         drawWheels(gl, wheelSize, wheelWidth, -0.7, +width / 2 - 2*wheelWidth-0.008);
         drawWheels(gl, wheelSize, wheelWidth, -0.7, -(width / 2 - wheelWidth)); //backright
         drawWheels(gl, wheelSize, wheelWidth, -0.7, -(width / 2 - 2*wheelWidth-0.008));
+        if (debug) {
+            drawDebug(gl);
+        }
 
         //Dynamic
         context.pushMatrix(gl);
@@ -77,18 +80,6 @@ public class BigTruck extends AbstractVehicle{
         context.rotate(gl, (float) beta5, 0, 0, 1);
         drawWheels(gl, wheelSize, wheelWidth, 0, 0);
         context.popMatrix(gl);
-    }
-
-    @Override
-    public void drawDebug(GL4 gl) {
-        super.drawDebug(gl);
-        float[] color = context.getColor();
-        context.setColor(debugColor);
-        drawLine(gl, axisDistance2, width / 2 - wheelWidth, 0, ym);
-        drawLine(gl, axisDistance2, -(width / 2 - wheelWidth), 0, ym);
-        drawLine(gl, axisDistance5, width / 2 - wheelWidth, 0, ym);
-        drawLine(gl, axisDistance5, -(width / 2 - wheelWidth), 0, ym);
-        context.setColor(color);
     }
 
     @Override

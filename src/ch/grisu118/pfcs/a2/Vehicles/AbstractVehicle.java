@@ -20,6 +20,7 @@ public abstract class AbstractVehicle implements Vehicle {
     protected volatile double alpha = 0;
     protected double beta = 0;
     protected float width = 1.8f;
+    protected float wheelDistance;
     protected float axisDistance = 2.9f;
     protected float wheelSize = 0.7f;
     protected float wheelWidth = 0.3f;
@@ -30,11 +31,14 @@ public abstract class AbstractVehicle implements Vehicle {
     protected float length = 4.8f;
     protected float backAxis = 1;
 
+    protected boolean debug = false;
+
     protected float[] debugColor = {1, 1, 0, 1};
 
     public AbstractVehicle(ParkingCar context, String name) {
         this.context = context;
         this.name = name;
+        this.wheelDistance = width / 2 - wheelWidth;
 
         calcMinAlpha();
     }
@@ -52,7 +56,7 @@ public abstract class AbstractVehicle implements Vehicle {
                 alpha = 0;
             }
             this.alpha = alpha;
-            double b = width / 2;
+            double b = wheelDistance / 2;
             this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
             this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
         }
@@ -119,14 +123,16 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     @Override
-    public void drawDebug(GL4 gl) {
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    protected void drawDebug(GL4 gl) {
         float[] color = context.getColor();
         context.setColor(debugColor);
         drawCenter(gl);
         drawCircle(gl, 0, ym, ym, false, 100);
         context.drawAxis(gl, length, (float) ym, 1);
-        drawLine(gl, axisDistance, width / 2 - wheelWidth, 0, ym);
-        drawLine(gl, axisDistance, -(width / 2 - wheelWidth), 0, ym);
         context.setColor(color);
     }
 
@@ -204,6 +210,17 @@ public abstract class AbstractVehicle implements Vehicle {
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+        if (debug) {
+            context.setColor(debugColor);
+            context.rewindBuffer(gl);
+            context.putVertex(x, y, 0);
+            double l = Math.sqrt(Math.pow(axisDistance, 2) + Math.pow(ym + y, 2)) * (ym/Math.abs(ym));
+            context.putVertex(x, l, 0);
+            nVertices = 2;
+            context.copyBuffer(gl, nVertices);
+            gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+        }
+        context.rewindBuffer(gl);
         context.setColor(color);
     }
 }

@@ -20,6 +20,7 @@ public class Trike extends AbstractVehicle {
         this.axisDistance = this.length-this.backAxis-this.wheelSize/2-0.01f;
         this.maxAlpha = 60;
         this.minAlpha = this.maxAlpha * -1;
+        this.wheelDistance = 0;
 
     }
 
@@ -30,7 +31,9 @@ public class Trike extends AbstractVehicle {
         context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth)); //backleft
         drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
-
+        if (debug) {
+            drawDebug(gl);
+        }
         //Dynamic
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, 0, 0);
@@ -39,14 +42,12 @@ public class Trike extends AbstractVehicle {
         context.popMatrix(gl);
     }
 
-    @Override
-    public void drawDebug(GL4 gl) {
+    protected void drawDebug(GL4 gl) {
         float[] color = context.getColor();
         context.setColor(debugColor);
         drawCenter(gl);
         drawCircle(gl, 0, ym, ym, false, 100);
         context.drawAxis(gl, length, (float) ym, 1);
-        drawLine(gl, axisDistance, 0, 0, ym);
         context.setColor(color);
     }
 

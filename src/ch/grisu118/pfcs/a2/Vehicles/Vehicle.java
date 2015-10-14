@@ -10,7 +10,6 @@ import javax.media.opengl.GL4;
 public interface Vehicle {
 
     void draw(GL4 gl);
-    void drawDebug(GL4 gl);
 
     void setSpeed(double speed);
     double getSpeed();
@@ -29,4 +28,6 @@ public interface Vehicle {
 
     Mat4 getMatrix();
     void setMatrix(Mat4 matrix);
+
+    void setDebug(boolean debug);
 }

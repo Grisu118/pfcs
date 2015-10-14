@@ -80,7 +80,7 @@ public class ParkingCar extends GLBase1 {
         leftPanel.add(select);
         headerPanel.add(leftPanel, BorderLayout.WEST);
         JCheckBox debugBos = new JCheckBox("Debug");
-        debugBos.addActionListener(e -> isDebug = !isDebug);
+        debugBos.addActionListener(e -> vehicles.forEach(v -> v.setDebug(debugBos.isSelected())));
         headerPanel.add(debugBos, BorderLayout.NORTH);
 
         jFrame.setSize(1000, 800);
@@ -197,9 +197,6 @@ public class ParkingCar extends GLBase1 {
             }
             activeVehicle.setMatrix(getModelViewMatrix(gl));
             activeVehicle.draw(gl);
-            if (isDebug) {
-                activeVehicle.drawDebug(gl);
-            }
         }
     }
 

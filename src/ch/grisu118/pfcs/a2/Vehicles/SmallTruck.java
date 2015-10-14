@@ -31,6 +31,9 @@ public class SmallTruck extends AbstractVehicle {
         drawWheels(gl, wheelSize, wheelWidth, 0, +width / 2 - 2*wheelWidth-0.008);
         drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - wheelWidth)); //backright
         drawWheels(gl, wheelSize, wheelWidth, 0, -(width / 2 - 2*wheelWidth-0.008));
+        if (debug) {
+            drawDebug(gl);
+        }
 
         //Dynamic
         context.pushMatrix(gl);
