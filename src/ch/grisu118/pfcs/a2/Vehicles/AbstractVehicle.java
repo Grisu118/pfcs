@@ -30,6 +30,8 @@ public abstract class AbstractVehicle implements Vehicle {
     protected String type;
     protected float length = 4.8f;
     protected float backAxis = 1;
+    protected double zentripetalForce;
+    protected double maxZentripetalForce;
 
     protected boolean debug = false;
 
@@ -40,6 +42,7 @@ public abstract class AbstractVehicle implements Vehicle {
         this.name = name;
         this.wheelDistance = width / 2 - wheelWidth;
 
+        this.maxZentripetalForce = 1.2 * 9.81;
         calcMinAlpha();
     }
 
@@ -59,12 +62,18 @@ public abstract class AbstractVehicle implements Vehicle {
             double b = wheelDistance / 2;
             this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
             this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+            calcZentripetalForce();
         }
+    }
+
+    protected void calcZentripetalForce() {
+        this.zentripetalForce = Math.pow(this.speed, 2) / ym;
     }
 
     @Override
     public void setSpeed(double speed) {
         this.speed = speed;
+        calcZentripetalForce();
     }
 
     @Override
@@ -108,6 +117,16 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     @Override
+    public double getZentripetalForce() {
+        return zentripetalForce;
+    }
+
+    @Override
+    public double getMaxZentripetalForce() {
+        return maxZentripetalForce;
+    }
+
+    @Override
     public void setMatrix(Mat4 matrix) {
         this.matrix = matrix;
     }
@@ -134,6 +153,12 @@ public abstract class AbstractVehicle implements Vehicle {
         drawCircle(gl, 0, ym, ym, false, 100);
         context.drawAxis(gl, length, (float) ym, 1);
         context.setColor(color);
+    }
+
+    protected void drawZentriPetal(GL4 gl) {
+        float[] c = context.getColor();
+        context.setColor(0, 255, 0);
+        drawLine(gl, 0, 0, 0, -zentripetalForce);
     }
 
     protected void drawLine(GL4 gl, double x0, double y0, double x1, double y1) {

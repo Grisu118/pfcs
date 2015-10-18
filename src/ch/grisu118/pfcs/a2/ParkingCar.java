@@ -152,19 +152,19 @@ public class ParkingCar extends GLBase1 {
         handleInput(dt);
 
         double omega = activeVehicle.getSpeed() / activeVehicle.getYm();
-        activeVehicle.setAngle((omega * dt));
-        activeVehicle.setX(activeVehicle.getSpeed() / 50.0 * dt);
+        activeVehicle.setAngle(Math.toDegrees(omega * dt));
+        activeVehicle.setX(activeVehicle.getSpeed() * dt);
         this.setSpeedLabel(activeVehicle.getSpeed());
     }
 
     private void setSpeedLabel(double speed) {
-        speedLabel.setText(String.format("%.2f km/h", speed));
+        speedLabel.setText(String.format("%.2f km/h", speed * 3.6));
     }
 
     private void handleInput(float dt) {
-        double mult = 30;
+        double mult = 0.8;
         if (keys[KEY_SHIFT]) {
-            mult = 300;
+            mult = 8;
         }
         if (keys[KEY_W]) {
             activeVehicle.setSpeed(activeVehicle.getSpeed() + mult*dt);
@@ -185,9 +185,9 @@ public class ParkingCar extends GLBase1 {
 
         if (keys[KEY_SPACE]) {
             if (activeVehicle.getSpeed() > 0) {
-                activeVehicle.setSpeed(activeVehicle.getSpeed() <= 500 * dt ? 0 : activeVehicle.getSpeed() - 500 * dt);
+                activeVehicle.setSpeed(activeVehicle.getSpeed() <= 15 * dt ? 0 : activeVehicle.getSpeed() - 15 * dt);
             } else if (activeVehicle.getSpeed() < 0) {
-                activeVehicle.setSpeed(activeVehicle.getSpeed() >= 500 * dt ? 0 : activeVehicle.getSpeed() + 500 * dt);
+                activeVehicle.setSpeed(activeVehicle.getSpeed() >= 15 * dt ? 0 : activeVehicle.getSpeed() + 15 * dt);
             }
         }
     }
@@ -199,7 +199,7 @@ public class ParkingCar extends GLBase1 {
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
         GL4 gl = drawable.getGL().getGL4();
-        gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
+        gl.glClearColor(160.0f/255, 160.0f/255, 160.0f/255, 1);                         // Hintergrundfarbe (RGBA)
         gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);

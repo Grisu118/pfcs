@@ -26,6 +26,10 @@ public interface Vehicle {
     void setAlpha(double alpha);
     double getYm();
 
+    double getZentripetalForce();
+
+    double getMaxZentripetalForce();
+
     Mat4 getMatrix();
     void setMatrix(Mat4 matrix);
 
