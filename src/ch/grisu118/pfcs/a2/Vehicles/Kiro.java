@@ -30,6 +30,7 @@ public class Kiro extends AbstractVehicle {
             }
             this.alpha = alpha;
             this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
+            calcZentripetalForce();
         }
     }
 
@@ -71,6 +72,7 @@ public class Kiro extends AbstractVehicle {
         if (debug) {
             drawDebug(gl);
         }
+        drawZentriPetal(gl);
         context.putVertex(-space, +width / 2, 0.01);
         context.putVertex(-space, -width / 2, 0.01);
         context.putVertex(-(axisDistance / 2 + backAxis), -width / 2, 0.01);

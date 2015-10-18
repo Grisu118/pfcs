@@ -46,6 +46,7 @@ public class BigTruck extends AbstractVehicle{
         if (debug) {
             drawDebug(gl);
         }
+        drawZentriPetal(gl);
 
         //Dynamic
         context.pushMatrix(gl);

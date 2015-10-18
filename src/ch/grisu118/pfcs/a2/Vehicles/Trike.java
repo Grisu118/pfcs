@@ -34,6 +34,7 @@ public class Trike extends AbstractVehicle {
         if (debug) {
             drawDebug(gl);
         }
+        drawZentriPetal(gl);
         //Dynamic
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, 0, 0);
@@ -59,6 +60,7 @@ public class Trike extends AbstractVehicle {
             }
             this.alpha = alpha;
             this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
+            calcZentripetalForce();
         }
     }
 }

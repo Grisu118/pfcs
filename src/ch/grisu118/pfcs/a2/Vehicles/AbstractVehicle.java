@@ -54,6 +54,9 @@ public abstract class AbstractVehicle implements Vehicle {
 
     @Override
     public void setAlpha(double alpha) {
+        double a = this.alpha;
+        double ym2 = this.ym;
+        double be = this.beta;
         if (alpha <= maxAlpha && alpha >= minAlpha) {
             if (this.alpha < 0 && alpha > 0 || this.alpha > 0 && alpha < 0) {
                 alpha = 0;
@@ -62,18 +65,29 @@ public abstract class AbstractVehicle implements Vehicle {
             double b = wheelDistance / 2;
             this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
             this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
-            calcZentripetalForce();
+            if (!calcZentripetalForce()) {
+                /*
+                this.alpha = a;
+                this.ym = ym2;
+                this.beta = be;
+                */
+            }
         }
     }
 
-    protected void calcZentripetalForce() {
+    protected boolean calcZentripetalForce() {
         this.zentripetalForce = Math.pow(this.speed, 2) / ym;
+        return Math.abs(this.zentripetalForce) <= Math.abs(maxZentripetalForce);
     }
 
     @Override
     public void setSpeed(double speed) {
+        double s = this.speed;
         this.speed = speed;
-        calcZentripetalForce();
+
+        if (!calcZentripetalForce()) {
+           // this.speed = s;
+        }
     }
 
     @Override
@@ -157,8 +171,19 @@ public abstract class AbstractVehicle implements Vehicle {
 
     protected void drawZentriPetal(GL4 gl) {
         float[] c = context.getColor();
+
+        //Max
+        context.setColor(0, 0, 255);
+        double m = maxZentripetalForce  * -(ym/ Math.abs(ym));
+        drawLine(gl, 0, 0, 0, m);
+        drawLine(gl, -0.2, m, 0.2, m);
+
         context.setColor(0, 255, 0);
         drawLine(gl, 0, 0, 0, -zentripetalForce);
+        drawLine(gl, -0.2, -zentripetalForce, 0.2, -zentripetalForce);
+
+
+        context.setColor(c);
     }
 
     protected void drawLine(GL4 gl, double x0, double y0, double x1, double y1) {

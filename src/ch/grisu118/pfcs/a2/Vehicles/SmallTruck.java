@@ -34,7 +34,7 @@ public class SmallTruck extends AbstractVehicle {
         if (debug) {
             drawDebug(gl);
         }
-
+        drawZentriPetal(gl);
         //Dynamic
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, width / 2 - wheelWidth, 0);
