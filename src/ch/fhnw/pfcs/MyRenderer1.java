@@ -15,6 +15,7 @@ public interface MyRenderer1
     public void setColor(float r, float g, float b);       // aktuelle Vertexfarbe setzen
 
     void putVertex(float x, float y, float z);             // Vertex-Daten in Buffer speichern
+    void putVertex(double x, double y, double z);
 
     public void copyBuffer(GL gl,int nVertices);           // Vertex-Array in OpenGL-Buffer kopieren
 
