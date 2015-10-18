@@ -75,7 +75,7 @@ public class ParkingCar extends GLBase1 {
         JScrollPane listScroller = new JScrollPane(vList);
         listScroller.setPreferredSize(new Dimension(250, 60));
         leftPanel.add(listScroller, c);
-        JButton select = new JButton("Select Vehicle");
+        JButton select = new JButton("Fahrzeug wählen");
         select.addActionListener(e -> {
             if (activeVehicle != null) {
                 activeVehicle.setAngle(0);
@@ -98,6 +98,20 @@ public class ParkingCar extends GLBase1 {
         c.gridx = 1;
         c.gridy = 1;
         leftPanel.add(debugBox, c);
+
+        JTextArea center = new JTextArea(
+                "left/right, A/D: Lenkeinschlag ändern \n" +
+                "up/down, W/S: Beschleunigen / Bremsen \n" +
+                "SPACE: Stark Bremsen \n" +
+                "SHIFT: Schneller Beschleunigen/Bremsen \n" +
+                "R: Reset \n" +
+                "E: Reset Lenkeinschlag");
+        center.setFocusable(false);
+        center.setEditable(false);
+        center.setBackground(headerPanel.getBackground());
+        center.setMargin(new Insets(0, 10, 0, 0));
+
+        headerPanel.add(center, BorderLayout.CENTER);
 
         JPanel rightPanel = new JPanel(new GridBagLayout());
         headerPanel.add(rightPanel, BorderLayout.EAST);
