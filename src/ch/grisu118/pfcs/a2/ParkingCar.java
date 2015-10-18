@@ -282,6 +282,8 @@ public class ParkingCar extends GLBase1 {
             case KeyEvent.VK_SHIFT:
                 keys[KEY_SHIFT] = true;
                 break;
+            case KeyEvent.VK_R:
+                activeVehicle.reset();
             default:
                 break;
         }

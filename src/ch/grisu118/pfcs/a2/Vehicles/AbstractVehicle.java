@@ -91,6 +91,15 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     @Override
+    public void reset() {
+        this.matrix = Mat4.ID;
+        this.setSpeed(0);
+        this.setAlpha(0);
+        this.setAngle(0);
+        this.setX(0);
+    }
+
+    @Override
     public double getSpeed() {
         return speed;
     }

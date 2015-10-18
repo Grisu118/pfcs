@@ -34,4 +34,6 @@ public interface Vehicle {
     void setMatrix(Mat4 matrix);
 
     void setDebug(boolean debug);
+
+    void reset();
 }
