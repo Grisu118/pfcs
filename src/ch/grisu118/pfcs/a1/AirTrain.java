@@ -34,23 +34,25 @@ public class AirTrain extends GLBase1 {
 
     volatile long time = 0;
     volatile boolean run = true;
+    volatile boolean requestAdd = false;
 
     //  ---------  Methoden  ----------------------------------
 
     private List<Train> trainList = new LinkedList<>();
     private Thread t;
+    private final JButton add;
 
     public AirTrain() {
         TextField kt = new TextField("1", 5);
         JButton b = new JButton("ReStart");
         JLabel l = new JLabel("k: ");
         JButton clear = new JButton("Clear");
-        JButton add = new JButton("Add");
+        add = new JButton("Add");
         headerPanel.add(l);
         headerPanel.add(kt);
         headerPanel.add(b);
-        //headerPanel.add(add); //TODO
-        //headerPanel.add(clear); //TODO
+        headerPanel.add(add);
+        headerPanel.add(clear);
         jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
         jFrame.setSize(1000, 800);
 
@@ -70,9 +72,9 @@ public class AirTrain extends GLBase1 {
 
         b.addActionListener(e -> AirTrain.this.runSimulation());
 
-        clear.addActionListener(e -> trainList.clear());
+        clear.addActionListener(e -> {trainList.clear(); add.setEnabled(true);});
 
-        add.addActionListener(e -> addTrain(new Train(this)));
+        add.addActionListener(e -> requestAddTrain());
 
 
         runSimulation();
@@ -91,10 +93,15 @@ public class AirTrain extends GLBase1 {
         run = true;
         t = new Thread(() -> {
             while (run) {
+                if (requestAdd) {
+                    add.setEnabled(addTrain(new Train(this)));
+                    requestAdd = false;
+                }
                 if (time == 0) {
                     update(0);
                 } else {
                     float dt = (System.currentTimeMillis() - time) * 0.001f;
+
                     update2(dt);
                 }
 
@@ -111,10 +118,16 @@ public class AirTrain extends GLBase1 {
         t.start();
     }
 
-    private void addTrain(Train t) {
+    private void requestAddTrain() {
+        requestAdd = true;
+    }
+
+    private boolean addTrain(Train t) {
         if (trainList.size() == 0) {
             trainList.add(t);
+            return true;
         } else {
+            int tries = 5;
             boolean solved;
             Random r = new Random();
             do {
@@ -125,9 +138,16 @@ public class AirTrain extends GLBase1 {
                         solved = false;
                     }
                 }
+                if (tries-- < 0) {
+                    break;
+                }
             } while (!solved);
-            trainList.add(t);
+            if (solved) {
+                trainList.add(t);
+                return true;
+            }
         }
+        return false;
     }
 
     void update2(float dt) {
