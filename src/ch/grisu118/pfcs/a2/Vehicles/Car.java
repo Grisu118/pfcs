@@ -28,7 +28,7 @@ public class Car extends AbstractVehicle {
         //Dynamic
         context.pushMatrix(gl);
         context.translate(gl, axisDistance, wheelDistance, 0);
-        context.rotate(gl, (float) alpha, 0, 0, 1);
+        context.rotate(gl, (float) gamma, 0, 0, 1);
         drawWheels(gl, wheelSize, wheelWidth, 0, 0, false);
         context.popMatrix(gl);
         context.pushMatrix(gl);

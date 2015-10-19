@@ -18,7 +18,8 @@ public abstract class AbstractVehicle implements Vehicle {
     protected double angleModifier = 200;
     protected volatile double ym = 0;
     protected volatile double alpha = 0;
-    protected double beta = 0;
+    protected volatile double beta = 0;
+    protected volatile double gamma = 0;
     protected float width = 1.8f;
     protected float wheelDistance;
     protected float axisDistance = 2.9f;
@@ -47,9 +48,7 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     protected void calcMinAlpha() {
-        double b = width / 2;
-        double ym = b + axisDistance / Math.tan(Math.toRadians(maxAlpha));
-        this.minAlpha = -1 * Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+        this.minAlpha = -maxAlpha;
     }
 
     @Override
@@ -63,8 +62,9 @@ public abstract class AbstractVehicle implements Vehicle {
             }
             this.alpha = alpha;
             double b = wheelDistance / 2;
-            this.ym = b + axisDistance / Math.tan(Math.toRadians(alpha));
+            this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
             this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
+            this.gamma = Math.toDegrees(Math.atan(axisDistance / (ym - b)));
             if (!calcZentripetalForce()) {
                 /*
                 this.alpha = a;

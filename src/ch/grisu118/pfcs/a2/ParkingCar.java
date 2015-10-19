@@ -135,23 +135,20 @@ public class ParkingCar extends GLBase1 {
             //wait
         }
         run = true;
-        t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (run) {
-                    if (time == 0) {
-                        update(0);
-                    } else {
-                        float dt = (System.currentTimeMillis() - time) * 0.001f;
-                        update(dt);
-                    }
+        t = new Thread(() -> {
+            while (run) {
+                if (time == 0) {
+                    update(0);
+                } else {
+                    float dt = (System.currentTimeMillis() - time) * 0.001f;
+                    update(dt);
+                }
 
-                    time = System.currentTimeMillis();
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                time = System.currentTimeMillis();
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         });
