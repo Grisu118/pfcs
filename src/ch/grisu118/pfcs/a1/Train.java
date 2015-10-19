@@ -4,11 +4,14 @@ import javax.media.opengl.GL3;
 import java.util.Random;
 
 /**
- * Created by benjamin on 17.09.2015.
+ * Class for a Train object on the AirTrain line.
+ * @author Benjamin Leber
  */
 public class Train {
 
-    /** position **/
+    /**
+     * position
+     **/
     private float x = 0;
     private float v = 0.25f;
     private float mass;
@@ -19,11 +22,11 @@ public class Train {
 
     public Train(AirTrain context) {
         Random r = new Random();
-        this.x = ((float)r.nextInt(400)-200) / 100;
-        this.v = ((float)r.nextInt(200)-100)/100;
-        this.length = ((float)r.nextInt(50))/100;
+        this.x = ((float) r.nextInt(400) - 200) / 100;
+        this.v = ((float) r.nextInt(200) - 100) / 100;
+        this.length = ((float) r.nextInt(50)) / 100;
         if (this.length < 0.05) this.length = 0.05f;
-        this.heigth = ((float)r.nextInt(50))/100;
+        this.heigth = ((float) r.nextInt(50)) / 100;
         if (this.heigth < 0.05) this.heigth = 0.05f;
         this.mass = length * heigth;
         this.context = context;
@@ -45,7 +48,7 @@ public class Train {
     }
 
     public float getHalfLength() {
-        return length/2;
+        return length / 2;
     }
 
     public float getSpeed() {
@@ -61,17 +64,7 @@ public class Train {
     }
 
     public boolean checkCollision(Train t2) {
-        if (v > 0) { //Moving from left to right
-            if (this.getPosition() <= t2.getPosition()) {
-                return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
-            }
-        } else if (v < 0) {
-            if (this.getPosition() >= t2.getPosition()) {
-                return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
-            }
-        }
-
-        return false;
+        return Math.abs(this.getPosition() - t2.getPosition()) <= this.getHalfLength() + t2.getHalfLength();
     }
 
     public boolean checkPosition(Train t2) {
@@ -85,9 +78,9 @@ public class Train {
     public void draw(GL3 gl) {
         context.rewindBuffer(gl);
         context.putVertex(x + length / 2, heigth, 0);           // Eckpunkte in VertexArray speichern
-        context.putVertex(x - length/2, heigth, 0);
-        context.putVertex(x - length/2, 0, 0);
-        context.putVertex(x + length/2, 0, 0);
+        context.putVertex(x - length / 2, heigth, 0);
+        context.putVertex(x - length / 2, 0, 0);
+        context.putVertex(x + length / 2, 0, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);

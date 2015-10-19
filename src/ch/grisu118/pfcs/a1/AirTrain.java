@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by benjamin on 17.09.2015.
+ * Main Class for Luftkissenbahn Übung
+ * @author Benjamin Leber
  */
 public class AirTrain extends GLBase1 {
     //  ---------  globale Daten  ---------------------------
@@ -48,8 +49,8 @@ public class AirTrain extends GLBase1 {
         headerPanel.add(l);
         headerPanel.add(kt);
         headerPanel.add(b);
-        headerPanel.add(add);
-        headerPanel.add(clear);
+        //headerPanel.add(add); //TODO
+        //headerPanel.add(clear); //TODO
         jFrame.setIconImage(new ImageIcon("res/Avaatar_o.png").getImage());
         jFrame.setSize(1000, 800);
 
@@ -67,9 +68,7 @@ public class AirTrain extends GLBase1 {
             k = Float.parseFloat(kt.getText());
         });
 
-        b.addActionListener(e -> {
-            runSimulation();
-        });
+        b.addActionListener(e -> AirTrain.this.runSimulation());
 
         clear.addActionListener(e -> trainList.clear());
 
@@ -85,28 +84,28 @@ public class AirTrain extends GLBase1 {
         addTrain(new Train(this));
         addTrain(new Train(this));
         run = false;
+        //noinspection StatementWithEmptyBody
         while (t != null && t.isAlive()) {
             //wait
         }
         run = true;
-        t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (run) {
-                    if (time == 0) {
-                        update(0);
-                    } else {
-                        float dt = (System.currentTimeMillis() - time) * 0.001f;
-                        update(dt);
-                    }
-
-                    time = System.currentTimeMillis();
-                    try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        t = new Thread(() -> {
+            while (run) {
+                if (time == 0) {
+                    update(0);
+                } else {
+                    float dt = (System.currentTimeMillis() - time) * 0.001f;
+                    update2(dt);
                 }
+
+                time = System.currentTimeMillis();
+
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         t.start();
@@ -131,8 +130,17 @@ public class AirTrain extends GLBase1 {
         }
     }
 
+    void update2(float dt) {
+        float step = 0.0001f;
+        while (dt > 0) {
+            update(step);
+            dt -= step;
+        }
+    }
+
     void update(float dt) {
-        for (Train t : trainList) {
+        for (int i = 0; i < trainList.size(); i++) {
+            Train t = trainList.get(i);
             if (t.getPosition() + t.getHalfLength() >= 2) {
                 t.setPosition(2 - t.getHalfLength());
                 t.invertSpeed();
@@ -140,14 +148,14 @@ public class AirTrain extends GLBase1 {
                 t.setPosition(-2 + t.getHalfLength());
                 t.invertSpeed();
             }
-            for (Train t2 : trainList) {
-                if (t.equals(t2)) {
-                    break;
-                }
+
+            for (int j = i+1; j < trainList.size(); j++) {
+                Train t2 = trainList.get(j);
                 if (t.checkCollision(t2)) {
                     calcNewSpeed(t, t2);
                 }
             }
+
 
             t.setPosition(t.getPosition() + t.getSpeed() * dt);
 
