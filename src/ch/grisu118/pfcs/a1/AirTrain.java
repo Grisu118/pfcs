@@ -51,7 +51,7 @@ public class AirTrain extends GLBase1 {
         headerPanel.add(b);
         //headerPanel.add(add); //TODO
         //headerPanel.add(clear); //TODO
-        jFrame.setIconImage(new ImageIcon("res/Avaatar_o.png").getImage());
+        jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
         jFrame.setSize(1000, 800);
 
         kt.addTextListener(e -> {

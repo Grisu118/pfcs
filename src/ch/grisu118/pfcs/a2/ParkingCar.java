@@ -12,9 +12,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by benjamin on 17.09.2015.
- */
+
 public class ParkingCar extends GLBase1 {
     //  ---------  globale Daten  ---------------------------
 
@@ -57,7 +55,7 @@ public class ParkingCar extends GLBase1 {
         vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));
         vehicles.add(new Kiro(this, "Kirovets K700A [BETA]"));
 
-        jFrame.setIconImage(new ImageIcon("res/Avaatar_o.png").getImage());
+        jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
 
         headerPanel.setLayout(new BorderLayout());
         JPanel leftPanel = new JPanel(new GridBagLayout());
@@ -131,6 +129,7 @@ public class ParkingCar extends GLBase1 {
     private void runSimulation() {
 
         run = false;
+        //noinspection StatementWithEmptyBody
         while (t != null && t.isAlive()) {
             //wait
         }
