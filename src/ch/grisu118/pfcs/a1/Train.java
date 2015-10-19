@@ -17,6 +17,7 @@ public class Train {
     private float mass;
     private float length = 0.25f;
     private float heigth = 0.1f;
+    private float[] color = new float[4];
 
     private AirTrain context;
 
@@ -29,6 +30,10 @@ public class Train {
         this.heigth = ((float) r.nextInt(50)) / 100;
         if (this.heigth < 0.05) this.heigth = 0.05f;
         this.mass = length * heigth;
+        this.color[0] = (float) Math.random();
+        this.color[1] = (float) Math.random();
+        this.color[2] = (float) Math.random();
+        this.color[3] = 1;
         this.context = context;
     }
 
@@ -75,8 +80,16 @@ public class Train {
         return mass;
     }
 
+    public void colorChange(Train t2) {
+        float[] c = t2.color;
+        t2.color = this.color;
+        this.color = c;
+    }
+
     public void draw(GL3 gl) {
+        float[] c = context.getColor();
         context.rewindBuffer(gl);
+        context.setColor(color);
         context.putVertex(x + length / 2, heigth, 0);           // Eckpunkte in VertexArray speichern
         context.putVertex(x - length / 2, heigth, 0);
         context.putVertex(x - length / 2, 0, 0);
@@ -84,5 +97,6 @@ public class Train {
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);
+        context.setColor(c);
     }
 }

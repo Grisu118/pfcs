@@ -18,6 +18,7 @@ import java.util.Random;
 
 /**
  * Main Class for Luftkissenbahn Übung
+ *
  * @author Benjamin Leber
  */
 public class AirTrain extends GLBase1 {
@@ -36,6 +37,8 @@ public class AirTrain extends GLBase1 {
     volatile boolean run = true;
     volatile boolean requestAdd = false;
 
+    volatile boolean colorExChange = true;
+
     //  ---------  Methoden  ----------------------------------
 
     private List<Train> trainList = new LinkedList<>();
@@ -47,14 +50,19 @@ public class AirTrain extends GLBase1 {
         JButton b = new JButton("ReStart");
         JLabel l = new JLabel("k: ");
         JButton clear = new JButton("Clear");
+        JCheckBox box = new JCheckBox("Color Exchange");
+        box.setSelected(colorExChange);
         add = new JButton("Add");
         headerPanel.add(l);
         headerPanel.add(kt);
         headerPanel.add(b);
         headerPanel.add(add);
         headerPanel.add(clear);
+        headerPanel.add(box);
         jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
         jFrame.setSize(1000, 800);
+
+        box.addActionListener(e -> colorExChange = box.isSelected());
 
         kt.addTextListener(e -> {
             String t1 = kt.getText();
@@ -72,7 +80,10 @@ public class AirTrain extends GLBase1 {
 
         b.addActionListener(e -> AirTrain.this.runSimulation());
 
-        clear.addActionListener(e -> {trainList.clear(); add.setEnabled(true);});
+        clear.addActionListener(e -> {
+            trainList.clear();
+            add.setEnabled(true);
+        });
 
         add.addActionListener(e -> requestAddTrain());
 
@@ -81,6 +92,7 @@ public class AirTrain extends GLBase1 {
     }
 
     private void runSimulation() {
+        add.setEnabled(true);
         trainList.clear();
         addTrain(new Train(this));
         addTrain(new Train(this));
@@ -101,12 +113,9 @@ public class AirTrain extends GLBase1 {
                     update(0);
                 } else {
                     float dt = (System.currentTimeMillis() - time) * 0.001f;
-
                     update2(dt);
                 }
-
                 time = System.currentTimeMillis();
-
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -134,7 +143,7 @@ public class AirTrain extends GLBase1 {
                 solved = true;
                 for (Train t2 : trainList) {
                     if (t.checkPosition(t2)) {
-                        t.setPosition(((float)r.nextInt(400)-200) / 100);
+                        t.setPosition(((float) r.nextInt(400) - 200) / 100);
                         solved = false;
                     }
                 }
@@ -169,10 +178,11 @@ public class AirTrain extends GLBase1 {
                 t.invertSpeed();
             }
 
-            for (int j = i+1; j < trainList.size(); j++) {
+            for (int j = i + 1; j < trainList.size(); j++) {
                 Train t2 = trainList.get(j);
                 if (t.checkCollision(t2)) {
                     calcNewSpeed(t, t2);
+                    if (colorExChange) { t.colorChange(t2); }
                 }
             }
 
