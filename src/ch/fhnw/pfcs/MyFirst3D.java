@@ -17,7 +17,7 @@ public class MyFirst3D extends GLBase1 {
 
 
     //  ---------  Methoden  ----------------------------------
-    public void zeichneDreieck(GL4 gl,
+    public void zeichneDreieck(GL3 gl,
                                float x1, float y1, float z1,
                                float x2, float y2, float z2,
                                float x3, float y3, float z3) {
@@ -27,7 +27,7 @@ public class MyFirst3D extends GLBase1 {
         putVertex(x3, y3, z3);
         int nVertices = 3;
         copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, nVertices);
     }
 
 
@@ -36,14 +36,14 @@ public class MyFirst3D extends GLBase1 {
     @Override
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
     }
 
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT | GL4.GL_DEPTH_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
 
         // ------  Kamera-System  -------
         float dCam = 10;                 // Abstand vom absoluten Nullpunkt
@@ -64,7 +64,7 @@ public class MyFirst3D extends GLBase1 {
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
 

@@ -4,7 +4,7 @@ import ch.fhnw.pfcs.GLBase1;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
@@ -166,9 +166,9 @@ public class AirTrain extends GLBase1 {
     @Override
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
+        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -177,8 +177,8 @@ public class AirTrain extends GLBase1 {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
         setColor(1, 1, 1);
         drawBorders(gl);
         setColor(1, 0, 0);
@@ -187,7 +187,7 @@ public class AirTrain extends GLBase1 {
         }
     }
 
-    void drawRectangle(GL4 gl, float x, float y, float z, float length, float width, float height) {
+    void drawRectangle(GL3 gl, float x, float y, float z, float length, float width, float height) {
         rewindBuffer(gl);
         putVertex(x, y, z);
         putVertex(x + length, y, z);
@@ -195,7 +195,7 @@ public class AirTrain extends GLBase1 {
         putVertex(x, y + width, z);
     }
 
-    void drawBorders(GL4 gl) {
+    void drawBorders(GL3 gl) {
         {
             rewindBuffer(gl);
             putVertex(leftEnd, 10, 0);           // Eckpunkte in VertexArray speichern
@@ -206,7 +206,7 @@ public class AirTrain extends GLBase1 {
             putVertex(rightEnd, 0, 0);
             int nVertices = 6;
             copyBuffer(gl, nVertices);
-            gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+            gl.glDrawArrays(GL3.GL_LINES, 0, nVertices);
         }
     }
 
@@ -214,7 +214,7 @@ public class AirTrain extends GLBase1 {
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
         float aspect = (float) height / width;

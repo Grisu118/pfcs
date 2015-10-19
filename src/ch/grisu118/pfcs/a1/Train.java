@@ -1,6 +1,6 @@
 package ch.grisu118.pfcs.a1;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import java.util.Random;
 
 /**
@@ -82,7 +82,7 @@ public class Train {
         return mass;
     }
 
-    public void draw(GL4 gl) {
+    public void draw(GL3 gl) {
         context.rewindBuffer(gl);
         context.putVertex(x + length / 2, heigth, 0);           // Eckpunkte in VertexArray speichern
         context.putVertex(x - length/2, heigth, 0);
@@ -90,6 +90,6 @@ public class Train {
         context.putVertex(x + length/2, 0, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);
     }
 }

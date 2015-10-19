@@ -4,7 +4,7 @@ import ch.fhnw.pfcs.GLBase1;
 import ch.grisu118.pfcs.a2.Vehicles.*;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
@@ -209,9 +209,9 @@ public class ParkingCar extends GLBase1 {
     @Override
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(160.0f/255, 160.0f/255, 160.0f/255, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
+        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -221,8 +221,8 @@ public class ParkingCar extends GLBase1 {
     @Override
     public void display(GLAutoDrawable drawable) {
 
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
         loadIdentity(gl);
         setColor(1, 1, 1);
         drawAxis(gl, 20, 20, 20);
@@ -247,7 +247,7 @@ public class ParkingCar extends GLBase1 {
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
         float aspect = (float) height / width;

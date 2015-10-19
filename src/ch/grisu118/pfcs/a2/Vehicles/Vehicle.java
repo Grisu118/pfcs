@@ -2,14 +2,14 @@ package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.fhnw.util.math.Mat4;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 06.10.2015.
  */
 public interface Vehicle {
 
-    void draw(GL4 gl);
+    void draw(GL3 gl);
 
     void setSpeed(double speed);
     double getSpeed();

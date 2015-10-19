@@ -97,7 +97,7 @@ public class GLBase1
         f.setLayout(new BorderLayout());
         f.setSize(windowWidth, windowHeight);
         f.addWindowListener(this);
-        GLProfile glp = GLProfile.get(GLProfile.GL4);
+        GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glCaps = new GLCapabilities(glp);
         canvas = new GLCanvas(glCaps);
         canvas.addGLEventListener(this);
@@ -112,7 +112,7 @@ public class GLBase1
     ;
 
 
-    private void setupVertexBuffer(int pgm, GL4 gl, int maxVerts) {
+    private void setupVertexBuffer(int pgm, GL3 gl, int maxVerts) {
         bufSize = maxVerts * vertexSize;
         vertexBuf = Buffers.newDirectFloatBuffer(bufSize);
         // ------  OpenGl-Objekte -----------
@@ -122,9 +122,9 @@ public class GLBase1
         gl.glBindVertexArray(vaoId);
         gl.glGenBuffers(1, tmp, 0);                      // VertexBuffer
         vertexBufId = tmp[0];
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vertexBufId);
-        gl.glBufferData(GL4.GL_ARRAY_BUFFER, bufSize,            // Speicher allozieren
-                null, GL4.GL_STATIC_DRAW);
+        gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBufId);
+        gl.glBufferData(GL3.GL_ARRAY_BUFFER, bufSize,            // Speicher allozieren
+                null, GL3.GL_STATIC_DRAW);
 
         // ----- get shader variable identifiers  -------------
         vPositionLocation = gl.glGetAttribLocation(pgm, "vertexPosition");
@@ -134,15 +134,15 @@ public class GLBase1
         //  ------  enable vertex attributes ---------------
         gl.glEnableVertexAttribArray(vPositionLocation);
         gl.glEnableVertexAttribArray(vColorLocation);
-        gl.glVertexAttribPointer(vPositionLocation, 4, GL4.GL_FLOAT, false, vertexSize, 0);
-        gl.glVertexAttribPointer(vColorLocation, 4, GL4.GL_FLOAT, false, vertexSize, vPositionSize);
+        gl.glVertexAttribPointer(vPositionLocation, 4, GL3.GL_FLOAT, false, vertexSize, 0);
+        gl.glVertexAttribPointer(vColorLocation, 4, GL3.GL_FLOAT, false, vertexSize, vPositionSize);
 
     }
 
     ;
 
 
-    private void setupMatrices(int pgm, GL4 gl) {
+    private void setupMatrices(int pgm, GL3 gl) {
         // ----- get shader variable identifiers  -------------
         projMatrixLoc = gl.glGetUniformLocation(pgm, "projMatrix");
         viewMatrixLoc = gl.glGetUniformLocation(pgm, "viewMatrix");
@@ -213,8 +213,8 @@ public class GLBase1
         vertexBuf.rewind();
         if (nVertices > maxVerts)
             throw new IndexOutOfBoundsException();
-        gl.glBindBuffer(GL4.GL_ARRAY_BUFFER, vertexBufId);
-        gl.glBufferSubData(GL4.GL_ARRAY_BUFFER, 0, nVertices * vertexSize, vertexBuf);
+        gl.glBindBuffer(GL3.GL_ARRAY_BUFFER, vertexBufId);
+        gl.glBufferSubData(GL3.GL_ARRAY_BUFFER, 0, nVertices * vertexSize, vertexBuf);
     }
 
 
@@ -229,7 +229,7 @@ public class GLBase1
 
     // ---------  Kamera-System festlegen  ----------
 
-    public void setCameraSystem(GL4 gl, float r,                // Abstand der Kamera von O
+    public void setCameraSystem(GL3 gl, float r,                // Abstand der Kamera von O
                                 float elevation,                // Elevationswinkel in Grad
                                 float azimut)                   // Azimutwinkel in Grad
     {
@@ -243,7 +243,7 @@ public class GLBase1
     }
 
 
-    public void setCameraSystem(GL4 gl, Vec3 A, Vec3 B, Vec3 up)       // LookAt-Psotionierung
+    public void setCameraSystem(GL3 gl, Vec3 A, Vec3 B, Vec3 up)       // LookAt-Psotionierung
     {
         viewMatrix = Mat4.lookAt(A, B, up);
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
@@ -252,21 +252,21 @@ public class GLBase1
 
     //  ---------  Operationen fuer ModelView-Matrix  --------------------
 
-    public void rotate(GL4 gl, float phi,                                           // Objekt-System drehen, phi in Grad
+    public void rotate(GL3 gl, float phi,                                           // Objekt-System drehen, phi in Grad
                        float x, float y, float z)                                   // Drehachse
     {
         viewMatrix = viewMatrix.postMultiply(Mat4.rotate(phi, x, y, z));
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
-    public void translate(GL4 gl,                                                   // Objekt-System verschieben
+    public void translate(GL3 gl,                                                   // Objekt-System verschieben
                           float x, float y, float z) {
         viewMatrix = viewMatrix.postMultiply(Mat4.translate(x, y, z));
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
 
-    public void scale(GL4 gl, float scale)                                          // Skalierung Objekt-System
+    public void scale(GL3 gl, float scale)                                          // Skalierung Objekt-System
     //  nur ein xyz-Faktor wegen Normalentransformation
     {
         viewMatrix = viewMatrix.postMultiply(Mat4.scale(scale, scale, scale));
@@ -274,40 +274,40 @@ public class GLBase1
     }
 
 
-    public void rotateCam(GL4 gl, float phi,                                        // Kamera-System drehen, phi in Grad
+    public void rotateCam(GL3 gl, float phi,                                        // Kamera-System drehen, phi in Grad
                           float x, float y, float z) {
         viewMatrix = viewMatrix.preMultiply(Mat4.rotate(-phi, x, y, z));
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
-    public void translateCam(GL4 gl,                                                 // Kamera-System verschieben
+    public void translateCam(GL3 gl,                                                 // Kamera-System verschieben
                              float x, float y, float z) {
         viewMatrix = viewMatrix.preMultiply(Mat4.translate(-x, -y, -z));
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
 
-    public void pushMatrix(GL4 gl)                                                   // ModelView-Matrix speichern
+    public void pushMatrix(GL3 gl)                                                   // ModelView-Matrix speichern
     {
         matrixStack.push(viewMatrix);
     }
 
-    public void popMatrix(GL4 gl)                                                    // ModelView-Matrix vom Stack holen
+    public void popMatrix(GL3 gl)                                                    // ModelView-Matrix vom Stack holen
     {
         viewMatrix = matrixStack.pop();
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
-    public Mat4 getModelViewMatrix(GL4 gl) {
+    public Mat4 getModelViewMatrix(GL3 gl) {
         return viewMatrix;
     }
 
-    public void setModelViewMatrix(GL4 gl, Mat4 M) {
+    public void setModelViewMatrix(GL3 gl, Mat4 M) {
         viewMatrix = M;
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
     }
 
-    public void loadIdentity(GL4 gl)                                                 // Rueckstellung auf Einheitsmatrix
+    public void loadIdentity(GL3 gl)                                                 // Rueckstellung auf Einheitsmatrix
     {
         viewMatrix = Mat4.ID;
         gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, viewMatrix.toArray(), 0);
@@ -316,7 +316,7 @@ public class GLBase1
 
     //  ---------  Projektion auf Bildebene -------------------
 
-    public void setOrthogonalProjection(GL4 gl, float left, float right,      // Orthogonal-Projektion auf Bildebene
+    public void setOrthogonalProjection(GL3 gl, float left, float right,      // Orthogonal-Projektion auf Bildebene
                                         float bottom, float top,
                                         float near, float far) {
         float m00 = 2.0f / (right - left);
@@ -332,7 +332,7 @@ public class GLBase1
     }
 
 
-    public void setPerspectiveProjection(GL4 gl, float left, float right,     // Zentralprojektion auf Bildebene
+    public void setPerspectiveProjection(GL3 gl, float left, float right,     // Zentralprojektion auf Bildebene
                                          float bottom, float top,
                                          float near, float far) {
         Mat4 projMatrix = Mat4.perspective(left, right, bottom, top, near, far);
@@ -342,7 +342,7 @@ public class GLBase1
 
     //  ---------  Zeichenmethoden  ------------------------------
 
-    public void drawAxis(GL4 gl, float a, float b, float c)                   // Koordinatenachsen zeichnen
+    public void drawAxis(GL3 gl, float a, float b, float c)                   // Koordinatenachsen zeichnen
     {
         rewindBuffer(gl);
         putVertex(0, 0, 0);           // Eckpunkte in VertexArray speichern
@@ -353,7 +353,7 @@ public class GLBase1
         putVertex(0, 0, c);
         int nVertices = 6;
         copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINES, 0, nVertices);
     }
 
 
@@ -361,21 +361,21 @@ public class GLBase1
 
     @Override
     public void init(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         System.out.println("OpenGl Version: " + gl.glGetString(gl.GL_VERSION));
         System.out.println("Shading Language: " + gl.glGetString(gl.GL_SHADING_LANGUAGE_VERSION));
         program = GLShaders.loadShaders(gl, vShader, fShader);
         setupVertexBuffer(program, gl, maxVerts);
         setupMatrices(program, gl);
         gl.glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
-        gl.glEnable(GL4.GL_DEPTH_TEST);
+        gl.glEnable(GL3.GL_DEPTH_TEST);
     }
 
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT | GL4.GL_DEPTH_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         setColor(0.8f, 0.8f, 0.8f);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
     }
@@ -384,7 +384,7 @@ public class GLBase1
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
 
@@ -460,7 +460,7 @@ public class GLBase1
         new GLBase1();
     }
 
-    public void translate(GL4 gl, double x, double y, double z) {
+    public void translate(GL3 gl, double x, double y, double z) {
         translate(gl, (float)x, (float)y, (float)z);
     }
 

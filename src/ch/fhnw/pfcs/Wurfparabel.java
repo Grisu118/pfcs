@@ -2,7 +2,7 @@ package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
 
 import com.jogamp.opengl.util.FPSAnimator;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 
 public class Wurfparabel extends GLBase1 {
@@ -44,7 +44,7 @@ public class Wurfparabel extends GLBase1 {
 
     //  ---------  Methoden  ----------------------------------
 
-    public void zeichneDreieck(GL4 gl,
+    public void zeichneDreieck(GL3 gl,
                                float x1, float y1, float z1,
                                float x2, float y2, float z2,
                                float x3, float y3, float z3) {
@@ -54,10 +54,10 @@ public class Wurfparabel extends GLBase1 {
         putVertex(x3, y3, z3);
         int nVertices = 3;
         copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, nVertices);
     }
 
-    public void zeichneKreis(GL4 gl, float xm, float ym, float r, boolean fill, int nPunkte) {
+    public void zeichneKreis(GL3 gl, float xm, float ym, float r, boolean fill, int nPunkte) {
         vertexBuf.rewind();
         if (fill) {
             setColor(1, 1, 0, 1);
@@ -72,15 +72,15 @@ public class Wurfparabel extends GLBase1 {
         if (fill) {
             putVertex((float) (r * Math.cos(0)) + xm, (float) (r * Math.sin(0)) + ym, 0);
             copyBuffer(gl, nPunkte + 2);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
         } else {
             copyBuffer(gl, nPunkte);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
         }
 
     }
 
-    public void zeichneBahn(GL4 gl, double x0, double y0, double vx0, double vy0, double dt, int nPunkte) {
+    public void zeichneBahn(GL3 gl, double x0, double y0, double vx0, double vy0, double dt, int nPunkte) {
         double x1, y1, t;
         for (int i = 0; i < nPunkte; i++) {
             t = i*dt;
@@ -89,10 +89,10 @@ public class Wurfparabel extends GLBase1 {
             putVertex((float)x1, (float)y1, 0);
         }
         copyBuffer(gl, nPunkte);
-        gl.glDrawArrays(GL4.GL_LINE_STRIP, 0, nPunkte);
+        gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nPunkte);
     }
 
-    public void zeichneSpeer(GL4 gl, float w, float h) {
+    public void zeichneSpeer(GL3 gl, float w, float h) {
         w *= 0.5f;
         h *= 0.5f;
         float w2 = 0.8f*w;
@@ -106,7 +106,7 @@ public class Wurfparabel extends GLBase1 {
 
         int nVertices = 6;
         copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -114,9 +114,9 @@ public class Wurfparabel extends GLBase1 {
     @Override
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(1, 1, 1, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
+        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
     }
@@ -124,8 +124,8 @@ public class Wurfparabel extends GLBase1 {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
         setColor(0, 0, 0);
         loadIdentity(gl);
         drawAxis(gl, 50, 50, 50);
@@ -151,7 +151,7 @@ public class Wurfparabel extends GLBase1 {
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
         float aspect = (float)height / width;

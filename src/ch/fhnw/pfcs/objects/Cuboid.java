@@ -3,7 +3,7 @@ package ch.fhnw.pfcs.objects;
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.util.math.Vec3;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 14.10.2015.
@@ -19,7 +19,7 @@ public class Cuboid {
         this.rd = rd;
     }
 
-    public void draw(GL4 gl) {
+    public void draw(GL3 gl) {
         double a2 =a*0.5, b2=b*0.5, c2=c*0.5f;
         Vec3 A = new Vec3(a2, -b2, c2);
         Vec3 B = new Vec3(a2, -b2, -c2);
@@ -39,7 +39,7 @@ public class Cuboid {
         putRectangle(B, C, G, F);
 
         rd.copyBuffer(gl, 36);
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, 36);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, 36);
 
     }
 

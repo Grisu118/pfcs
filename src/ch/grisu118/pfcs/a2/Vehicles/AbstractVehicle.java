@@ -3,7 +3,7 @@ package ch.grisu118.pfcs.a2.Vehicles;
 import ch.fhnw.util.math.Mat4;
 import ch.grisu118.pfcs.a2.ParkingCar;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import java.awt.*;
 
 /**
@@ -169,7 +169,7 @@ public abstract class AbstractVehicle implements Vehicle {
         this.debug = debug;
     }
 
-    protected void drawDebug(GL4 gl) {
+    protected void drawDebug(GL3 gl) {
         float[] color = context.getColor();
         context.setColor(debugColor);
         drawCenter(gl);
@@ -178,7 +178,7 @@ public abstract class AbstractVehicle implements Vehicle {
         context.setColor(color);
     }
 
-    protected void drawZentriPetal(GL4 gl) {
+    protected void drawZentriPetal(GL3 gl) {
         float[] c = context.getColor();
 
         //Max
@@ -195,16 +195,16 @@ public abstract class AbstractVehicle implements Vehicle {
         context.setColor(c);
     }
 
-    protected void drawLine(GL4 gl, double x0, double y0, double x1, double y1) {
+    protected void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
         context.rewindBuffer(gl);
         context.putVertex(x0, y0, 0);
         context.putVertex(x1, y1, 0);
         context.copyBuffer(gl, 2);
-        gl.glDrawArrays(GL4.GL_LINES, 0, 2);
+        gl.glDrawArrays(GL3.GL_LINES, 0, 2);
         context.rewindBuffer(gl);
     }
 
-    protected void drawCenter(GL4 gl) {
+    protected void drawCenter(GL3 gl) {
         float len = 0.2f;
         context.rewindBuffer(gl);
         context.putVertex(0, ym - len, 0);
@@ -213,12 +213,12 @@ public abstract class AbstractVehicle implements Vehicle {
         context.putVertex(len, ym, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINES, 0, nVertices);
         context.rewindBuffer(gl);
 
     }
 
-    protected void drawCircle(GL4 gl, double xm, double ym, double r, boolean fill, int nPunkte) {
+    protected void drawCircle(GL3 gl, double xm, double ym, double r, boolean fill, int nPunkte) {
         context.rewindBuffer(gl);
         if (fill) {
             context.putVertex(xm, ym, 0);
@@ -231,15 +231,15 @@ public abstract class AbstractVehicle implements Vehicle {
         if (fill) {
             context.putVertex((float) (r * Math.cos(0)) + xm, (float) (r * Math.sin(0)) + ym, 0);
             context.copyBuffer(gl, nPunkte + 2);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
         } else {
             context.copyBuffer(gl, nPunkte);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
         }
         context.rewindBuffer(gl);
     }
 
-    protected void drawBody(GL4 gl) {
+    protected void drawBody(GL3 gl) {
         context.rewindBuffer(gl);
         context.putVertex(length - backAxis, +width / 2, 0);
         context.putVertex(-backAxis, width / 2, 0);
@@ -247,18 +247,18 @@ public abstract class AbstractVehicle implements Vehicle {
         context.putVertex(length - backAxis, -width / 2, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
         context.putVertex(length - backAxis, 0, 0);
         context.putVertex(length * (2.0f / 3) - backAxis, -width / 2, 0);
         context.putVertex(length * (2.0f / 3) - backAxis, width / 2, 0);
         nVertices = 3;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
     }
 
-    protected void drawWheels(GL4 gl, double length, double width, double x, double y, boolean isBackAxis) {
+    protected void drawWheels(GL3 gl, double length, double width, double x, double y, boolean isBackAxis) {
         float[] color = context.getColor();
         context.setColor(0.01f, 0.01f, 0.01f);
         context.rewindBuffer(gl);
@@ -268,7 +268,7 @@ public abstract class AbstractVehicle implements Vehicle {
         context.putVertex(x + length / 2, y - width / 2, 0);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);
         if (debug && !isBackAxis) {
             context.setColor(debugColor);
             context.rewindBuffer(gl);
@@ -277,7 +277,7 @@ public abstract class AbstractVehicle implements Vehicle {
             context.putVertex(x, l, 0);
             nVertices = 2;
             context.copyBuffer(gl, nVertices);
-            gl.glDrawArrays(GL4.GL_LINES, 0, nVertices);
+            gl.glDrawArrays(GL3.GL_LINES, 0, nVertices);
         }
         context.rewindBuffer(gl);
         context.setColor(color);

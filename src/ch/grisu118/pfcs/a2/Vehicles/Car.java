@@ -2,7 +2,7 @@ package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.grisu118.pfcs.a2.ParkingCar;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 06.10.2015.
@@ -16,7 +16,7 @@ public class Car extends AbstractVehicle {
     }
 
     @Override
-    public void draw(GL4 gl) {
+    public void draw(GL3 gl) {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, wheelDistance, true); //backleft

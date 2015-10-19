@@ -2,7 +2,7 @@ package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
 
 import com.jogamp.opengl.util.FPSAnimator;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 
 public class FPendel extends GLBase1 {
@@ -19,7 +19,7 @@ public class FPendel extends GLBase1 {
 
     //  ---------  Methoden  ----------------------------------
 
-    public void zeichneDreieck(GL4 gl,
+    public void zeichneDreieck(GL3 gl,
                                float x1, float y1, float z1,
                                float x2, float y2, float z2,
                                float x3, float y3, float z3) {
@@ -29,10 +29,10 @@ public class FPendel extends GLBase1 {
         putVertex(x3, y3, z3);
         int nVertices = 3;
         copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_TRIANGLES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, nVertices);
     }
 
-    public void zeichneKreis(GL4 gl, float xm, float ym, float r, boolean fill, int nPunkte) {
+    public void zeichneKreis(GL3 gl, float xm, float ym, float r, boolean fill, int nPunkte) {
         vertexBuf.rewind();
         if (fill) {
             setColor(1, 1, 0, 1);
@@ -47,10 +47,10 @@ public class FPendel extends GLBase1 {
         if (fill) {
             putVertex((float) (r * Math.cos(0)) + xm, (float) (r * Math.sin(0)) + ym, 0);
             copyBuffer(gl, nPunkte + 2);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nPunkte + 2);  // Kreis zeichnen
         } else {
             copyBuffer(gl, nPunkte);   // VertexArray in OpenGL-Buffer kopieren
-            gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
+            gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nPunkte);  // Kreis zeichnen
         }
 
     }
@@ -60,9 +60,9 @@ public class FPendel extends GLBase1 {
     @Override
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(1, 1, 1, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL4.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
+        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         fpsAnimator = new FPSAnimator(drawable, 40, true);
         fpsAnimator.start();
     }
@@ -70,8 +70,8 @@ public class FPendel extends GLBase1 {
 
     @Override
     public void display(GLAutoDrawable drawable) {
-        GL4 gl = drawable.getGL().getGL4();
-        gl.glClear(GL4.GL_COLOR_BUFFER_BIT);
+        GL3 gl = drawable.getGL().getGL3();
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
         setColor(1, 1, 1);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
         setColor(1, 0, 0);
@@ -86,7 +86,7 @@ public class FPendel extends GLBase1 {
     @Override
     public void reshape(GLAutoDrawable drawable, int x, int y,
                         int width, int height) {
-        GL4 gl = drawable.getGL().getGL4();
+        GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
         float aspect = (float)height / width;

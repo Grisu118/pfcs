@@ -7,11 +7,11 @@ import javax.media.opengl.*;
 public class GLShaders
 {
 
-    static int loadShaders(GL4 gl,                             // Compile and Link Vertex- and Fragmentshader
+    static int loadShaders(GL3 gl,                             // Compile and Link Vertex- and Fragmentshader
                            String vertexShaderFileName,
                            String fragmentShaderFileName)
-    {  int v = gl.glCreateShader(GL4.GL_VERTEX_SHADER);
-       int f = gl.glCreateShader(GL4.GL_FRAGMENT_SHADER);
+    {  int v = gl.glCreateShader(GL3.GL_VERTEX_SHADER);
+       int f = gl.glCreateShader(GL3.GL_FRAGMENT_SHADER);
        String vs = textFileRead(vertexShaderFileName);
        String fs = textFileRead(fragmentShaderFileName);
        gl.glShaderSource(v, 1, new String[] { vs }, null);
@@ -31,7 +31,7 @@ public class GLShaders
 
 
     /** Retrieves the info log for the shader */
-    static public String printShaderInfoLog(GL4 gl, int obj)
+    static public String printShaderInfoLog(GL3 gl, int obj)
     {  // Otherwise, we'll get the GL info log
        final int logLen = getShaderParameter(gl, obj, GL3.GL_INFO_LOG_LENGTH);
        if (logLen <= 0)
@@ -46,7 +46,7 @@ public class GLShaders
 
 
     /** Get a shader parameter value. See 'glGetShaderiv' */
-    static private int getShaderParameter(GL4 gl, int obj, int paramName)
+    static private int getShaderParameter(GL3 gl, int obj, int paramName)
     {  final int params[] = new int[1];
        gl.glGetShaderiv(obj, paramName, params, 0);
        return params[0];
@@ -54,7 +54,7 @@ public class GLShaders
 
 
     /** Retrieves the info log for the program */
-    static public String printProgramInfoLog(GL4 gl, int obj)
+    static public String printProgramInfoLog(GL3 gl, int obj)
     {  // get the GL info log
        final int logLen = getProgramParameter(gl, obj, GL3.GL_INFO_LOG_LENGTH);
        if (logLen <= 0)
@@ -69,7 +69,7 @@ public class GLShaders
 
 
     /** Gets a program parameter value */
-    static public int getProgramParameter(GL4 gl, int obj, int paramName)
+    static public int getProgramParameter(GL3 gl, int obj, int paramName)
     {  final int params[] = new int[1];
        gl.glGetProgramiv(obj, paramName, params, 0);
        return params[0];

@@ -2,7 +2,7 @@ package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.grisu118.pfcs.a2.ParkingCar;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 08.10.2015.
@@ -35,12 +35,12 @@ public class Kiro extends AbstractVehicle {
     }
 
     @Override
-    public void draw(GL4 gl) {
+    public void draw(GL3 gl) {
         drawBody(gl);
     }
 
     @Override
-    protected void drawBody(GL4 gl) {
+    protected void drawBody(GL3 gl) {
 
         double space = 0.5;
         //Front
@@ -55,7 +55,7 @@ public class Kiro extends AbstractVehicle {
         context.putVertex(space, -width / 2, 0.01);
         int nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
         context.putVertex(backAxis + axisDistance / 2, 0, 0.01);
         context.putVertex(space, -width / 2, 0.01);
@@ -63,7 +63,7 @@ public class Kiro extends AbstractVehicle {
         context.putVertex(space, width / 2, 0.01);
         nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
         drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, width / 2 - wheelWidth/2, false);
         drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, -width / 2 + wheelWidth/2, false);
@@ -79,14 +79,14 @@ public class Kiro extends AbstractVehicle {
         context.putVertex(-(axisDistance / 2 + backAxis), width / 2, 0.01);
         nVertices = 4;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_LOOP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
         context.putVertex(-space, +width / 2, 0.01);
         context.putVertex(0, 0, 0.01);
         context.putVertex(-space, -width / 2, 0.01);
         nVertices = 3;
         context.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL4.GL_LINE_STRIP, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nVertices);
         context.rewindBuffer(gl);
         drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, width / 2 - wheelWidth/2, true);
         drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, -width / 2 + wheelWidth/2, true);
@@ -94,7 +94,7 @@ public class Kiro extends AbstractVehicle {
     }
 
     @Override
-    public void drawDebug(GL4 gl) {
+    public void drawDebug(GL3 gl) {
         float[] color = context.getColor();
         context.setColor(debugColor);
         context.pushMatrix(gl);

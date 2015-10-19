@@ -2,7 +2,7 @@ package ch.grisu118.pfcs.a2.Vehicles;
 
 import ch.grisu118.pfcs.a2.ParkingCar;
 
-import javax.media.opengl.GL4;
+import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 08.10.2015.
@@ -26,7 +26,7 @@ public class Trike extends AbstractVehicle {
 
 
     @Override
-    public void draw(GL4 gl) {
+    public void draw(GL3 gl) {
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0, (+width / 2 - wheelWidth), true); //backleft
@@ -43,7 +43,7 @@ public class Trike extends AbstractVehicle {
         context.popMatrix(gl);
     }
 
-    protected void drawDebug(GL4 gl) {
+    protected void drawDebug(GL3 gl) {
         float[] color = context.getColor();
         context.setColor(debugColor);
         drawCenter(gl);
