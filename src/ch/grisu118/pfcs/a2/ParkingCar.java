@@ -202,6 +202,26 @@ public class ParkingCar extends GLBase1 {
         }
     }
 
+    private void drawParcArea(GL3 gl) {
+        drawParcField(gl, -3, -10);
+        drawParcField(gl, -3+2.35f, -10);
+        drawParcField(gl, -3+2*2.35f, -10);
+        drawParcField(gl, -3+3*2.35f, -10);
+        drawParcField(gl, -3+4*2.35f, -10);
+    }
+
+    private void drawParcField(GL3 gl, float x, float y) {
+        float width = 2.35f;
+        float length = 5;
+        float[] c = getColor();
+        setColor(1,1,1);
+        drawLine(gl, x-width*0.5f, y-length*0.5f, x+width*0.5f, y-length*0.5f);
+        drawLine(gl, x+width*0.5f, y-length*0.5f, x+width*0.5f, y+length*0.5f);
+        drawLine(gl, x+width*0.5f, y+length*0.5f, x-width*0.5f, y+length*0.5f);
+        drawLine(gl, x-width*0.5f, y+length*0.5f, x-width*0.5f, y-length*0.5f);
+        setColor(c);
+    }
+
 
     //  ----------  OpenGL-Events   ---------------------------
 
@@ -225,6 +245,7 @@ public class ParkingCar extends GLBase1 {
         loadIdentity(gl);
         setColor(1, 1, 1);
         drawAxis(gl, 20, 20, 20);
+        drawParcArea(gl);
         setColor(1, 0, 0);
         if (activeVehicle != null) {
             if (activeVehicle.getMatrix() != null) {
@@ -331,5 +352,14 @@ public class ParkingCar extends GLBase1 {
             default:
                 break;
         }
+    }
+
+    public void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
+        rewindBuffer(gl);
+        putVertex(x0, y0, 0);
+        putVertex(x1, y1, 0);
+        copyBuffer(gl, 2);
+        gl.glDrawArrays(GL3.GL_LINES, 0, 2);
+        rewindBuffer(gl);
     }
 }

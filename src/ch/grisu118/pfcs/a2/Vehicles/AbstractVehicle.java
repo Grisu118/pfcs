@@ -4,7 +4,6 @@ import ch.fhnw.util.math.Mat4;
 import ch.grisu118.pfcs.a2.ParkingCar;
 
 import javax.media.opengl.GL3;
-import java.awt.*;
 
 /**
  * Created by benjamin on 07.10.2015.
@@ -184,24 +183,15 @@ public abstract class AbstractVehicle implements Vehicle {
         //Max
         context.setColor(0, 0, 255);
         double m = maxZentripetalForce  * -(ym/ Math.abs(ym));
-        drawLine(gl, 0, 0, 0, m);
-        drawLine(gl, -0.2, m, 0.2, m);
+        context.drawLine(gl, 0, 0, 0, m);
+        context.drawLine(gl, -0.2, m, 0.2, m);
 
         context.setColor(0, 255, 0);
-        drawLine(gl, 0, 0, 0, -zentripetalForce);
-        drawLine(gl, -0.2, -zentripetalForce, 0.2, -zentripetalForce);
+        context.drawLine(gl, 0, 0, 0, -zentripetalForce);
+        context.drawLine(gl, -0.2, -zentripetalForce, 0.2, -zentripetalForce);
 
 
         context.setColor(c);
-    }
-
-    protected void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
-        context.rewindBuffer(gl);
-        context.putVertex(x0, y0, 0);
-        context.putVertex(x1, y1, 0);
-        context.copyBuffer(gl, 2);
-        gl.glDrawArrays(GL3.GL_LINES, 0, 2);
-        context.rewindBuffer(gl);
     }
 
     protected void drawCenter(GL3 gl) {
