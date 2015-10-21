@@ -13,6 +13,16 @@ public interface MyRenderer1
     //  --------  Vertex-Methoden  -----------
 
     public void setColor(float r, float g, float b);       // aktuelle Vertexfarbe setzen
+    void setColor(float r, float g, float b, float a);
+    void setColor(float[] color);
+    float[] getColor();
+
+    void setNormal(float x, float y, float z);
+    void setNormal(float[] normal);
+
+    void setShadingLevel(GL3 gl, int level);
+    void setLightPosition(GL3 gl, double x, double y, double z);
+
 
     void putVertex(float x, float y, float z);             // Vertex-Daten in Buffer speichern
     void putVertex(double x, double y, double z);

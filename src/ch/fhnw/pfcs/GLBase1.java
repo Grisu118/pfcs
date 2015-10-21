@@ -24,7 +24,7 @@ public class GLBase1
     String windowTitle = "JOGL-Application";
     int windowWidth = 800;
     int windowHeight = 600;
-    String vShader = "vShader1.glsl";               // Filename Vertex-Shader
+    String vShader = "vShader2.glsl";               // Filename Vertex-Shader
     String fShader = "fShader1.glsl";               // Filename Fragment-Shader
     int maxVerts = 2048;                            // max. Anzahl Vertices im Vertex-Array
 
@@ -40,11 +40,12 @@ public class GLBase1
     FloatBuffer vertexBuf;                              // Vertex-Array
     final int vPositionSize = 4 * Float.SIZE / 8;           // Anz. Bytes der x,y,z,w (homogene Koordinaten)
     final int vColorSize = 4 * Float.SIZE / 8;              // Anz. Bytes der rgba Werte
-    final int vertexSize = vPositionSize + vColorSize;  // Anz. Bytes eines Vertex
+    final int vNormalSize = 4 * Float.SIZE / 8;
+    final int vertexSize = vPositionSize + vColorSize + vNormalSize;  // Anz. Bytes eines Vertex
     int bufSize;                                        // Anzahl Bytes des VertexArrays = maxVerts * vertexSize
 
     float[] currentColor = {1, 1, 1, 1};                  // aktuelle Farbe fuer Vertices
-
+    float[] currentNormal = {1, 0, 0, 0, 0};
 
     //  --------  ModelView-Transformation  ---------
 
@@ -58,11 +59,13 @@ public class GLBase1
     int vaoId;                                          // Identifier fuer OpenGL VertexArray Object
     int vertexBufId;                                    // Identifier fuer OpenGL Vertex Buffer
 
-    int projMatrixLoc, viewMatrixLoc;                   // Uniform Shader Variables
+    int projMatrixLoc, viewMatrixLoc, shadingLevelLoc, lightPositionLoc;                   // Uniform Shader Variables
 
-    int vPositionLocation, vColorLocation;              // Vertex Attribute Shader Variables
+    int vPositionLocation, vColorLocation, vNormalLocation;              // Vertex Attribute Shader Variables
     protected JPanel headerPanel;
     protected JFrame jFrame;
+    private int shadingLevel = 0;
+    private Vec4 lightPosition = new Vec4(0,0,10,1);
 
 
     //  ------------- Methoden  ---------------------------
@@ -129,17 +132,26 @@ public class GLBase1
         // ----- get shader variable identifiers  -------------
         vPositionLocation = gl.glGetAttribLocation(pgm, "vertexPosition");
         vColorLocation = gl.glGetAttribLocation(pgm, "vertexColor");
+        vNormalLocation = gl.glGetAttribLocation(pgm, "vertexNormal");
 
 
         //  ------  enable vertex attributes ---------------
         gl.glEnableVertexAttribArray(vPositionLocation);
         gl.glEnableVertexAttribArray(vColorLocation);
+        gl.glEnableVertexAttribArray(vNormalLocation);
         gl.glVertexAttribPointer(vPositionLocation, 4, GL3.GL_FLOAT, false, vertexSize, 0);
         gl.glVertexAttribPointer(vColorLocation, 4, GL3.GL_FLOAT, false, vertexSize, vPositionSize);
+        gl.glVertexAttribPointer(vNormalLocation, 4, GL.GL_FLOAT, false, vertexSize, vPositionSize+vColorSize);
+
 
     }
 
-    ;
+    private void setupLightingVariables(int pgm, GL3 gl) {
+        shadingLevelLoc = gl.glGetUniformLocation(pgm, "ShadingLevel");
+        lightPositionLoc = gl.glGetUniformLocation(pgm, "LightPosition");
+        gl.glUniform1i(shadingLevelLoc, shadingLevel);
+        gl.glUniform4fv(lightPositionLoc, 1, lightPosition.toArray(), 0);
+    }
 
 
     private void setupMatrices(int pgm, GL3 gl) {
@@ -165,7 +177,7 @@ public class GLBase1
 
 
     // --------  Vertex-Methoden  --------
-
+    @Override
     public void setColor(float r, float g, float b)             // aktuelle Vertexfarbe setzen
     {
         currentColor[0] = r;
@@ -173,7 +185,7 @@ public class GLBase1
         currentColor[2] = b;
         currentColor[3] = 1;
     }
-
+    @Override
     public void setColor(float r, float g, float b, float a)             // aktuelle Vertexfarbe setzen
     {
         currentColor[0] = r;
@@ -182,14 +194,31 @@ public class GLBase1
         currentColor[3] = a;
     }
 
+    @Override
     public void setColor(float[] color) {
+        if (color.length != 4) {
+            throw new IllegalArgumentException();
+        }
         currentColor = color;
     }
-
+    @Override
     public float[] getColor() {
         return Arrays.copyOf(currentColor, currentColor.length);
     }
-
+    @Override
+    public void setNormal(float x, float y, float z) {
+        currentNormal[0] = x;
+        currentNormal[1] = y;
+        currentNormal[2] = z;
+        currentNormal[3] = 0;
+    }
+    @Override
+    public void setNormal(float[] normal) {
+        if (normal.length != 4) {
+            throw new IllegalArgumentException();
+        }
+        currentNormal = normal;
+    }
 
     public void putVertex(float x, float y, float z)            // Vertex-Daten in Buffer speichern
     {
@@ -201,10 +230,14 @@ public class GLBase1
         vertexBuf.put(currentColor[1]);
         vertexBuf.put(currentColor[2]);
         vertexBuf.put(currentColor[3]);
+        vertexBuf.put(currentNormal[0]);                          // Normle
+        vertexBuf.put(currentNormal[1]);
+        vertexBuf.put(currentNormal[2]);
+        vertexBuf.put(currentNormal[3]);
     }
 
     public void putVertex(double x, double y, double z) {
-        putVertex((float)x, (float)y, (float)z);
+        putVertex((float) x, (float) y, (float) z);
     }
 
 
@@ -221,6 +254,19 @@ public class GLBase1
     public void rewindBuffer(GL gl)                            // Bufferposition zuruecksetzen
     {
         vertexBuf.rewind();
+    }
+
+    @Override
+    public void setShadingLevel(GL3 gl, int level) {
+        shadingLevel = level;
+        gl.glUniform1i(shadingLevelLoc, shadingLevel);
+    }
+
+    @Override
+    public void setLightPosition(GL3 gl, double x, double y, double z) {
+        Vec4 tmp = new Vec4(x, y, z, 1);
+        lightPosition = viewMatrix.transform(tmp);
+        gl.glUniform4fv(lightPositionLoc, 1, lightPosition.toArray(), 0);
     }
 
 
@@ -367,6 +413,7 @@ public class GLBase1
         program = GLShaders.loadShaders(gl, vShader, fShader);
         setupVertexBuffer(program, gl, maxVerts);
         setupMatrices(program, gl);
+        setupLightingVariables(program, gl);
         gl.glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
         gl.glEnable(GL3.GL_DEPTH_TEST);
     }
@@ -461,7 +508,7 @@ public class GLBase1
     }
 
     public void translate(GL3 gl, double x, double y, double z) {
-        translate(gl, (float)x, (float)y, (float)z);
+        translate(gl, (float) x, (float) y, (float) z);
     }
 
 
