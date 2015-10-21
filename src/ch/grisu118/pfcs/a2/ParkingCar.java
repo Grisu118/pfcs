@@ -127,7 +127,7 @@ public class ParkingCar extends GLBase1 {
         c.gridy = 0;
         rightPanel.add(speedLabel, c);
 
-        jFrame.setSize(1000, 800);
+        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         runSimulation();
     }
 
