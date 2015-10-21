@@ -31,11 +31,17 @@ public class Cuboid {
         Vec3 G = new Vec3(-a2, b2, -c2);
         Vec3 H = new Vec3(-a2, b2, c2);
 
+        rd.setNormal(0,-1,0);
         putRectangle(D, C, B, A); //Boden
+        rd.setNormal(0,1,0);
         putRectangle(E, F, G, H); //Decke
+        rd.setNormal(1,0,0);
         putRectangle(A, B, F, E);
+        rd.setNormal(0,0,1);
         putRectangle(A, E, H, D);
+        rd.setNormal(-1,0,0);
         putRectangle(D, H, G, C);
+        rd.setNormal(0,0,-1);
         putRectangle(B, C, G, F);
 
         rd.copyBuffer(gl, 36);
