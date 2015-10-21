@@ -48,8 +48,8 @@ public class ParkingCar extends GLBase1 {
 
 
 
-        vehicles.add(new Car(this, "Auto 1"));
-        vehicles.add(new Car(this, "Auto 2"));
+        vehicles.add(Car.CarFactory(this, Car.Cars.MercedesBenzGL));
+        vehicles.add(Car.CarFactory(this, Car.Cars.VWGolf));
         vehicles.add(new Trike(this, "Dreirad"));
         vehicles.add(new SmallTruck(this, "SuLa 10"));
         vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));

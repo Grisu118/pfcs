@@ -9,7 +9,35 @@ import javax.media.opengl.GL3;
  */
 public class Car extends AbstractVehicle {
 
-    public Car (ParkingCar context, String name) {
+    public enum Cars {
+        MercedesBenzGL, VWGolf
+    }
+
+    public static Car CarFactory(ParkingCar context, Cars type) {
+        Car c;
+        switch (type) {
+            case MercedesBenzGL:
+                c = new Car(context, "Mercedes Benz GL");
+                c.length = 5.12f;
+                c.width = 1.934f;
+                c.axisDistance = 3.075f;
+                c.backAxis = 1.16f;
+                break;
+            case VWGolf:
+                c = new Car(context, "VW Golf");
+                c.length = 4.199f;
+                c.width = 1.786f;
+                c.axisDistance = 2.575f;
+                c.backAxis = 0.745f;
+                break;
+            default:
+                throw new IllegalArgumentException("Wrong Car Type");
+        }
+
+        return c;
+    }
+
+    private Car (ParkingCar context, String name) {
         super(context, name);
         this.type = "Car";
 
