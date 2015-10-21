@@ -15,7 +15,17 @@ public class JarMain {
     private static final String EX2 = "Übung 2 - Fahrendes Auto";
 
     public static void main(String[] args) {
-        Object result = JOptionPane.showInputDialog(null, "Welche Übung starten?", "PFCS - Übungen", JOptionPane.QUESTION_MESSAGE, new ImageIcon("res/icon.png"), new String[]{EX1, EX2}, EX1);
+        new JarMain();
+
+
+    }
+
+    public JarMain() {
+        Icon icon =  new ImageIcon("res/icon.png");
+        if (icon.getIconHeight() < 0) {
+            icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
+        }
+        Object result = JOptionPane.showInputDialog(null, "Welche Übung starten?", "PFCS - Übungen", JOptionPane.QUESTION_MESSAGE, icon, new String[]{EX1, EX2}, EX1);
         if (result == null)
             System.exit(0);
         switch (result.toString()) {
@@ -28,7 +38,5 @@ public class JarMain {
             default:
                 break;
         }
-
-
     }
 }

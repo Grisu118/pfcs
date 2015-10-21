@@ -55,7 +55,12 @@ public class ParkingCar extends GLBase1 {
         vehicles.add(new BigTruck(this, "5 Achs Sattelzugmaschine"));
         vehicles.add(new Kiro(this, "Kirovets K700A [BETA]"));
 
-        jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
+        ImageIcon icon = new ImageIcon("res/icon.png");
+        if (icon.getIconHeight() < 0) {
+            icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
+        }
+
+        jFrame.setIconImage(icon.getImage());
 
         headerPanel.setLayout(new BorderLayout());
         JPanel leftPanel = new JPanel(new GridBagLayout());

@@ -59,7 +59,13 @@ public class AirTrain extends GLBase1 {
         headerPanel.add(add);
         headerPanel.add(clear);
         headerPanel.add(box);
-        jFrame.setIconImage(new ImageIcon("res/icon.png").getImage());
+
+        ImageIcon icon = new ImageIcon("res/icon.png");
+        if (icon.getIconHeight() < 0) {
+            icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
+        }
+
+        jFrame.setIconImage(icon.getImage());
         jFrame.setSize(1000, 800);
 
         box.addActionListener(e -> colorExChange = box.isSelected());
