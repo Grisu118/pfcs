@@ -182,13 +182,13 @@ public abstract class AbstractVehicle implements Vehicle {
 
         //Max
         context.setColor(0, 0, 255);
-        double m = maxZentripetalForce  * -(ym/ Math.abs(ym));
+        double m = maxZentripetalForce  * (ym/ Math.abs(ym));
         context.drawLine(gl, 0, 0, 0, m);
         context.drawLine(gl, -0.2, m, 0.2, m);
 
         context.setColor(0, 255, 0);
-        context.drawLine(gl, 0, 0, 0, -zentripetalForce);
-        context.drawLine(gl, -0.2, -zentripetalForce, 0.2, -zentripetalForce);
+        context.drawLine(gl, 0, 0, 0, zentripetalForce);
+        context.drawLine(gl, -0.2, zentripetalForce, 0.2, zentripetalForce);
 
 
         context.setColor(c);
