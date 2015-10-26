@@ -14,4 +14,7 @@ public interface RotObjects {
 
     void setZ(double z);
     double getZ();
+
+    double getSpeed();
+    double getRotSpeed();
 }

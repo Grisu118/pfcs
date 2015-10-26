@@ -83,7 +83,8 @@ public class FlyingCuboid extends GLBase1 {
 
     void update(float dt) {
         objects.forEach(o -> {
-            o.setZ(o.getZ() + dt);
+            o.setZ(o.getZ() + o.getSpeed()* dt);
+            o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
         });
     }
 
@@ -96,6 +97,8 @@ public class FlyingCuboid extends GLBase1 {
         gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
         gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         setCameraSystem(gl, dCam, 0, 0);
+        setShadingLevel(gl, 1);
+        setLightPosition(gl, 0,0,0);
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
