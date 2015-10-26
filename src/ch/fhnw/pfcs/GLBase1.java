@@ -201,6 +201,14 @@ public class GLBase1
         }
         currentColor = color;
     }
+
+    public void setColor(Color c) {
+        currentColor[0] = c.getRed()/255.0f;
+        currentColor[1] = c.getGreen()/255.0f;
+        currentColor[2] = c.getBlue()/255.0f;
+        currentColor[3] = c.getAlpha()/255.0f;
+    }
+
     @Override
     public float[] getColor() {
         return Arrays.copyOf(currentColor, currentColor.length);

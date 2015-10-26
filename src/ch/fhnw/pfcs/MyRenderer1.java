@@ -4,17 +4,20 @@ import javax.media.opengl.*;
 import javax.media.opengl.awt.*;
 import ch.fhnw.util.math.*;
 
+import java.awt.*;
+
 
 public interface MyRenderer1
 {
 
-    public GLCanvas getGLCanvas();                         // OpenGL-Window
+    GLCanvas getGLCanvas();                         // OpenGL-Window
 
     //  --------  Vertex-Methoden  -----------
 
-    public void setColor(float r, float g, float b);       // aktuelle Vertexfarbe setzen
+    void setColor(float r, float g, float b);       // aktuelle Vertexfarbe setzen
     void setColor(float r, float g, float b, float a);
     void setColor(float[] color);
+    void setColor(Color c);
     float[] getColor();
 
     void setNormal(float x, float y, float z);
@@ -27,9 +30,9 @@ public interface MyRenderer1
     void putVertex(float x, float y, float z);             // Vertex-Daten in Buffer speichern
     void putVertex(double x, double y, double z);
 
-    public void copyBuffer(GL gl,int nVertices);           // Vertex-Array in OpenGL-Buffer kopieren
+    void copyBuffer(GL gl,int nVertices);           // Vertex-Array in OpenGL-Buffer kopieren
 
-    public void rewindBuffer(GL gl);                       // Bufferposition zuruecksetzen
+    void rewindBuffer(GL gl);                       // Bufferposition zuruecksetzen
 
 
     //  --------  ModelView-Transformation  -----------
