@@ -17,9 +17,15 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
     double rotSpeed;
     double speed;
     double x, y, z;
+    FlyingCuboid rd;
 
     public Cuboid(FlyingCuboid rd) {
         super(rd);
+        this.rd = rd;
+        init();
+    }
+
+    private void init() {
         Random r = new Random();
         this.a = ((float) r.nextInt(50)) / 100;
         if (this.a < 0.05) this.a = 0.05f;
@@ -27,15 +33,15 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
         this.c = a;
 
         do {
-            x = ((float) r.nextInt((int) ((2 * rd.getRight()) * 100))) / 100 - rd.getRight();
+            x = ((float) r.nextInt((int) ((2 * 10) * 100))) / 100 - 10;
         } while (!rd.checkAreaX(x));
         do {
-            y = ((float) r.nextInt((int) ((2 * rd.getTop()) * 100))) / 100 - rd.getTop();
+            y = ((float) r.nextInt((int) ((2 * 10) * 100))) / 100 - 10;
         } while (!rd.checkAreaY(y));
         z = -rd.getFar();
-        this.rotAxis = new Vec3(Math.random(), Math.random(), Math.random());
+        this.rotAxis = new Vec3(r.nextFloat(), r.nextFloat(), r.nextFloat());
         this.rotAngle = r.nextDouble();
-        this.rotSpeed = ((float) r.nextInt(100)) / 100;
+        this.rotSpeed = r.nextInt(100);
         this.speed = r.nextInt(500);
     }
 
@@ -43,7 +49,7 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
         super(a, b, c, rd);
         this.rotAxis = rotAxis;
         this.rotAngle = Math.random();
-        this.rotSpeed = Math.random(); //TODO 1-100/100
+        this.rotSpeed = Math.random();
     }
 
     @Override
@@ -64,6 +70,9 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
 
     @Override
     public void setZ(double z) {
+        if (!rd.checkZ(z)) {
+            init();
+        }
         this.z = z;
     }
 

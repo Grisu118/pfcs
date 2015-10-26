@@ -47,8 +47,9 @@ public class FlyingCuboid extends GLBase1 {
         jFrame.setIconImage(icon.getImage());
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
 
-        objects.add(new Cuboid(this));
-        objects.add(new Cuboid(this));
+        for (int i = 0; i < 1000; i++) {
+            objects.add(new Cuboid(this));
+        }
 
         runSimulation();
     }
@@ -98,7 +99,7 @@ public class FlyingCuboid extends GLBase1 {
         gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         setCameraSystem(gl, dCam, 0, 0);
         setShadingLevel(gl, 1);
-        setLightPosition(gl, 0,0,0);
+        setLightPosition(gl, 0,0,-0.4);
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -136,13 +137,13 @@ public class FlyingCuboid extends GLBase1 {
 
 
     public boolean checkAreaX(double x) {
-        return x >= left && x <= right;
+        return x >= -10 && x <= 10;
     }
     public boolean checkAreaY(double y) {
-        return y >= bottom && y <= top;
+        return y >= -10 && y <= 10;
     }
     public boolean checkZ(double z) {
-        return z >= near && z <= far;
+        return z <= -near && z >= -far;
     }
 
     public float getLeft() {
