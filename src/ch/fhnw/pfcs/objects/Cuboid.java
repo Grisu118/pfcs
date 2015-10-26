@@ -9,8 +9,12 @@ import javax.media.opengl.GL3;
  * Created by benjamin on 14.10.2015.
  */
 public class Cuboid {
-    double a, b, c;
-    MyRenderer1 rd;
+    protected double a, b, c;
+    protected MyRenderer1 rd;
+
+    public Cuboid(MyRenderer1 rd) {
+        this.rd = rd;
+    }
 
     public Cuboid(double a, double b, double c, MyRenderer1 rd) {
         this.a = a;

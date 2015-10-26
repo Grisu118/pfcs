@@ -202,6 +202,7 @@ public class GLBase1
         currentColor = color;
     }
 
+    @Override
     public void setColor(Color c) {
         currentColor[0] = c.getRed()/255.0f;
         currentColor[1] = c.getGreen()/255.0f;
@@ -410,13 +411,17 @@ public class GLBase1
         gl.glDrawArrays(GL3.GL_LINES, 0, nVertices);
     }
 
-    public void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
+    public void drawLine(GL3 gl, double x0, double y0, double z0, double x1, double y1, double z1) {
         rewindBuffer(gl);
-        putVertex(x0, y0, 0);
-        putVertex(x1, y1, 0);
+        putVertex(x0, y0, z0);
+        putVertex(x1, y1, z1);
         copyBuffer(gl, 2);
         gl.glDrawArrays(GL3.GL_LINES, 0, 2);
         rewindBuffer(gl);
+    }
+
+    public void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
+        drawLine(gl, x0, y0, 0, x1, y1, 0);
     }
 
 
