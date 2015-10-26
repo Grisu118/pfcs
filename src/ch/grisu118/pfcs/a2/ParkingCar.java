@@ -358,13 +358,4 @@ public class ParkingCar extends GLBase1 {
                 break;
         }
     }
-
-    public void drawLine(GL3 gl, double x0, double y0, double x1, double y1) {
-        rewindBuffer(gl);
-        putVertex(x0, y0, 0);
-        putVertex(x1, y1, 0);
-        copyBuffer(gl, 2);
-        gl.glDrawArrays(GL3.GL_LINES, 0, 2);
-        rewindBuffer(gl);
-    }
 }
