@@ -2,6 +2,7 @@ package ch.grisu118.pfcs;
 
 import ch.grisu118.pfcs.a1.AirTrain;
 import ch.grisu118.pfcs.a2.ParkingCar;
+import ch.grisu118.pfcs.a3.FlyingCuboid;
 
 import javax.swing.*;
 
@@ -13,6 +14,7 @@ public class JarMain {
 
     private static final String EX1 = "Übung 1 - Luftkissenbahn";
     private static final String EX2 = "Übung 2 - Fahrendes Auto";
+    private static final String EX3 = "Übung 3 - Fliegende Würfel";
 
     public static void main(String[] args) {
         new JarMain();
@@ -25,7 +27,7 @@ public class JarMain {
         if (icon.getIconHeight() < 0) {
             icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
         }
-        Object result = JOptionPane.showInputDialog(null, "Welche Übung starten?", "PFCS - Übungen", JOptionPane.QUESTION_MESSAGE, icon, new String[]{EX1, EX2}, EX1);
+        Object result = JOptionPane.showInputDialog(null, "Welche Übung starten?", "PFCS - Übungen", JOptionPane.QUESTION_MESSAGE, icon, new String[]{EX1, EX2, EX3}, EX1);
         if (result == null)
             System.exit(0);
         switch (result.toString()) {
@@ -34,6 +36,9 @@ public class JarMain {
                 break;
             case EX2:
                 new ParkingCar();
+                break;
+            case EX3:
+                new FlyingCuboid();
                 break;
             default:
                 break;
