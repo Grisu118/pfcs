@@ -80,6 +80,7 @@ public class MyFirst3D extends GLBase1 {
         bottom = aspect * left;
         top = aspect * right;
         setOrthogonalProjection(gl, left, right, bottom, top, near, far);
+        //setPerspectiveProjection(gl, left, right, bottom, top, near, far);
     }
 
 

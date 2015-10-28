@@ -47,7 +47,6 @@ public class Cuboid {
         putRectangle(D, H, G, C);
         rd.setNormal(0,0,-1);
         putRectangle(B, C, G, F);
-
         rd.copyBuffer(gl, 36);
         gl.glDrawArrays(GL3.GL_TRIANGLES, 0, 36);
 

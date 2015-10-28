@@ -10,6 +10,7 @@ import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,10 +27,11 @@ public class FlyingCuboid extends GLBase1 {
     float left = -0.03f, right = 0.03f;             // ViewingVolume
     float bottom = left, top = right;
     float near = 0.4f, far = 2000;
-    float dCam = 40;
+    float dCam = 0.4f;
 
     volatile long time = 0;
     volatile boolean run = true;
+    volatile boolean pause = false;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -83,10 +85,12 @@ public class FlyingCuboid extends GLBase1 {
     }
 
     void update(float dt) {
-        objects.forEach(o -> {
-            o.setZ(o.getZ() + o.getSpeed()* dt);
-            o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
-        });
+        if (!pause) {
+            objects.forEach(o -> {
+                o.setZ(o.getZ() + o.getSpeed() * dt);
+                o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
+            });
+        }
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -96,10 +100,10 @@ public class FlyingCuboid extends GLBase1 {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
+        //gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         setCameraSystem(gl, dCam, 0, 0);
         setShadingLevel(gl, 1);
-        setLightPosition(gl, 0,0,-0.4);
+        setLightPosition(gl, 0,0,dCam);
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -109,12 +113,13 @@ public class FlyingCuboid extends GLBase1 {
     @Override
     public void display(GLAutoDrawable drawable) {
         GL3 gl = drawable.getGL().getGL3();
-        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         loadIdentity(gl);
         setColor(Color.WHITE);
+        setLightPosition(gl, 0,0,0.4);
         drawLine(gl, left, 0, -near, right, 0, -near);
         drawLine(gl, 0, top, -near, 0, bottom, -near);
-        setColor(Color.RED);
+        setColor(Color.GREEN);
         objects.forEach(o -> {
             o.draw(gl);
         });
@@ -131,6 +136,7 @@ public class FlyingCuboid extends GLBase1 {
         bottom = aspect * left;
         top = aspect * right;
         // -----  Projektionsmatrix festlegen  -----
+        //
         //setOrthogonalProjection(gl, left, right, bottom, top, near, far);
         setPerspectiveProjection(gl, left, right, bottom, top, near, far);
     }
@@ -174,5 +180,14 @@ public class FlyingCuboid extends GLBase1 {
 
     public static void main(String[] args) {
         new FlyingCuboid();
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_SPACE:
+                pause = !pause;
+                break;
+        }
     }
 }
