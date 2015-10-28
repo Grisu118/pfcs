@@ -4,12 +4,13 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
+import java.awt.*;
 
 /**
  * @author Benjamin Leber
- * Längeneinheit E = 1000km = 10^6m
+ *         Längeneinheit E = 1000km = 10^6m
  */
-public class Satelit extends GLBase1 {
+public class Sat extends GLBase1 {
 
     //  ---------  globale Daten  ---------------------------
 
@@ -26,22 +27,12 @@ public class Satelit extends GLBase1 {
      */
     final static double rE = 6.371;
 
-    /**
-     * Position
-     */
-    float x = left;
-    float x0 = left;
-    float y = 0;
-    float y0 = 0;
-    /**
-     * Geschwindigkeit
-     */
-    double vx0=20, vy0=20;
-    double vx=vx0, vy=vy0;
+    final static double GM = g*rE*rE;
+
     /**
      * Beschleunigungen
      */
-    double ax=0, ay = -g;
+    double ax = 0, ay = -g;
 
     /**
      * Zeitschritt
@@ -68,10 +59,10 @@ public class Satelit extends GLBase1 {
     public void zeichneKreis(GL3 gl, float xm, float ym, float r, boolean fill, int nPunkte) {
         vertexBuf.rewind();
         if (fill) {
-            setColor(1, 1, 0, 1);
+            //setColor(1, 1, 0, 1);
             putVertex(xm, ym, 0);
         }
-        setColor(1, 0, 0, 1);
+        //setColor(1, 0, 0, 1);
         double phi = 2 * Math.PI / nPunkte;
         for (int i = 0; i < nPunkte + 1; i++) {
             putVertex((float) (r * Math.cos(phi * i)) + xm, (float) (r * Math.sin(phi * i)) + ym, 0);
@@ -88,33 +79,8 @@ public class Satelit extends GLBase1 {
 
     }
 
-    public void zeichneBahn(GL3 gl, double x0, double y0, double vx0, double vy0, double dt, int nPunkte) {
-        double x1, y1, t;
-        for (int i = 0; i < nPunkte; i++) {
-            t = i*dt;
-            x1 = vx0 * t + x0;
-            y1 = -0.5 * g * t * t + vy0 * t + y0;
-            putVertex((float)x1, (float)y1, 0);
-        }
-        copyBuffer(gl, nPunkte);
-        gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nPunkte);
-    }
-
-    public void zeichneSpeer(GL3 gl, float w, float h) {
-        w *= 0.5f;
-        h *= 0.5f;
-        float w2 = 0.8f*w;
-        rewindBuffer(gl);
-        putVertex(-w, 0, 0);
-        putVertex(-w2, -h, 0);
-        putVertex(w2, -h, 0);
-        putVertex(w, 0, 0);
-        putVertex(w2, h, 0);
-        putVertex(-w2, h, 0);
-
-        int nVertices = 6;
-        copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL3.GL_TRIANGLE_FAN, 0, nVertices);
+    void zeichneErde(GL3 gl) {
+        zeichneKreis(gl, 0,0, (float) rE, true, 20);
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -124,7 +90,6 @@ public class Satelit extends GLBase1 {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(1, 1, 1, 1);                         // Hintergrundfarbe (RGBA)
-        gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
     }
@@ -133,26 +98,14 @@ public class Satelit extends GLBase1 {
     @Override
     public void display(GLAutoDrawable drawable) {
         GL3 gl = drawable.getGL().getGL3();
-        gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
+        gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         setColor(0, 0, 0);
         loadIdentity(gl);
         drawAxis(gl, 50, 50, 50);
-        zeichneBahn(gl, left, 0, vx0, vy0, 0.1, 100);
-        setColor(1, 0, 0);
-        translate(gl, x, y, 0);
-        double alpha = Math.toDegrees(Math.atan(vy/vx));
-        rotate(gl, (float)alpha, 0, 0, 1);
-        zeichneSpeer(gl, 10, 0.5f);
-        x += vx*dt;
-        y += vy*dt;
-        vx += ax*dt;
-        vy += ay*dt;
-        if (x > right || y < bottom) {
-            x = x0;
-            y = y0;
-            vx = vx0;
-            vy = vy0;
-        }
+        setColor(Color.BLUE);
+        zeichneErde(gl);
+
+
     }
 
 
@@ -162,7 +115,7 @@ public class Satelit extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
-        float aspect = (float)height / width;
+        float aspect = (float) height / width;
         bottom = aspect * left;
         top = aspect * right;
         // -----  Projektionsmatrix festlegen  -----
@@ -173,7 +126,44 @@ public class Satelit extends GLBase1 {
     //  -----------  main-Methode  ---------------------------
 
     public static void main(String[] args) {
-        new Satelit();
+        new Sat();
+    }
+
+    private class Satelit {
+        /**
+         * Position
+         */
+        double x;
+        double y;
+        /**
+         * Geschwindigkeit
+         */
+        double vx, vy;
+
+        /**
+         * Kugelradius
+         */
+        double r;
+
+        public Satelit(double x, double y, double vx, double vy, double r) {
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.r = r;
+        }
+
+        public void move(double dt) {
+            double ax = 0, ay = 0;
+            x += vx * dt;
+            y += vy * dt;
+            vx += ax * dt;
+            vy += ay * dt;
+        }
+
+        public void draw(GL3 gl) {
+            zeichneKreis(gl, (float) x, (float) y, (float) r, true, 10);
+        }
     }
 
 }
