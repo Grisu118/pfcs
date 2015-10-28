@@ -1,10 +1,12 @@
 package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
 
+import ch.fhnw.pfcs.objects.RotKoerper;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 /**
  * @author Benjamin Leber
@@ -14,7 +16,7 @@ public class Sat extends GLBase1 {
 
     //  ---------  globale Daten  ---------------------------
 
-    float left = -45, right = 45;             // ViewingVolume
+    float left = -55, right = 55;             // ViewingVolume
     float bottom, top;
     float near = -10, far = 1000;
 
@@ -27,7 +29,7 @@ public class Sat extends GLBase1 {
      */
     final static double rE = 6.371;
 
-    final static double GM = g*rE*rE;
+    final static double GM = g * rE * rE;
 
     /**
      * Beschleunigungen
@@ -37,9 +39,17 @@ public class Sat extends GLBase1 {
     /**
      * Zeitschritt
      */
-    double dt = 0.01;
+    double dt = 1;
+
+    double r1 = 42.05; //Bahnradius
+    double v1 = Math.sqrt(GM / r1); //Bahngeschwindigkeit
+    Satellit sat1 = new Satellit(r1, 0, 0, v1, 0.25 );
+
+    RotKoerper rotKoerper = new RotKoerper(this);
 
     private FPSAnimator fpsAnimator;
+    private float elevation = 0;
+    private float azimut = 0;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -80,7 +90,7 @@ public class Sat extends GLBase1 {
     }
 
     void zeichneErde(GL3 gl) {
-        zeichneKreis(gl, 0,0, (float) rE, true, 20);
+        rotKoerper.zeichneKugel(gl, (float) rE, 10, 10);
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -99,11 +109,19 @@ public class Sat extends GLBase1 {
     public void display(GLAutoDrawable drawable) {
         GL3 gl = drawable.getGL().getGL3();
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
+        // ------  Kamera-System  -------
+        float dCam = 10;                 // Abstand vom absoluten Nullpunkt
+        setCameraSystem(gl, dCam, elevation, azimut);
         setColor(0, 0, 0);
         loadIdentity(gl);
         drawAxis(gl, 50, 50, 50);
         setColor(Color.BLUE);
         zeichneErde(gl);
+        setColor(Color.RED);
+        sat1.draw(gl);
+        for (int i = 0; i<60; i++) {
+            sat1.move(dt);
+        }
 
 
     }
@@ -129,12 +147,29 @@ public class Sat extends GLBase1 {
         new Sat();
     }
 
-    private class Satelit {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP : elevation++;
+                break;
+            case KeyEvent.VK_DOWN: elevation--;
+                break;
+            case KeyEvent.VK_LEFT: azimut--;
+                break;
+            case KeyEvent.VK_RIGHT: azimut++;
+                break;
+
+        }
+        canvas.repaint();
+    }
+
+    private class Satellit {
         /**
          * Position
          */
         double x;
         double y;
+        double z;
         /**
          * Geschwindigkeit
          */
@@ -145,16 +180,20 @@ public class Sat extends GLBase1 {
          */
         double r;
 
-        public Satelit(double x, double y, double vx, double vy, double r) {
+        public Satellit(double x, double y, double vx, double vy, double r) {
             this.x = x;
             this.y = y;
+            this.z = 0;
             this.vx = vx;
             this.vy = vy;
             this.r = r;
         }
 
         public void move(double dt) {
-            double ax = 0, ay = 0;
+            double lr = Math.sqrt(x*x + y*y);
+            double r3 = lr*lr*lr;
+            double ax = -(GM/r3)*x;
+            double ay = -(GM/r3)*y;
             x += vx * dt;
             y += vy * dt;
             vx += ax * dt;
@@ -162,7 +201,8 @@ public class Sat extends GLBase1 {
         }
 
         public void draw(GL3 gl) {
-            zeichneKreis(gl, (float) x, (float) y, (float) r, true, 10);
+            translate(gl, x, y, z);
+            rotKoerper.zeichneKugel(gl, (float) r, 10,10);
         }
     }
 
