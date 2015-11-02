@@ -41,7 +41,7 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
         z = -rd.getFar();
         this.rotAxis = new Vec3(r.nextFloat(), r.nextFloat(), r.nextFloat());
         this.rotAngle = r.nextDouble();
-        this.rotSpeed = r.nextInt(100);
+        this.rotSpeed = r.nextInt(200);
         this.speed = r.nextInt(500);
     }
 
