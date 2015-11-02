@@ -29,18 +29,13 @@ public class FlyingCuboid extends GLBase1 {
     float bottom = left, top = right;
     float near = 0.4f, far = 2000;
     float dCam = 40;
-    /*
-    float left = -5, right = 5;
-    float bottom, top;
-    float near = -10, far = 1000;
-    float dCam = 40;
-    private float azimut;
-    private float elevation;
-    */
+
 
     volatile long time = 0;
     volatile boolean run = true;
     volatile boolean pause = false;
+
+    volatile int speedMultiplication = 1;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -96,7 +91,7 @@ public class FlyingCuboid extends GLBase1 {
     void update(float dt) {
         if (!pause) {
             for (RotObjects o : objects) {
-                o.setZ(o.getZ() + o.getSpeed() * dt);
+                o.setZ(o.getZ() + o.getSpeed() * dt * speedMultiplication);
                 o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
             }
         }
@@ -191,6 +186,15 @@ public class FlyingCuboid extends GLBase1 {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_SPACE:
                 pause = !pause;
+                break;
+            case KeyEvent.VK_0:
+                speedMultiplication = 0;
+                break;
+            case KeyEvent.VK_1:
+                speedMultiplication = 1;
+                break;
+            case KeyEvent.VK_2:
+                speedMultiplication = 2;
                 break;
         }
         canvas.repaint();
