@@ -24,10 +24,19 @@ import java.util.Random;
 public class FlyingCuboid extends GLBase1 {
     //  ---------  globale Daten  ---------------------------
 
+
     float left = -0.03f, right = 0.03f;             // ViewingVolume
     float bottom = left, top = right;
     float near = 0.4f, far = 2000;
-    float dCam = 0.4f;
+    float dCam = 40;
+    /*
+    float left = -5, right = 5;
+    float bottom, top;
+    float near = -10, far = 1000;
+    float dCam = 40;
+    private float azimut;
+    private float elevation;
+    */
 
     volatile long time = 0;
     volatile boolean run = true;
@@ -36,7 +45,7 @@ public class FlyingCuboid extends GLBase1 {
     //  ---------  Methoden  ----------------------------------
 
     private Thread t;
-    private List<RotObjects> objects = new ArrayList<>();
+    private RotObjects[] objects = new RotObjects[1200];
 
 
     public FlyingCuboid() {
@@ -49,8 +58,8 @@ public class FlyingCuboid extends GLBase1 {
         jFrame.setIconImage(icon.getImage());
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
 
-        for (int i = 0; i < 1000; i++) {
-            objects.add(new Cuboid(this));
+        for (int i = 0; i < objects.length; i++) {
+            objects[i] = new Cuboid(this);
         }
 
         runSimulation();
@@ -86,10 +95,10 @@ public class FlyingCuboid extends GLBase1 {
 
     void update(float dt) {
         if (!pause) {
-            objects.forEach(o -> {
+            for (RotObjects o : objects) {
                 o.setZ(o.getZ() + o.getSpeed() * dt);
                 o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
-            });
+            }
         }
     }
 
@@ -101,9 +110,8 @@ public class FlyingCuboid extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
         //gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
-        setCameraSystem(gl, dCam, 0, 0);
         setShadingLevel(gl, 1);
-        setLightPosition(gl, 0,0,dCam);
+
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -115,14 +123,12 @@ public class FlyingCuboid extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         loadIdentity(gl);
-        setColor(Color.WHITE);
-        setLightPosition(gl, 0,0,0.4);
-        drawLine(gl, left, 0, -near, right, 0, -near);
-        drawLine(gl, 0, top, -near, 0, bottom, -near);
+        setCameraSystem(gl, dCam, 0, 0);
+        setLightPosition(gl, 0,6,10);
         setColor(Color.GREEN);
-        objects.forEach(o -> {
+        for (RotObjects o : objects) {
             o.draw(gl);
-        });
+        }
     }
 
 
@@ -136,17 +142,15 @@ public class FlyingCuboid extends GLBase1 {
         bottom = aspect * left;
         top = aspect * right;
         // -----  Projektionsmatrix festlegen  -----
-        //
-        //setOrthogonalProjection(gl, left, right, bottom, top, near, far);
         setPerspectiveProjection(gl, left, right, bottom, top, near, far);
     }
 
 
     public boolean checkAreaX(double x) {
-        return x >= -10 && x <= 10;
+        return x >= -8 && x <= 8;
     }
     public boolean checkAreaY(double y) {
-        return y >= -10 && y <= 10;
+        return y >= -8 && y <= 8;
     }
     public boolean checkZ(double z) {
         return z <= -near && z >= -far;
@@ -189,5 +193,6 @@ public class FlyingCuboid extends GLBase1 {
                 pause = !pause;
                 break;
         }
+        canvas.repaint();
     }
 }

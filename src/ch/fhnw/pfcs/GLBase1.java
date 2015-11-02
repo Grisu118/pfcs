@@ -32,7 +32,7 @@ public class GLBase1
     //  --------------  globale Daten  -------------------------------------
 
     float[] clearColor = {0, 0, 1, 1};                 // Fensterhintergrund (Blau)
-    GLCanvas canvas;                                // OpenGL Window
+    public GLCanvas canvas;                                // OpenGL Window
 
 
     //  --------  Vertex-Array (fuer die Attribute Position, Color, Normal, Texture-Coord)  ------------

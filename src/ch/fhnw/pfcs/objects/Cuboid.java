@@ -14,6 +14,9 @@ public class Cuboid {
 
     public Cuboid(MyRenderer1 rd) {
         this.rd = rd;
+        this.a = 1;
+        this.b = 1;
+        this.c = 1;
     }
 
     public Cuboid(double a, double b, double c, MyRenderer1 rd) {
