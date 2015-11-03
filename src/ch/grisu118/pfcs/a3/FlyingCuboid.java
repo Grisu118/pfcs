@@ -104,7 +104,6 @@ public class FlyingCuboid extends GLBase1 {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(0, 0, 1, 1);                         // Hintergrundfarbe (RGBA)
-        //gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
         setShadingLevel(gl, 1);
 
 
@@ -119,7 +118,7 @@ public class FlyingCuboid extends GLBase1 {
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         loadIdentity(gl);
         setCameraSystem(gl, dCam, 0, 0);
-        setLightPosition(gl, 0,6,10);
+        setLightPosition(gl, 0,0,0);
         setColor(Color.GREEN);
         for (RotObjects o : objects) {
             o.draw(gl);
