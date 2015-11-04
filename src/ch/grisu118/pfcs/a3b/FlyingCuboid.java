@@ -60,6 +60,7 @@ public class FlyingCuboid implements RotObjects{
     @Override
     public void setZ(double z) {
         this.pz = (float) z;
+        if(pz > 1.0) pz = -100;
     }
 
     @Override

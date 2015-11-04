@@ -37,6 +37,8 @@ public class StormMain extends GLBase1 {
 
     volatile int speedMultiplication = 1;
 
+    Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
+
 
     //  ---------  Methoden  ----------------------------------
 
@@ -100,16 +102,16 @@ public class StormMain extends GLBase1 {
             objects[i] = generateObject();
         }
 
-        /*
-        for(int i = 0; i < 100000; i++) {
-            for(RotObjects a : objects) a.update(0.1);
+
+        for(int i = 0; i < 100; i++) {
+            update(0.1f);
         }
-        */
+
     }
 
     public FlyingCuboid generateObject() {
 
-        return new FlyingCuboid(new Cuboid(Math.random(), Math.random(), Math.random(), this),
+        return new FlyingCuboid(cub,
                 (float)Math.random()*10 + 1,
                 ((float)Math.random()-0.5f)*4, ((float)Math.random()-0.5f)*4, -100,
                 (float)Math.random(), (float)Math.random(), (float)Math.random(), (float)Math.random()*10);
@@ -140,7 +142,12 @@ public class StormMain extends GLBase1 {
         setColor(0.8f, 0.8f, 0f, 1);
         setLightPosition(gl, 0, 6, 10);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
-        for(RotObjects o : objects) o.draw(gl);
+        for(RotObjects o : objects) {
+            if (o == null) {
+                continue;
+            }
+            o.draw(gl);
+        }
     }
 
 
