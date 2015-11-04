@@ -79,7 +79,8 @@ public class GLShaders
     static public String textFileRead(String filePath)
     {  // Read the data in
        BufferedReader reader = null;
-       try
+        System.out.println("Load Shader: " + filePath);
+        try
        {  // Read in the source
           reader = new BufferedReader(new InputStreamReader(GLShaders.class.getClassLoader().getResourceAsStream(filePath)));
           StringBuilder sb = new StringBuilder();

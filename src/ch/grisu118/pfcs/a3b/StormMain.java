@@ -51,7 +51,7 @@ public class StormMain extends GLBase1 {
 
     public StormMain() {
         super();
-
+        vShader = "vShader_fog.glsl";
         jFrame.remove(headerPanel);
 
 

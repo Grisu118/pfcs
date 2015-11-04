@@ -24,8 +24,8 @@ public class GLBase1
     String windowTitle = "JOGL-Application";
     int windowWidth = 800;
     int windowHeight = 600;
-    String vShader = "vShader2.glsl";               // Filename Vertex-Shader
-    String fShader = "fShader1.glsl";               // Filename Fragment-Shader
+    protected String vShader = "vShader2.glsl";               // Filename Vertex-Shader
+    protected String fShader = "fShader1.glsl";               // Filename Fragment-Shader
     int maxVerts = 2048;                            // max. Anzahl Vertices im Vertex-Array
 
 
