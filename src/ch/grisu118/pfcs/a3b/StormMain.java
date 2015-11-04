@@ -2,16 +2,12 @@ package ch.grisu118.pfcs.a3b;
 
 import ch.fhnw.pfcs.GLBase1;
 import ch.fhnw.pfcs.objects.Cuboid;
-import ch.grisu118.pfcs.a3.objects.RotObjects;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by benjamin on 04.11.2015.

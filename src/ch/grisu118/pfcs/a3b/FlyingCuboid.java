@@ -2,7 +2,6 @@ package ch.grisu118.pfcs.a3b;
 
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.pfcs.objects.Cuboid;
-import ch.grisu118.pfcs.a3.objects.RotObjects;
 
 import javax.media.opengl.GL3;
 

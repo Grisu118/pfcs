@@ -102,6 +102,7 @@ public class GLBase1
         f.addWindowListener(this);
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glCaps = new GLCapabilities(glp);
+        glCaps.setDepthBits(24);
         canvas = new GLCanvas(glCaps);
         canvas.addGLEventListener(this);
         f.add(canvas, BorderLayout.CENTER);

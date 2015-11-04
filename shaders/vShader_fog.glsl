@@ -66,10 +66,10 @@ void main()
       vec3 whiteColor = vec3(1,1,1); 
       vec3 reflectedLight = (ambient + Id) * Color.rgb + Is * whiteColor;
       float dFog = 0.015;
-      vec3 fogColor = vec3(0,0,0.8);
+      vec3 fogColor = vec3(0.05,0.05,0.05);
       float x = dFog * vertex.z;
       float s = exp(-x*x);
       vec3 interplatedColor = s*reflectedLight + (1-s)*fogColor;
-      Color.rgb = min(reflectedLight, whiteColor);
+      Color.rgb = min(interplatedColor, whiteColor);
    }
 }
