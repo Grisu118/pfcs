@@ -38,12 +38,21 @@ public class StormMain extends GLBase1 {
     volatile int speedMultiplication = 1;
 
     Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
+    private boolean fullscreen = false;
+    private FPSAnimator fpsAnimator;
+
+    private int prevHeight;
+    private int prevWidth;
+    private int prevY;
+    private int prevX;
 
 
     //  ---------  Methoden  ----------------------------------
 
     public StormMain() {
         super();
+
+        jFrame.remove(headerPanel);
 
 
         ImageIcon icon = new ImageIcon("res/icon.png");
@@ -77,7 +86,7 @@ public class StormMain extends GLBase1 {
                 }
                 time = System.currentTimeMillis();
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(5);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -126,8 +135,13 @@ public class StormMain extends GLBase1 {
         setShadingLevel(gl, 1);
         setLightPosition(gl, 5, 5, 0);
         gl.glClearColor(0, 0, 0, 1);
-        FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
+        fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
+    }
+
+    @Override
+    public void dispose(GLAutoDrawable drawable) {
+        fpsAnimator.remove(drawable);
     }
 
 
@@ -188,6 +202,30 @@ public class StormMain extends GLBase1 {
             case KeyEvent.VK_A:
                 azimut--;
                 break;
+            case KeyEvent.VK_SPACE:
+                pause = !pause;
+                break;
+            case KeyEvent.VK_F11:
+                if (!fullscreen) {
+                    prevX = jFrame.getX();
+                    prevY = jFrame.getY();
+                    prevWidth = jFrame.getWidth();
+                    prevHeight = jFrame.getHeight();
+                    jFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                    jFrame.dispose();
+                    jFrame.setUndecorated(true);
+                    jFrame.setVisible(true);
+                    canvas.requestFocus();
+                    fullscreen = true;
+                } else {
+                    jFrame.setExtendedState(JFrame.NORMAL);
+                    jFrame.setBounds(prevX, prevY, prevWidth, prevHeight);
+                    jFrame.dispose();
+                    jFrame.setUndecorated(false);
+                    jFrame.setVisible(true);
+                    canvas.requestFocus();
+                    fullscreen = false;
+                }
         }
         canvas.display();
     }
