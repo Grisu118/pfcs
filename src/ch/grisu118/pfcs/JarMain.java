@@ -2,6 +2,7 @@ package ch.grisu118.pfcs;
 
 import ch.grisu118.pfcs.a1.AirTrain;
 import ch.grisu118.pfcs.a2.ParkingCar;
+import ch.grisu118.pfcs.a3.StormMain;
 import ch.grisu118.pfcs.a3.objects.FlyingCuboid;
 
 import javax.swing.*;
@@ -38,7 +39,7 @@ public class JarMain {
                 new ParkingCar();
                 break;
             case EX3:
-                new FlyingCuboid();
+                new StormMain();
                 break;
             default:
                 break;
