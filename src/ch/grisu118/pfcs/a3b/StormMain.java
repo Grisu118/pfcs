@@ -1,35 +1,25 @@
-package ch.grisu118.pfcs.a3;
+package ch.grisu118.pfcs.a3b;
 
 import ch.fhnw.pfcs.GLBase1;
-import ch.grisu118.pfcs.a1.Train;
-import ch.grisu118.pfcs.a3.objects.Cuboid;
+import ch.fhnw.pfcs.objects.Cuboid;
 import ch.grisu118.pfcs.a3.objects.RotObjects;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
- *
- *
- * @author Benjamin Leber
+ * Created by benjamin on 04.11.2015.
  */
-public class FlyingCuboid extends GLBase1 {
+public class StormMain extends GLBase1 {
+
     //  ---------  globale Daten  ---------------------------
 
-/*
-    float left = -0.03f, right = 0.03f;             // ViewingVolume
-    float bottom = left, top = right;
-    float near = 0.4f, far = 2000;
-    float dCam = 40;
-*/
     float left = -0.06f, right = 0.06f;
     float bottom, top;
     float near = 0.4f, far = 2000;
@@ -38,20 +28,22 @@ public class FlyingCuboid extends GLBase1 {
     float elevation = 0;            // Orientierung
     float azimut = 0;
 
+    private Thread t;
+    private RotObjects[] objects = new RotObjects[1200];
+
     volatile long time = 0;
     volatile boolean run = true;
     volatile boolean pause = false;
 
     volatile int speedMultiplication = 1;
 
+
     //  ---------  Methoden  ----------------------------------
 
-    private Thread t;
-    private RotObjects[] objects = new RotObjects[1200];
-
-
-    public FlyingCuboid() {
+    public StormMain() {
         super();
+
+
         ImageIcon icon = new ImageIcon("res/icon.png");
         if (icon.getIconHeight() < 0) {
             icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
@@ -60,9 +52,7 @@ public class FlyingCuboid extends GLBase1 {
         jFrame.setIconImage(icon.getImage());
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
 
-        for (int i = 0; i < objects.length; i++) {
-            objects[i] = new Cuboid(this);
-        }
+        regenerateObjects(1000);
 
         runSimulation();
     }
@@ -104,6 +94,27 @@ public class FlyingCuboid extends GLBase1 {
         }
     }
 
+    public void regenerateObjects(int n) {
+        objects = new RotObjects[n];
+        for (int i = 0; i < objects.length; i++) {
+            objects[i] = generateObject();
+        }
+
+        /*
+        for(int i = 0; i < 100000; i++) {
+            for(RotObjects a : objects) a.update(0.1);
+        }
+        */
+    }
+
+    public FlyingCuboid generateObject() {
+
+        return new FlyingCuboid(new Cuboid(Math.random(), Math.random(), Math.random(), this),
+                (float)Math.random()*10 + 1,
+                ((float)Math.random()-0.5f)*4, ((float)Math.random()-0.5f)*4, -100,
+                (float)Math.random(), (float)Math.random(), (float)Math.random(), (float)Math.random()*10);
+    }
+
     //  ----------  OpenGL-Events   ---------------------------
 
     @Override
@@ -113,8 +124,6 @@ public class FlyingCuboid extends GLBase1 {
         setShadingLevel(gl, 1);
         setLightPosition(gl, 5, 5, 0);
         gl.glClearColor(0, 0, 0, 1);
-
-
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
     }
@@ -124,12 +133,14 @@ public class FlyingCuboid extends GLBase1 {
     public void display(GLAutoDrawable drawable) {
         GL3 gl = drawable.getGL().getGL3();
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
+
+        // ------  Kamera-System  -------
+
         setCameraSystem(gl, dCam, elevation, azimut);
         setColor(0.8f, 0.8f, 0f, 1);
         setLightPosition(gl, 0, 6, 10);
-        for (RotObjects o : objects) {
-            o.draw(gl);
-        }
+        drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
+        for(RotObjects o : objects) o.draw(gl);
     }
 
 
@@ -139,70 +150,39 @@ public class FlyingCuboid extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
+
+        // -----  Projektionsmatrix festlegen  -----
         float aspect = (float) height / width;
         bottom = aspect * left;
         top = aspect * right;
-        // -----  Projektionsmatrix festlegen  -----
         setPerspectiveProjection(gl, left, right, bottom, top, near, far);
     }
 
 
-    public boolean checkAreaX(double x) {
-        return x >= -8 && x <= 8;
-    }
-    public boolean checkAreaY(double y) {
-        return y >= -8 && y <= 8;
-    }
-    public boolean checkZ(double z) {
-        return z <= -near && z >= -far;
-    }
-
-    public float getLeft() {
-        return left;
-    }
-
-    public float getRight() {
-        return right;
-    }
-
-    public float getBottom() {
-        return bottom;
-    }
-
-    public float getTop() {
-        return top;
-    }
-
-    public float getNear() {
-        return near;
-    }
-
-    public float getFar() {
-        return far;
-    }
-
     //  -----------  main-Methode  ---------------------------
 
     public static void main(String[] args) {
-        new FlyingCuboid();
+        new StormMain();
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_SPACE:
-                pause = !pause;
+        int code = e.getKeyCode();
+        switch(code) {
+            case KeyEvent.VK_D:
+                azimut++;
                 break;
-            case KeyEvent.VK_0:
-                speedMultiplication = 0;
+            case KeyEvent.VK_W:
+                elevation++;
                 break;
-            case KeyEvent.VK_1:
-                speedMultiplication = 1;
+            case KeyEvent.VK_S:
+                elevation--;
                 break;
-            case KeyEvent.VK_2:
-                speedMultiplication = 2;
+            case KeyEvent.VK_A:
+                azimut--;
                 break;
         }
-        canvas.repaint();
+        canvas.display();
     }
+
 }

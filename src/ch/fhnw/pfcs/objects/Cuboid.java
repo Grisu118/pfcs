@@ -64,4 +64,8 @@ public class Cuboid {
         rd.putVertex(D.x, D.y, D.z);
         rd.putVertex(A.x, A.y, A.z);
     }
+
+    public MyRenderer1 getRd() {
+        return rd;
+    }
 }

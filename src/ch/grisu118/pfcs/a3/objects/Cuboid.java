@@ -38,7 +38,7 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
         do {
             y = ((float) r.nextInt((int) ((2 * 10) * 100))) / 100 - 10;
         } while (!rd.checkAreaY(y));
-        z = -rd.getFar();
+        z = -2000;
         this.rotAxis = new Vec3(r.nextFloat(), r.nextFloat(), r.nextFloat());
         this.rotAngle = r.nextDouble();
         this.rotSpeed = r.nextInt(200);
@@ -54,8 +54,12 @@ public class Cuboid extends ch.fhnw.pfcs.objects.Cuboid implements RotObjects {
 
     @Override
     public void draw(GL3 gl) {
-        rd.setModelViewMatrix(gl, Mat4.multiply(Mat4.translate((float) x, (float) y, (float) z), Mat4.rotate((float) rotAngle, rotAxis)));
+        rd.pushMatrix(gl);
+        rd.translate(gl, x, y, z);
+        rd.rotate(gl, (float) rotAngle, rotAxis.x, rotAxis.y, rotAxis.z);
+                //rd.setModelViewMatrix(gl, Mat4.multiply(Mat4.translate((float) x, (float) y, (float) z), Mat4.rotate((float) rotAngle, rotAxis)));
         super.draw(gl);
+        rd.popMatrix(gl);
     }
 
     @Override
