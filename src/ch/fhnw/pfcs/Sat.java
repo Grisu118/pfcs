@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * @author Benjamin Leber
- *         Längeneinheit E = 1000km = 10^6m
+ *         Lï¿½ngeneinheit E = 1000km = 10^6m
  */
 public class Sat extends GLBase1 {
 
@@ -43,13 +43,17 @@ public class Sat extends GLBase1 {
 
     double r1 = 42.05; //Bahnradius
     double v1 = Math.sqrt(GM / r1); //Bahngeschwindigkeit
-    Satellit sat1 = new Satellit(r1, 0, 0, v1, 0.25 );
+    Satellit sat1 = new Satellit(r1, 0, 0, v1, 0.25 ); //StationÃ¤r
+    double r2 = 26.56;
+    double v2 = Math.sqrt(GM / r2);
+    Satellit sat2 = new Satellit(r2, 0, 0, v2, 0.25 ); //GPS
 
     RotKoerper rotKoerper = new RotKoerper(this);
 
     private FPSAnimator fpsAnimator;
-    private float elevation = 0;
-    private float azimut = 0;
+    float dCam = 60;
+    private float elevation = 10;
+    private float azimut = 40;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -90,7 +94,7 @@ public class Sat extends GLBase1 {
     }
 
     void zeichneErde(GL3 gl) {
-        rotKoerper.zeichneKugel(gl, (float) rE, 10, 10);
+        rotKoerper.zeichneKugel(gl, (float) rE, 15, 15);
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -100,8 +104,11 @@ public class Sat extends GLBase1 {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
         gl.glClearColor(1, 1, 1, 1);                         // Hintergrundfarbe (RGBA)
+
         fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
+
+        System.out.println(String.format("Geschwindigkeit Satelit 1: %.2f km/s", v1*1000));
     }
 
 
@@ -110,17 +117,28 @@ public class Sat extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT | GL3.GL_DEPTH_BUFFER_BIT);
         // ------  Kamera-System  -------
-        float dCam = 10;                 // Abstand vom absoluten Nullpunkt
-        setCameraSystem(gl, dCam, elevation, azimut);
-        setColor(0, 0, 0);
         loadIdentity(gl);
+        setColor(0, 0, 0);
+        setShadingLevel(gl, 0);
+        setCameraSystem(gl, dCam, elevation, azimut);
         drawAxis(gl, 50, 50, 50);
         setColor(Color.BLUE);
+        setShadingLevel(gl, 1);
+        setLightPosition(gl, -20, 50, 80);
         zeichneErde(gl);
         setColor(Color.RED);
+        pushMatrix(gl);
+        rotate(gl, -90, 1, 0, 0);
         sat1.draw(gl);
+        popMatrix(gl);
+        pushMatrix(gl);
+        rotate(gl, 55, 0, 0, 1);
+        rotate(gl, -90, 1, 0, 0);
+        sat2.draw(gl);
+        popMatrix(gl);
         for (int i = 0; i<60; i++) {
             sat1.move(dt);
+            sat2.move(dt);
         }
 
 
@@ -201,8 +219,10 @@ public class Sat extends GLBase1 {
         }
 
         public void draw(GL3 gl) {
+            pushMatrix(gl);
             translate(gl, x, y, z);
             rotKoerper.zeichneKugel(gl, (float) r, 10,10);
+            popMatrix(gl);
         }
     }
 
