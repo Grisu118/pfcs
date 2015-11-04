@@ -1,7 +1,9 @@
-package ch.grisu118.pfcs.a3b;
+package ch.grisu118.pfcs.a3;
 
 import ch.fhnw.pfcs.GLBase1;
 import ch.fhnw.pfcs.objects.Cuboid;
+import ch.grisu118.pfcs.a3.objects.FlyingCuboid;
+import ch.grisu118.pfcs.a3.objects.RotObjects;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;

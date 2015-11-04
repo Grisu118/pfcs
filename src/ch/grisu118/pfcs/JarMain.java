@@ -2,7 +2,7 @@ package ch.grisu118.pfcs;
 
 import ch.grisu118.pfcs.a1.AirTrain;
 import ch.grisu118.pfcs.a2.ParkingCar;
-import ch.grisu118.pfcs.a3.FlyingCuboid;
+import ch.grisu118.pfcs.a3.objects.FlyingCuboid;
 
 import javax.swing.*;
 

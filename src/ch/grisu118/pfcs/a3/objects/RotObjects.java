@@ -1,4 +1,4 @@
-package ch.grisu118.pfcs.a3b;
+package ch.grisu118.pfcs.a3.objects;
 
 import javax.media.opengl.GL3;
 

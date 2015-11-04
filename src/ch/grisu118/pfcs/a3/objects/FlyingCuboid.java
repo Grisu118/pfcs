@@ -1,4 +1,4 @@
-package ch.grisu118.pfcs.a3b;
+package ch.grisu118.pfcs.a3.objects;
 
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.pfcs.objects.Cuboid;
