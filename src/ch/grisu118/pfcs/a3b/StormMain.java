@@ -207,6 +207,7 @@ public class StormMain extends GLBase1 {
                 break;
             case KeyEvent.VK_F11:
                 if (!fullscreen) {
+                    pause = true;
                     prevX = jFrame.getX();
                     prevY = jFrame.getY();
                     prevWidth = jFrame.getWidth();
@@ -217,7 +218,9 @@ public class StormMain extends GLBase1 {
                     jFrame.setVisible(true);
                     canvas.requestFocus();
                     fullscreen = true;
+                    pause = false;
                 } else {
+                    pause = true;
                     jFrame.setExtendedState(JFrame.NORMAL);
                     jFrame.setBounds(prevX, prevY, prevWidth, prevHeight);
                     jFrame.dispose();
@@ -225,6 +228,7 @@ public class StormMain extends GLBase1 {
                     jFrame.setVisible(true);
                     canvas.requestFocus();
                     fullscreen = false;
+                    pause = false;
                 }
         }
         canvas.display();
