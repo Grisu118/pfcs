@@ -61,7 +61,7 @@ public class StormMain extends GLBase1 {
         jFrame.setIconImage(icon.getImage());
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
 
-        regenerateObjects(1000);
+        regenerateObjects(4000);
 
         runSimulation();
     }
@@ -202,6 +202,9 @@ public class StormMain extends GLBase1 {
                 break;
             case KeyEvent.VK_SPACE:
                 pause = !pause;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                System.exit(0);
                 break;
             case KeyEvent.VK_F11:
                 if (!fullscreen) {
