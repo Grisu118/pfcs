@@ -9,7 +9,10 @@ import com.jogamp.opengl.util.FPSAnimator;
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Hashtable;
 
 /**
  * Created by benjamin on 04.11.2015.
@@ -33,9 +36,10 @@ public class StormMain extends GLBase1 {
     volatile boolean run = true;
     volatile boolean pause = false;
 
-    volatile int speedMultiplication = 1;
+    volatile float speedMultiplication = 1;
 
     Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
+    Color cubColor = Color.green;
     private boolean fullscreen = false;
     private FPSAnimator fpsAnimator;
 
@@ -50,7 +54,8 @@ public class StormMain extends GLBase1 {
     public StormMain() {
         super();
         vShader = "vShader_fog.glsl";
-        jFrame.remove(headerPanel);
+
+        createUI();
 
 
         ImageIcon icon = new ImageIcon("res/icon.png");
@@ -154,10 +159,13 @@ public class StormMain extends GLBase1 {
         setColor(0.8f, 0.8f, 0f, 1);
         setLightPosition(gl, 0, 6, 10);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
+        setColor(cubColor);
         for(RotObjects o : objects) {
             if (o == null) {
+                System.err.println("Error");
                 continue;
             }
+
             o.draw(gl);
         }
     }
@@ -209,6 +217,7 @@ public class StormMain extends GLBase1 {
             case KeyEvent.VK_F11:
                 if (!fullscreen) {
                     pause = true;
+                    headerPanel.setVisible(false);
                     prevX = jFrame.getX();
                     prevY = jFrame.getY();
                     prevWidth = jFrame.getWidth();
@@ -222,6 +231,7 @@ public class StormMain extends GLBase1 {
                     pause = false;
                 } else {
                     pause = true;
+                    headerPanel.setVisible(true);
                     jFrame.setExtendedState(JFrame.NORMAL);
                     jFrame.setBounds(prevX, prevY, prevWidth, prevHeight);
                     jFrame.dispose();
@@ -233,6 +243,45 @@ public class StormMain extends GLBase1 {
                 }
         }
         canvas.display();
+    }
+
+    private void createUI() {
+        headerPanel.setLayout(new GridBagLayout());
+        JLabel textLabel= new JLabel("Set Speed");
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridy = 0;
+        headerPanel.add(textLabel, constraints);
+
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 500, 100);
+        speedSlider.addChangeListener(e -> {
+            float val = ((JSlider) e.getSource()).getValue();
+            val /= 100;
+            speedMultiplication = val;
+        });
+        Hashtable labelTable = new Hashtable();
+        labelTable.put(0, new JLabel("0x"));
+        labelTable.put(100, new JLabel("1x"));
+        labelTable.put(500, new JLabel("5x"));
+        speedSlider.setMajorTickSpacing(100);
+        speedSlider.setPaintTicks(true);
+        speedSlider.setPaintLabels(true);
+        speedSlider.setLabelTable(labelTable);
+        constraints.gridy++;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        headerPanel.add(speedSlider, constraints);
+
+        JButton color = new JButton("Color");
+        color.addActionListener(this::colorChooser);
+        headerPanel.add(color, constraints);
+    }
+
+    private void colorChooser(ActionEvent e) {
+        Color c = JColorChooser.showDialog(
+                ((Component)e.getSource()).getParent(),
+                "Choose Color", Color.blue);
+        if (c != null) {
+            cubColor = c;
+        }
     }
 
 }

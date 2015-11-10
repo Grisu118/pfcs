@@ -16,7 +16,6 @@ public class FlyingCuboid implements RotObjects{
     float phi;
     float speed = (float) (Math.random()*10);
     float rotSpeed = (float) (Math.random()*100);
-    public static float SPEED = 1;
     Cuboid cub;
     MyRenderer1 renderer;
 
