@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
 /**
@@ -245,6 +246,22 @@ public class StormMain extends GLBase1 {
         canvas.display();
     }
 
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        super.mouseMoved(e);
+        if (fullscreen) {
+            if (headerPanel.isVisible()) {
+                if (e.getY() > 10) {
+                    headerPanel.setVisible(false);
+                }
+            } else {
+                if (e.getY() < 5) {
+                    headerPanel.setVisible(true);
+                }
+            }
+        }
+    }
+
     private void createUI() {
         headerPanel.setLayout(new GridBagLayout());
         JLabel textLabel= new JLabel("Set Speed");
@@ -252,7 +269,7 @@ public class StormMain extends GLBase1 {
         constraints.gridy = 0;
         headerPanel.add(textLabel, constraints);
 
-        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 500, 100);
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 100);
         speedSlider.addChangeListener(e -> {
             float val = ((JSlider) e.getSource()).getValue();
             val /= 100;
@@ -262,6 +279,7 @@ public class StormMain extends GLBase1 {
         labelTable.put(0, new JLabel("0x"));
         labelTable.put(100, new JLabel("1x"));
         labelTable.put(500, new JLabel("5x"));
+        labelTable.put(1000, new JLabel("10x"));
         speedSlider.setMajorTickSpacing(100);
         speedSlider.setPaintTicks(true);
         speedSlider.setPaintLabels(true);

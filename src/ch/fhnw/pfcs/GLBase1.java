@@ -17,7 +17,7 @@ import com.jogamp.common.nio.*;
 import ch.fhnw.util.math.*;
 
 public class GLBase1
-        implements WindowListener, GLEventListener, KeyListener, MouseListener, MyRenderer1 {
+        implements WindowListener, GLEventListener, KeyListener, MouseListener, MouseMotionListener, MyRenderer1 {
 
     //  --------------  Default-Werte ----------------------------------------
 
@@ -100,6 +100,7 @@ public class GLBase1
         f.setLayout(new BorderLayout());
         f.setSize(windowWidth, windowHeight);
         f.addWindowListener(this);
+
         GLProfile glp = GLProfile.get(GLProfile.GL3);
         GLCapabilities glCaps = new GLCapabilities(glp);
         glCaps.setDepthBits(24);
@@ -111,6 +112,7 @@ public class GLBase1
         f.setVisible(true);
         canvas.addKeyListener(this);
         canvas.addMouseListener(this);
+        canvas.addMouseMotionListener(this);
     }
 
     ;
@@ -535,4 +537,11 @@ public class GLBase1
     }
 
 
+    @Override
+    public void mouseDragged(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
 }
