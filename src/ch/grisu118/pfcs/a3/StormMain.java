@@ -31,7 +31,7 @@ public class StormMain extends GLBase1 {
     float azimut = 0;
 
     private Thread t;
-    private RotObjects[] objects = new RotObjects[1200];
+    private RotObjects[] objects;
 
     volatile long time = 0;
     volatile boolean run = true;
@@ -40,7 +40,7 @@ public class StormMain extends GLBase1 {
     volatile float speedMultiplication = 1;
 
     Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
-    Color cubColor = Color.green;
+    Color cubColor = Color.blue;
     private boolean fullscreen = false;
     private FPSAnimator fpsAnimator;
 
@@ -161,13 +161,10 @@ public class StormMain extends GLBase1 {
         setLightPosition(gl, 0, 6, 10);
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
         setColor(cubColor);
-        for(RotObjects o : objects) {
-            if (o == null) {
-                System.err.println("Error");
-                continue;
+        if (objects != null) {
+            for (RotObjects o : objects) {
+                o.draw(gl);
             }
-
-            o.draw(gl);
         }
     }
 
