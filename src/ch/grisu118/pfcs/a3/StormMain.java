@@ -16,7 +16,8 @@ import java.awt.event.MouseEvent;
 import java.util.Hashtable;
 
 /**
- * Created by benjamin on 04.11.2015.
+ * Main Class for Storm Exercise.
+ * @author Benjamin Leber
  */
 public class StormMain extends GLBase1 {
 
@@ -61,6 +62,7 @@ public class StormMain extends GLBase1 {
 
         ImageIcon icon = new ImageIcon("res/icon.png");
         if (icon.getIconHeight() < 0) {
+            //noinspection ConstantConditions
             icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
         }
 
@@ -272,7 +274,7 @@ public class StormMain extends GLBase1 {
             val /= 100;
             speedMultiplication = val;
         });
-        Hashtable labelTable = new Hashtable();
+        Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
         labelTable.put(0, new JLabel("0x"));
         labelTable.put(100, new JLabel("1x"));
         labelTable.put(500, new JLabel("5x"));
