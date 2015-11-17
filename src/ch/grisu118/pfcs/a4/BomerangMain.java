@@ -7,6 +7,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 
 /**
@@ -27,8 +28,18 @@ public class BomerangMain extends GLBase1 {
 
     public BomerangMain() {
         super();
+
+        ImageIcon icon = new ImageIcon("res/icon.png");
+        if (icon.getIconHeight() < 0) {
+            //noinspection ConstantConditions
+            icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
+        }
+
+        jFrame.setIconImage(icon.getImage());
+
         bomerang = new SturmBumerang(this, 25, 20);
         sim.addAnimatable(bomerang);
+
     }
 
     @Override

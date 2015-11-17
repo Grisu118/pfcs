@@ -317,7 +317,7 @@ public class SturmBumerang implements Animatable {
                 -1.17, -1.16, 0.2,   //P
                 -0.38, -0.39, 0.3);   //H1
         rd.copyBuffer(gl, nVertices);
-        gl.glDrawArrays(GL2.GL_TRIANGLES, 0, nVertices);
+        gl.glDrawArrays(GL3.GL_TRIANGLES, 0, nVertices);
 
     }
 
@@ -343,6 +343,7 @@ public class SturmBumerang implements Animatable {
         rd.translate(gl, radius, 0, 0);
         rd.rotate(gl, 55, 0,1,0);
         rd.rotate(gl, beta, 0,0,1);
+        rd.translate(gl, 1.5f,1.5f,0);
         zeichneSturmBumerang(gl);
         rd.popMatrix(gl);
     }
