@@ -1,9 +1,12 @@
 package ch.fhnw.pfcs;//  --------  Interface to OpenGL 3.0  --------------
 //                                        E. Gutknecht Juli 2015
-import javax.media.opengl.*;
-import javax.media.opengl.awt.*;
-import ch.fhnw.util.math.*;
 
+import ch.fhnw.util.math.Mat4;
+import ch.fhnw.util.math.Vec3;
+
+import javax.media.opengl.GL;
+import javax.media.opengl.GL3;
+import javax.media.opengl.awt.GLCanvas;
 import java.awt.*;
 
 

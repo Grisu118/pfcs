@@ -1,7 +1,6 @@
 package ch.grisu118.pfcs.a4;
 
 import ch.fhnw.pfcs.GLBase1;
-import ch.grisu118.pfcs.a3.objects.RotObjects;
 import ch.grisu118.pfcs.util.Animatable;
 import ch.grisu118.pfcs.util.Simulator;
 import com.jogamp.opengl.util.FPSAnimator;

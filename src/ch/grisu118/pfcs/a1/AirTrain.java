@@ -3,21 +3,16 @@ package ch.grisu118.pfcs.a1;
 import ch.fhnw.pfcs.GLBase1;
 import com.jogamp.opengl.util.FPSAnimator;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL3;
 import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Main Class for Luftkissenbahn Übung
+ * Main Class for Luftkissenbahn ï¿½bung
  *
  * @author Benjamin Leber
  */

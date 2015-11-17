@@ -5,16 +5,19 @@ package ch.fhnw.pfcs;//  -------------   JOGL Basis-Programm (fuer Erweiterungen
 //  http://www.lighthouse3d.com/cg-topics/code-samples/opengl-3-3-glsl-1-5-sample/
 //
 
+import ch.fhnw.util.math.Mat4;
+import ch.fhnw.util.math.Vec3;
+import ch.fhnw.util.math.Vec4;
+import com.jogamp.common.nio.Buffers;
+
+import javax.media.opengl.*;
+import javax.media.opengl.awt.GLCanvas;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.media.opengl.*;
-import javax.media.opengl.awt.*;
-import javax.swing.*;
-import java.nio.*;
-import java.util.*;
-
-import com.jogamp.common.nio.*;
-import ch.fhnw.util.math.*;
+import java.nio.FloatBuffer;
+import java.util.Arrays;
+import java.util.Stack;
 
 public class GLBase1
         implements WindowListener, GLEventListener, KeyListener, MouseListener, MouseMotionListener, MyRenderer1 {

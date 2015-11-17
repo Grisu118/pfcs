@@ -1,10 +1,9 @@
 package ch.fhnw.pfcs.objects;//  -------------   Rotations-Koerper  (Kugel, Torus, Zylinder)  ------------
 //                                                            E.Gutknecht, Juli 2015
-import javax.media.opengl.*;
-import javax.media.opengl.awt.*;
 
 import ch.fhnw.pfcs.MyRenderer1;
-import ch.fhnw.util.math.*;
+
+import javax.media.opengl.GL3;
 
 public class RotKoerper
 {

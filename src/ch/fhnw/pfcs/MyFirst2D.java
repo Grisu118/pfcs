@@ -1,5 +1,7 @@
 package ch.fhnw.pfcs;//  -------------   JOGL 2D-Programm  -------------------
-import javax.media.opengl.*;
+
+import javax.media.opengl.GL3;
+import javax.media.opengl.GLAutoDrawable;
 
 public class MyFirst2D extends GLBase1
 {

@@ -2,8 +2,10 @@ package ch.fhnw.pfcs; /**
 * This is a port of some sample code from:
 * http://www.lighthouse3d.com/cg-topics/code-samples/opengl-3-3-glsl-1-5-sample/
 */
-import java.io.*;
-import javax.media.opengl.*;
+
+import javax.media.opengl.GL3;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 public class GLShaders
 {
 

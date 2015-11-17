@@ -29,9 +29,9 @@
 
 package ch.fhnw.util.math;
 
-import java.util.Collection;
-
 import ch.fhnw.util.IFloatArrayCopyProvider;
+
+import java.util.Collection;
 
 /**
  * 2D vector for basic vector algebra. Instances are immutable.

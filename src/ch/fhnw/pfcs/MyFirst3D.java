@@ -3,7 +3,8 @@ package ch.fhnw.pfcs;//  -------------   JOGL 3D-Programm  -------------------
 import ch.fhnw.pfcs.objects.Cuboid;
 import ch.fhnw.util.math.Vec3;
 
-import javax.media.opengl.*;
+import javax.media.opengl.GL3;
+import javax.media.opengl.GLAutoDrawable;
 import java.awt.event.KeyEvent;
 
 public class MyFirst3D extends GLBase1 {

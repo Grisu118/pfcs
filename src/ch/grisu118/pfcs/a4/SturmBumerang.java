@@ -10,7 +10,8 @@ package ch.grisu118.pfcs.a4;// ----------  Bumerang-Modell  --------------------
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.grisu118.pfcs.util.Animatable;
 
-import javax.media.opengl.*;
+import javax.media.opengl.GL2;
+import javax.media.opengl.GL3;
 
 /**
  * F. Schramka (2014)
