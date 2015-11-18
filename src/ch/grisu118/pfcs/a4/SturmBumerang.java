@@ -1,12 +1,5 @@
 package ch.grisu118.pfcs.a4;// ----------  Bumerang-Modell  --------------------------
 
-
-// F. Schramka (2014)
-// Inspiriert vom Bumerang aus Zelda: Ocarina of Time
-
-// adaptiert durch E.Gutknecht Nov. 2015
-// (OpenGL3, und Pkte H1 und O, Holzfarbe)
-
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.grisu118.pfcs.util.Animatable;
 
