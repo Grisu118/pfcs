@@ -68,7 +68,8 @@ public class StormMain extends GLBase1 {
         }
 
         jFrame.setIconImage(icon.getImage());
-        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        //jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         regenerateObjects(4000);
         sim = new Simulator(objects);

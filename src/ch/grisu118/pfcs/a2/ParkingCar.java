@@ -59,7 +59,7 @@ public class ParkingCar extends GLBase1 {
         if (icon.getIconHeight() < 0) {
             icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
         }
-
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         jFrame.setIconImage(icon.getImage());
 
         headerPanel.setLayout(new BorderLayout());

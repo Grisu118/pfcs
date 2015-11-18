@@ -479,7 +479,7 @@ public class GLBase1
     //  ---------  Window-Events  --------------------
 
     public void windowClosing(WindowEvent e) {
-        System.exit(0);
+        //System.exit(0);
     }
 
     public void windowActivated(WindowEvent e) {

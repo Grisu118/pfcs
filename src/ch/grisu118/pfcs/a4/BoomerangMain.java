@@ -37,6 +37,7 @@ public class BoomerangMain extends GLBase1 {
         }
 
         jFrame.setIconImage(icon.getImage());
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         bomerang = new StormBoomerang(this, 25, 0);
         bomerang2 = new StormBoomerang(this, 30, 20);
@@ -50,7 +51,6 @@ public class BoomerangMain extends GLBase1 {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
 
-        setLightPosition(gl, 5, 5, 0);
         new Thread(sim).start();
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
@@ -65,9 +65,9 @@ public class BoomerangMain extends GLBase1 {
         // ------  Kamera-System  -------
         setShadingLevel(gl, 0);
         drawAxis(gl, 8, 8, 8);
-        setShadingLevel(gl, 1);
+        //setShadingLevel(gl, 1);
         setCameraSystem(gl, dCam, elevation, azimut);
-        setLightPosition(gl, 0, 6, 10);
+        //setLightPosition(gl, 1, 0, 0);
                  //  Koordinatenachsen
         bomerang.draw(gl);
         bomerang2.draw(gl);
