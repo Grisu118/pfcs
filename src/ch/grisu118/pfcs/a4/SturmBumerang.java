@@ -31,7 +31,7 @@ public class SturmBumerang implements Animatable {
 
     //Animatable
     private float alpha = 0; //Rotation auf der Bahn
-    private float beta = 0;//Math.round(Math.random()*360); //Rotation des Bummerangs
+    private float beta = Math.round(Math.random()*360); //Rotation des Bummerangs
     private float gamma; //Kippwinkel der Bahn
     private float radius;
 

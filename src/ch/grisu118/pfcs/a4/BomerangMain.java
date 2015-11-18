@@ -17,7 +17,7 @@ public class BomerangMain extends GLBase1 {
 
     float left = -35, right = 35;
     float bottom, top;
-    float near = -10, far = 1000;
+    float near = -20, far = 100;
 
     float dCam = 20;                 // Abstand vom absoluten Nullpunkt
     float elevation = 15;            // Orientierung
@@ -25,6 +25,7 @@ public class BomerangMain extends GLBase1 {
 
     private Simulator sim = new Simulator();
     private final Animatable bomerang;
+    private final SturmBumerang bomerang2;
 
     public BomerangMain() {
         super();
@@ -37,8 +38,10 @@ public class BomerangMain extends GLBase1 {
 
         jFrame.setIconImage(icon.getImage());
 
-        bomerang = new SturmBumerang(this, 25, 20);
+        bomerang = new SturmBumerang(this, 25, 0);
+        bomerang2 = new SturmBumerang(this, 30, 20);
         sim.addAnimatable(bomerang);
+        sim.addAnimatable(bomerang2);
 
     }
 
@@ -67,6 +70,7 @@ public class BomerangMain extends GLBase1 {
         setLightPosition(gl, 0, 6, 10);
                  //  Koordinatenachsen
         bomerang.draw(gl);
+        bomerang2.draw(gl);
     }
 
 
