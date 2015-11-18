@@ -99,6 +99,7 @@ public class GLBase1
     private void createFrame()                         // Fenster erzeugen
     {
         jFrame = new JFrame(windowTitle);
+        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JFrame f = jFrame;
         f.setLayout(new BorderLayout());
         f.setSize(windowWidth, windowHeight);
