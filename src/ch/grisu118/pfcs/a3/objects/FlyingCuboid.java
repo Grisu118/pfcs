@@ -2,13 +2,15 @@ package ch.grisu118.pfcs.a3.objects;
 
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.pfcs.objects.Cuboid;
+import ch.grisu118.pfcs.a3.StormMain;
+import ch.grisu118.pfcs.util.Animatable;
 
 import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 04.11.2015.
  */
-public class FlyingCuboid implements RotObjects{
+public class FlyingCuboid implements Animatable{
 
     float v;
     float px, py, pz;
@@ -17,11 +19,11 @@ public class FlyingCuboid implements RotObjects{
     float speed = (float) (Math.random()*10);
     float rotSpeed = (float) (Math.random()*100);
     Cuboid cub;
-    MyRenderer1 renderer;
+    StormMain renderer;
 
     public FlyingCuboid(Cuboid cub,
                         float v, float px, float py, float pz,
-                        float rx, float ry, float rz, float rv) {
+                        float rx, float ry, float rz, float rv, StormMain rd) {
         this.v = v;
         this.px = px;
         this.py = py;
@@ -31,7 +33,7 @@ public class FlyingCuboid implements RotObjects{
         this.rv = rv;
         this.pz = pz;
         this.cub = cub;
-        renderer = cub.getRd();
+        renderer = rd;
 
         phi = 0;
     }
@@ -46,32 +48,32 @@ public class FlyingCuboid implements RotObjects{
     }
 
     @Override
+    public void update(double dt) {
+        setZ(getZ() + getSpeed() * dt * renderer.getSpeedMultiplication());
+        setRotAngle(getRotAngle() + getRotSpeed() * dt);
+    }
+
     public void setRotAngle(double angle) {
         this.phi = (float)angle%360;
     }
 
-    @Override
     public double getRotAngle() {
         return this.phi;
     }
 
-    @Override
     public void setZ(double z) {
         this.pz = (float) z;
         if(pz > 1.0) pz = -100;
     }
 
-    @Override
     public double getZ() {
         return this.pz;
     }
 
-    @Override
     public double getSpeed() {
         return this.speed;
     }
 
-    @Override
     public double getRotSpeed() {
         return this.rotSpeed;
     }

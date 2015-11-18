@@ -15,7 +15,7 @@ import javax.media.opengl.GL3;
  *
  * @author F.Schramka, E.Gutkneckt, Benjamin Leber
  */
-public class SturmBumerang implements Animatable {
+public class StormBoomerang implements Animatable {
 
     //  ---------  globale Variabeln  -----------------
 
@@ -32,7 +32,7 @@ public class SturmBumerang implements Animatable {
 
     //  --------  Methoden  --------------------------
 
-    public SturmBumerang(MyRenderer1 rd, float radius, float gamma) {
+    public StormBoomerang(MyRenderer1 rd, float radius, float gamma) {
         this.rd = rd;
         this.gamma = gamma;
         this.radius = radius;

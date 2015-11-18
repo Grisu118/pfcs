@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 /**
  * Created by benjamin on 16.11.2015.
  */
-public class BomerangMain extends GLBase1 {
+public class BoomerangMain extends GLBase1 {
 
     float left = -35, right = 35;
     float bottom, top;
@@ -25,9 +25,9 @@ public class BomerangMain extends GLBase1 {
 
     private Simulator sim = new Simulator();
     private final Animatable bomerang;
-    private final SturmBumerang bomerang2;
+    private final StormBoomerang bomerang2;
 
-    public BomerangMain() {
+    public BoomerangMain() {
         super();
 
         ImageIcon icon = new ImageIcon("res/icon.png");
@@ -38,8 +38,8 @@ public class BomerangMain extends GLBase1 {
 
         jFrame.setIconImage(icon.getImage());
 
-        bomerang = new SturmBumerang(this, 25, 0);
-        bomerang2 = new SturmBumerang(this, 30, 20);
+        bomerang = new StormBoomerang(this, 25, 0);
+        bomerang2 = new StormBoomerang(this, 30, 20);
         sim.addAnimatable(bomerang);
         sim.addAnimatable(bomerang2);
 
@@ -118,6 +118,6 @@ public class BomerangMain extends GLBase1 {
     }
 
     public static void main(String[] args) {
-        new BomerangMain();
+        new BoomerangMain();
     }
 }

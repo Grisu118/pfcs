@@ -1,5 +1,6 @@
 package ch.grisu118.pfcs.util;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,6 +15,11 @@ public class Simulator implements Runnable {
 
     public Simulator() {
         animatables = new HashSet<>();
+        oldTime = System.currentTimeMillis();
+    }
+
+    public Simulator(Animatable[] a) {
+        animatables = new HashSet<>(Arrays.asList(a));
         oldTime = System.currentTimeMillis();
     }
 

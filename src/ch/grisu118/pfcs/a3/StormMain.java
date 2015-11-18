@@ -3,7 +3,8 @@ package ch.grisu118.pfcs.a3;
 import ch.fhnw.pfcs.GLBase1;
 import ch.fhnw.pfcs.objects.Cuboid;
 import ch.grisu118.pfcs.a3.objects.FlyingCuboid;
-import ch.grisu118.pfcs.a3.objects.RotObjects;
+import ch.grisu118.pfcs.util.Animatable;
+import ch.grisu118.pfcs.util.Simulator;
 import com.jogamp.opengl.util.FPSAnimator;
 
 import javax.media.opengl.GL3;
@@ -17,6 +18,7 @@ import java.util.Hashtable;
 
 /**
  * Main Class for Storm Exercise.
+ *
  * @author Benjamin Leber
  */
 public class StormMain extends GLBase1 {
@@ -31,19 +33,15 @@ public class StormMain extends GLBase1 {
     float elevation = 0;            // Orientierung
     float azimut = 0;
 
-    private Thread t;
-    private RotObjects[] objects;
+    private Animatable[] objects;
 
-    volatile long time = 0;
-    volatile boolean run = true;
-    volatile boolean pause = false;
-
-    volatile float speedMultiplication = 1;
+    private volatile float speedMultiplication = 1;
 
     Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
     Color cubColor = Color.blue;
     private boolean fullscreen = false;
     private FPSAnimator fpsAnimator;
+    private Simulator sim;
 
     private int prevHeight;
     private int prevWidth;
@@ -67,69 +65,32 @@ public class StormMain extends GLBase1 {
         }
 
         jFrame.setIconImage(icon.getImage());
-        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
+        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
         regenerateObjects(4000);
-
-        runSimulation();
-    }
-
-    private void runSimulation() {
-
-        run = false;
-        //noinspection StatementWithEmptyBody
-        while (t != null && t.isAlive()) {
-            //wait
-        }
-        run = true;
-        t = new Thread(() -> {
-            while (run) {
-                if (time == 0) {
-                    update(0);
-                } else {
-                    float dt = (System.currentTimeMillis() - time) * 0.001f;
-                    update(dt);
-                }
-                time = System.currentTimeMillis();
-                try {
-                    Thread.sleep(5);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        t.start();
-    }
-
-    void update(float dt) {
-        if (!pause) {
-            for (RotObjects o : objects) {
-                o.setZ(o.getZ() + o.getSpeed() * dt * speedMultiplication);
-                o.setRotAngle(o.getRotAngle() + o.getRotSpeed() * dt);
-            }
-        }
+        sim = new Simulator(objects);
+        new Thread(sim).start();
     }
 
     public void regenerateObjects(int n) {
-        objects = new RotObjects[n];
+        objects = new Animatable[n];
         for (int i = 0; i < objects.length; i++) {
             objects[i] = generateObject();
         }
 
-
-        for(int i = 0; i < 100; i++) {
-            update(0.1f);
+        for (int i = 0; i < 100; i++) {
+            for (Animatable object : objects) {
+                object.update(0.1);
+            }
         }
-
     }
 
     public FlyingCuboid generateObject() {
 
         return new FlyingCuboid(cub,
-                (float)Math.random()*10 + 1,
-                ((float)Math.random()-0.5f)*4, ((float)Math.random()-0.5f)*4, -100,
-                (float)Math.random(), (float)Math.random(), (float)Math.random(), (float)Math.random()*10);
+                (float) Math.random() * 10 + 1,
+                ((float) Math.random() - 0.5f) * 4, ((float) Math.random() - 0.5f) * 4, -100,
+                (float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random() * 10, this);
     }
 
     //  ----------  OpenGL-Events   ---------------------------
@@ -164,7 +125,7 @@ public class StormMain extends GLBase1 {
         drawAxis(gl, 8, 8, 8);             //  Koordinatenachsen
         setColor(cubColor);
         if (objects != null) {
-            for (RotObjects o : objects) {
+            for (Animatable o : objects) {
                 o.draw(gl);
             }
         }
@@ -195,7 +156,7 @@ public class StormMain extends GLBase1 {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
-        switch(code) {
+        switch (code) {
             case KeyEvent.VK_D:
                 azimut++;
                 break;
@@ -209,14 +170,14 @@ public class StormMain extends GLBase1 {
                 azimut--;
                 break;
             case KeyEvent.VK_SPACE:
-                pause = !pause;
+                sim.setPause(!sim.isPause());
                 break;
             case KeyEvent.VK_ESCAPE:
                 System.exit(0);
                 break;
             case KeyEvent.VK_F11:
                 if (!fullscreen) {
-                    pause = true;
+                    sim.setPause(true);
                     headerPanel.setVisible(false);
                     prevX = jFrame.getX();
                     prevY = jFrame.getY();
@@ -228,9 +189,9 @@ public class StormMain extends GLBase1 {
                     jFrame.setVisible(true);
                     canvas.requestFocus();
                     fullscreen = true;
-                    pause = false;
+                    sim.setPause(false);
                 } else {
-                    pause = true;
+                    sim.setPause(true);
                     headerPanel.setVisible(true);
                     jFrame.setExtendedState(JFrame.NORMAL);
                     jFrame.setBounds(prevX, prevY, prevWidth, prevHeight);
@@ -239,7 +200,7 @@ public class StormMain extends GLBase1 {
                     jFrame.setVisible(true);
                     canvas.requestFocus();
                     fullscreen = false;
-                    pause = false;
+                    sim.setPause(false);
                 }
         }
         canvas.display();
@@ -263,7 +224,7 @@ public class StormMain extends GLBase1 {
 
     private void createUI() {
         headerPanel.setLayout(new GridBagLayout());
-        JLabel textLabel= new JLabel("Set Speed");
+        JLabel textLabel = new JLabel("Set Speed");
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridy = 0;
         headerPanel.add(textLabel, constraints);
@@ -294,11 +255,15 @@ public class StormMain extends GLBase1 {
 
     private void colorChooser(ActionEvent e) {
         Color c = JColorChooser.showDialog(
-                ((Component)e.getSource()).getParent(),
+                ((Component) e.getSource()).getParent(),
                 "Choose Color", Color.blue);
         if (c != null) {
             cubColor = c;
         }
+    }
+
+    public float getSpeedMultiplication() {
+        return speedMultiplication;
     }
 
 }
