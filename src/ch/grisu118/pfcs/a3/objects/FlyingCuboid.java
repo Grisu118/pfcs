@@ -4,6 +4,7 @@ import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.pfcs.objects.Cuboid;
 import ch.grisu118.pfcs.a3.StormMain;
 import ch.grisu118.pfcs.util.Animatable;
+import sun.text.resources.cldr.yav.FormatData_yav;
 
 import javax.media.opengl.GL3;
 
@@ -12,9 +13,8 @@ import javax.media.opengl.GL3;
  */
 public class FlyingCuboid implements Animatable{
 
-    float v;
     float px, py, pz;
-    float rx, ry, rz, rv;
+    float rx, ry, rz;
     float phi;
     float speed = (float) (Math.random()*10);
     float rotSpeed = (float) (Math.random()*100);
@@ -24,14 +24,25 @@ public class FlyingCuboid implements Animatable{
     public FlyingCuboid(Cuboid cub,
                         float v, float px, float py, float pz,
                         float rx, float ry, float rz, float rv, StormMain rd) {
-        this.v = v;
         this.px = px;
         this.py = py;
         this.rx = rx;
         this.ry = ry;
         this.rz = rz;
-        this.rv = rv;
         this.pz = pz;
+        this.cub = cub;
+        renderer = rd;
+
+        phi = 0;
+    }
+
+    public FlyingCuboid(Cuboid cub, StormMain rd) {
+        this.px = ((float) Math.random() - 0.5f) * 4;
+        this.py = ((float) Math.random() - 0.5f) * 4;
+        this.rx = (float) Math.random();
+        this.ry = (float) Math.random();
+        this.rz = (float) Math.random();
+        this.pz = -100;
         this.cub = cub;
         renderer = rd;
 

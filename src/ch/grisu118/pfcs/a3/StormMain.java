@@ -2,6 +2,8 @@ package ch.grisu118.pfcs.a3;
 
 import ch.fhnw.pfcs.GLBase1;
 import ch.fhnw.pfcs.objects.Cuboid;
+import ch.fhnw.pfcs.objects.RotKoerper;
+import ch.grisu118.pfcs.a3.objects.FlyingBall;
 import ch.grisu118.pfcs.a3.objects.FlyingCuboid;
 import ch.grisu118.pfcs.util.Animatable;
 import ch.grisu118.pfcs.util.Simulator;
@@ -38,6 +40,7 @@ public class StormMain extends GLBase1 {
     private volatile float speedMultiplication = 1;
 
     Cuboid cub = new Cuboid(0.02f, 0.02f, 0.02f, this);
+    RotKoerper ball = new RotKoerper(this);
     Color cubColor = Color.blue;
     private boolean fullscreen = false;
     private FPSAnimator fpsAnimator;
@@ -85,12 +88,12 @@ public class StormMain extends GLBase1 {
         }
     }
 
-    public FlyingCuboid generateObject() {
-
-        return new FlyingCuboid(cub,
-                (float) Math.random() * 10 + 1,
-                ((float) Math.random() - 0.5f) * 4, ((float) Math.random() - 0.5f) * 4, -100,
-                (float) Math.random(), (float) Math.random(), (float) Math.random(), (float) Math.random() * 10, this);
+    public Animatable generateObject() {
+        if (Math.random() > 0.2)
+            return new FlyingCuboid(cub, this);
+        else {
+            return new FlyingBall(ball, this);
+        }
     }
 
     //  ----------  OpenGL-Events   ---------------------------
