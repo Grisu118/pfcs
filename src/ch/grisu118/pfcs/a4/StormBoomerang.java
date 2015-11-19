@@ -331,7 +331,12 @@ public class StormBoomerang implements Animatable {
     public void draw(GL3 gl) {
         rd.pushMatrix(gl);
         rd.rotate(gl, 90, 1,0,0);
-        rd.rotate(gl, gamma, 0,1,0);
+        rd.translate(gl, 0, 0, -4);
+        if (gamma != 0) {
+            rd.translate(gl, 0, 0, (float) (-Math.cos(gamma) * radius));
+            rd.rotate(gl, gamma, 0,1,0);
+        }
+
         rd.rotate(gl, alpha, 0,0,1);
         rd.translate(gl, radius, 0, 0);
         rd.rotate(gl, 55, 0,1,0);
