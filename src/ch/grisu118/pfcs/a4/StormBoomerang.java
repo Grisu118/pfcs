@@ -23,7 +23,7 @@ public class StormBoomerang implements Animatable {
     int nVertices;
 
     //Animatable
-    private float alpha = 0; //Rotation auf der Bahn
+    private float alpha =  Math.round(Math.random()*360); //Rotation auf der Bahn
     private float beta = Math.round(Math.random()*360); //Rotation des Bummerangs
     private float gamma; //Kippwinkel der Bahn
     private float radius;
