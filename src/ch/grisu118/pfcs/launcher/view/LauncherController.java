@@ -29,7 +29,7 @@ public class LauncherController {
             "Stoss mit Reibungsfrei gleitenden Wagen.";
     private static final String EX2_DESC = "Parken mit diversen Fahrzeugen,\nsiehe Beschreibung im UI.";
     private static final String EX3_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
-    private static final String EX4_DESC = "";
+    private static final String EX4_DESC = "Fliegende Bumerangs";
 
     @FXML
     private ComboBox<String> comboBox;
