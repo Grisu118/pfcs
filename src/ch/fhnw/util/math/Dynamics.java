@@ -6,7 +6,7 @@ package ch.fhnw.util.math;
 public abstract class Dynamics {
 
     /** Vector field */
-    abstract double[] f(double[] x);
+    public abstract double[] f(double[] x);
 
     public double[] euler(double[] x, double dt) {
         double[] y = f(x);
