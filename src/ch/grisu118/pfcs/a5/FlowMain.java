@@ -10,9 +10,6 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
 
@@ -27,9 +24,9 @@ public class FlowMain extends GLBase1 {
     volatile boolean run = true;
 
     final float R = 0.3f;
-    final FlowLine line;
+    final FlowLines line;
     boolean isIdeal = true;
-    boolean isCirc = true;
+    boolean isCirc = false;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -48,7 +45,7 @@ public class FlowMain extends GLBase1 {
 
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
 
-        line = new FlowLine();
+        line = new FlowLines();
 
         runSimulation();
     }
@@ -154,54 +151,118 @@ public class FlowMain extends GLBase1 {
         new FlowMain();
     }
 
-    class FlowLine implements Animatable {
+    class FlowLines implements Animatable {
 
-        ConcurrentLinkedDeque<double[]> list;
-        FlowIdeal ideal;
-        FlowCirc circ;
+        ConcurrentLinkedDeque<FlowLine> list;
 
-        FlowLine() {
+
+
+
+        FlowLines() {
             list = new ConcurrentLinkedDeque<>();
-            ideal = new FlowIdeal();
-            circ = new FlowCirc();
 
+            addLines();
         }
 
-        void add() {
-            for(float f = -0.45f; f < 0.49; f += 0.1f) {
-                list.add(new double[]{-1, f});
+        void addLines() {
+            for(float f = -1.01f; f < 1.02; f += 0.05f) {
+                list.add(new FlowLine(f));
+            }
+        }
+
+        void addPoints() {
+            for (FlowLine flowLine : list) {
+                flowLine.add();
             }
         }
 
         @Override
         public void update(double dt) {
             if (isIdeal) {
-                add();
+                addPoints();
             }
-            for (double[] d : list) {
+            list.forEach(flowLine -> flowLine.update(dt));
+        }
+
+        @Override
+        public void draw(GL3 gl) {
+            list.forEach(flowLine -> flowLine.draw(gl));
+        }
+    }
+
+    class FlowLine implements Animatable {
+
+        ConcurrentLinkedDeque<Point> list;
+        FlowIdeal ideal;
+        FlowCirc circ;
+        float f;
+        boolean isBlack = false;
+        int c = 0;
+        private Color color;
+
+        FlowLine(float _f) {
+            list = new ConcurrentLinkedDeque<>();
+            ideal = new FlowIdeal();
+            circ = new FlowCirc();
+            f = _f;
+            color = color.WHITE;
+        }
+
+        void add() {
+            if (c++ > (20)) {
+                changeColor();
+                c = 0;
+            }
+            list.add(new Point(new double[] {-1, f}, color));
+        }
+
+        @Override
+        public void update(double dt) {
+            for (Point p : list) {
                 if (isIdeal)  {
-                    double[] a = ideal.runge(d, dt);
-                    d[0] = a[0];
-                    d[1] = a[1];
+                    double[] a = ideal.runge(p.pos, dt);
+                    p.pos[0] = a[0];
+                    p.pos[1] = a[1];
                 }
                 if (isCirc) {
-                    double[] a = circ.runge(d, dt);
-                    d[0] = a[0];
-                    d[1] = a[1];
+                    double[] a = circ.runge(p.pos, dt);
+                    p.pos[0] = a[0];
+                    p.pos[1] = a[1];
                 }
             }
         }
 
         @Override
         public void draw(GL3 gl) {
-            list.removeIf(d -> d[0] > 1);
+            list.removeIf(p -> p.pos[0] > 1);
             rewindBuffer(gl);
-            gl.glPointSize(2f);
-            for (double[] p : list) {
-                putVertex((float)p[0], (float)p[1], 0);
+            gl.glPointSize(1.5f);
+            for (Point p : list) {
+                setColor(p.c);
+                putVertex((float)p.pos[0], (float)p.pos[1], 0);
             }
             copyBuffer(gl, list.size());
             gl.glDrawArrays(GL3.GL_POINTS, 0, list.size());
+        }
+
+        void changeColor() {
+            if (isBlack) {
+                color = Color.WHITE;
+                isBlack = false;
+            } else {
+                color = Color.DARK_GRAY;
+                isBlack = true;
+            }
+        }
+    }
+
+    class Point {
+        double[] pos;
+        Color c;
+
+        Point(double[] pos, Color c) {
+            this.pos = pos;
+            this.c = c;
         }
     }
 

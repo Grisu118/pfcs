@@ -23,7 +23,7 @@ public class LauncherController {
     private static final String EX2 = "Übung 2 - Fahrendes Auto";
     private static final String EX3 = "Übung 3 - Fliegende Würfel";
     private static final String EX4 = "Übung 4 - Bumerang";
-    private static final String EX5 = "Übung 5 - Ströumung um Zylinder";
+    private static final String EX5 = "Übung 5 - Strömung um Zylinder";
 
     private static final String[] exercises = {EX1, EX2, EX3, EX4, EX5};
 
