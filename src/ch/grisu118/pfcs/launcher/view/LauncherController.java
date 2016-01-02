@@ -5,6 +5,7 @@ import ch.grisu118.pfcs.a2.ParkingCar;
 import ch.grisu118.pfcs.a3.StormMain;
 import ch.grisu118.pfcs.a4.BoomerangMain;
 import ch.grisu118.pfcs.a5.FlowMain;
+import ch.grisu118.pfcs.a6.Storm2Main;
 import ch.grisu118.pfcs.launcher.Main;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -24,8 +25,9 @@ public class LauncherController {
     private static final String EX3 = "Übung 3 - Fliegende Würfel";
     private static final String EX4 = "Übung 4 - Bumerang";
     private static final String EX5 = "Übung 5 - Strömung um Zylinder";
+    private static final String EX6 = "Übung 6 - Fliegende Quader";
 
-    private static final String[] exercises = {EX1, EX2, EX3, EX4, EX5};
+    private static final String[] exercises = {EX1, EX2, EX3, EX4, EX5, EX6};
 
     private static final String EX1_DESC = "Eindimensionale Bewegung\n" +
             "Stoss mit Reibungsfrei gleitenden Wagen.";
@@ -33,6 +35,7 @@ public class LauncherController {
     private static final String EX3_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
     private static final String EX4_DESC = "Fliegende Bumerangs";
     private static final String EX5_DESC = "Strömung Simuliert mit Runge Kutta.";
+    private static final String EX6_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
 
     @FXML
     private ComboBox<String> comboBox;
@@ -77,6 +80,9 @@ public class LauncherController {
             case EX5:
                 infoArea.setText(EX5_DESC);
                 break;
+            case EX6:
+                infoArea.setText(EX6_DESC);
+                break;
             default:
                 infoArea.setText("");
                 break;
@@ -107,6 +113,8 @@ public class LauncherController {
                 break;
             case EX5:
                 SwingUtilities.invokeLater(FlowMain::new);
+            case EX6:
+                SwingUtilities.invokeLater(Storm2Main::new);
                 break;
             default:
                 break;

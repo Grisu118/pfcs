@@ -77,7 +77,6 @@ public class FlyingCuboid extends Dynamics implements Animatable{
         rz = (float) a[2];
         setRotAngle(Math.sqrt(rx*rx + ry*ry + rz*rz) * dt);
         R = R.postMultiply(Mat4.rotate(phi, rx, ry, rz));
-        System.out.println(R);
     }
 
 
