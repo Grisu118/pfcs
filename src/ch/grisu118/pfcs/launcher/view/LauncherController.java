@@ -34,7 +34,7 @@ public class LauncherController {
     private static final String EX2_DESC = "Parken mit diversen Fahrzeugen,\nsiehe Beschreibung im UI.";
     private static final String EX3_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
     private static final String EX4_DESC = "Fliegende Bumerangs";
-    private static final String EX5_DESC = "Strömung Simuliert mit Runge Kutta.";
+    private static final String EX5_DESC = "Strömung Simuliert mit Runge Kutta.\nZufälliges erzeugen von Punkten mit Taste 4 ein und ausschalten!";
     private static final String EX6_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
 
     @FXML

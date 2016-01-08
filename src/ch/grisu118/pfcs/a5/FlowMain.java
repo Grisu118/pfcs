@@ -27,10 +27,12 @@ public class FlowMain extends GLBase1 {
     final FlowLines line;
     boolean isIdeal = true;
     boolean isCirc = false;
+    private boolean random = false;
 
     //  ---------  Methoden  ----------------------------------
 
     private Thread t;
+
 
     public FlowMain() {
 
@@ -209,11 +211,15 @@ public class FlowMain extends GLBase1 {
         }
 
         void add() {
-            if (c++ > (20)) {
-                changeColor();
-                c = 0;
+            if (random) {
+                list.add(new Point(new double[]{-1, Math.random()*2-1}, color.YELLOW));
+            } else {
+                if (c++ > (20)) {
+                    changeColor();
+                    c = 0;
+                }
+                list.add(new Point(new double[]{-1, f}, color));
             }
-            list.add(new Point(new double[] {-1, f}, color));
         }
 
         @Override
@@ -307,6 +313,9 @@ public class FlowMain extends GLBase1 {
             case KeyEvent.VK_3:
                 isCirc = true;
                 isIdeal = true;
+                break;
+            case KeyEvent.VK_4:
+                random = !random;
                 break;
         }
     }
