@@ -32,6 +32,7 @@ public class FlowMain extends GLBase1 {
     //  ---------  Methoden  ----------------------------------
 
     private Thread t;
+    private float phi;
 
 
     public FlowMain() {
@@ -83,6 +84,10 @@ public class FlowMain extends GLBase1 {
 
     void update(float dt) {
         line.update(dt);
+        if (isCirc) {
+            phi += 100*dt;
+            phi %= 360;
+        }
     }
 
 
@@ -107,7 +112,18 @@ public class FlowMain extends GLBase1 {
         gl.glClear(GL3.GL_COLOR_BUFFER_BIT);
         loadIdentity(gl);
         setColor(1, 1, 1);
-        zeichneKreis(gl, 0, 0, R, false, 20);
+        pushMatrix(gl);
+        rotate(gl, -phi, 0, 0, 1);
+        zeichneKreis(gl, 0, 0, R, false, 40);
+        rewindBuffer(gl);
+        putVertex(0.2, 0.2, 0);
+        putVertex(-0.2, 0.2, 0);
+        putVertex(-0.2, -0.2, 0);
+        putVertex(0.2, -0.2, 0);
+        int nVertices = 4;
+        copyBuffer(gl, nVertices);
+        gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
+        popMatrix(gl);
         line.draw(gl);
     }
 
@@ -154,11 +170,7 @@ public class FlowMain extends GLBase1 {
     }
 
     class FlowLines implements Animatable {
-
         ConcurrentLinkedDeque<FlowLine> list;
-
-
-
 
         FlowLines() {
             list = new ConcurrentLinkedDeque<>();
