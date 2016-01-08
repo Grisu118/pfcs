@@ -138,7 +138,7 @@ public class RotKoerper
       int nPkte = n2;
       float[] xx = new float[nPkte+1];
       float[] zz = new float[nPkte+1];
-      float phi = 2*(float)Math.PI/(nPkte-1);;
+      float phi = 2*(float)Math.PI/(nPkte);;
       for (int i=0; i<=nPkte; i++)
       {  zz[i] =  r*(float)Math.cos(i*phi);
          xx[i] =  r*(float)Math.sin(i*phi);

@@ -113,6 +113,7 @@ public class LauncherController {
                 break;
             case EX5:
                 SwingUtilities.invokeLater(FlowMain::new);
+                break;
             case EX6:
                 SwingUtilities.invokeLater(Storm2Main::new);
                 break;
