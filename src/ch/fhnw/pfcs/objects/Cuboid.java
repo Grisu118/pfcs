@@ -9,7 +9,9 @@ import javax.media.opengl.GL3;
  * Created by benjamin on 14.10.2015.
  */
 public class Cuboid {
-    protected double a, b, c;
+    protected double a;
+    protected double b;
+    protected double c;
     protected MyRenderer1 rd;
 
     public Cuboid(MyRenderer1 rd) {
@@ -67,5 +69,17 @@ public class Cuboid {
 
     public MyRenderer1 getRd() {
         return rd;
+    }
+
+    public double getA() {
+        return a;
+    }
+
+    public double getB() {
+        return b;
+    }
+
+    public double getC() {
+        return c;
     }
 }

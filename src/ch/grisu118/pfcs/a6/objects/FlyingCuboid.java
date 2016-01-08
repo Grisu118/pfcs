@@ -7,6 +7,7 @@ import ch.grisu118.pfcs.a6.Storm2Main;
 import ch.grisu118.pfcs.util.Animatable;
 
 import javax.media.opengl.GL3;
+import java.util.Random;
 
 /**
  * Created by benjamin on 04.11.2015.
@@ -17,14 +18,13 @@ public class FlyingCuboid extends Dynamics implements Animatable{
     float rx, ry, rz;
     float phi;
     float speed = (float) (Math.random()*10);
-    float rotSpeed = (float) (Math.random()*100);
     Mat4 R = Mat4.ID;
     Cuboid cub;
     Storm2Main renderer;
 
-    float I1 = 1.4f;
-    float I2 = 1.5f;
-    float I3 = 1.2f;
+    float I1;
+    float I2;
+    float I3;
 
     public FlyingCuboid(Cuboid cub,
                         float v, float px, float py, float pz,
@@ -42,14 +42,22 @@ public class FlyingCuboid extends Dynamics implements Animatable{
     }
 
     public FlyingCuboid(Cuboid cub, Storm2Main rd) {
+        Random r = new Random();
         this.px = ((float) Math.random() - 0.5f) * 4;
         this.py = ((float) Math.random() - 0.5f) * 4;
-        this.rx = (float) Math.random();
-        this.ry = (float) Math.random();
-        this.rz = (float) Math.random();
+        this.rx = r.nextInt(100);
+        this.ry = r.nextInt(100);
+        this.rz = r.nextInt(100);
         this.pz = -100;
         this.cub = cub;
         renderer = rd;
+
+        double a = cub.getA()*cub.getA(), b = cub.getB()*cub.getB(), c = cub.getC()*cub.getC();
+        double m = cub.getA()*cub.getB()*cub.getC();
+
+        I1 = (float)(1/12*m*(b+c));
+        I2 = (float)(1/12*m*(a + c));
+        I3 = (float)(1/12*m*(a + b));
 
         phi = 0;
     }
@@ -71,7 +79,7 @@ public class FlyingCuboid extends Dynamics implements Animatable{
     @Override
     public void update(double dt) {
         setZ(getZ() + getSpeed() * dt * renderer.getSpeedMultiplication());
-        double[] a = euler(new double[]{rx, ry, rz}, dt);
+        double[] a = runge(new double[]{rx, ry, rz}, dt);
         rx = (float) a[0];
         ry = (float) a[1];
         rz = (float) a[2];
@@ -108,10 +116,6 @@ public class FlyingCuboid extends Dynamics implements Animatable{
 
     public double getSpeed() {
         return this.speed;
-    }
-
-    public double getRotSpeed() {
-        return this.rotSpeed;
     }
 
 }
