@@ -28,6 +28,7 @@ public class FlowMain extends GLBase1 {
     boolean isIdeal = true;
     boolean isCirc = false;
     private boolean random = false;
+    private boolean isFatLine = false;
 
     //  ---------  Methoden  ----------------------------------
 
@@ -230,7 +231,11 @@ public class FlowMain extends GLBase1 {
                     changeColor();
                     c = 0;
                 }
-                list.add(new Point(new double[]{-1, f}, color));
+                if (isFatLine) {
+                    list.add(new Point(new double[]{-1, f + (Math.random() * 0.01) - 0.005}, color));
+                } else {
+                    list.add(new Point(new double[]{-1, f}, color));
+                }
             }
         }
 
@@ -328,6 +333,9 @@ public class FlowMain extends GLBase1 {
                 break;
             case KeyEvent.VK_4:
                 random = !random;
+                break;
+            case KeyEvent.VK_5:
+                isFatLine = !isFatLine;
                 break;
         }
     }
