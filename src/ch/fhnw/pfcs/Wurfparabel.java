@@ -28,12 +28,12 @@ public class Wurfparabel extends GLBase1 {
     /**
      * Geschwindigkeit
      */
-    double vx0=20, vy0=20;
-    double vx=vx0, vy=vy0;
+    double vx0 = 20, vy0 = 20;
+    double vx = vx0, vy = vy0;
     /**
      * Beschleunigungen
      */
-    double ax=0, ay = -g;
+    double ax = 0, ay = -g;
 
     /**
      * Zeitschritt
@@ -83,10 +83,10 @@ public class Wurfparabel extends GLBase1 {
     public void zeichneBahn(GL3 gl, double x0, double y0, double vx0, double vy0, double dt, int nPunkte) {
         double x1, y1, t;
         for (int i = 0; i < nPunkte; i++) {
-            t = i*dt;
+            t = i * dt;
             x1 = vx0 * t + x0;
             y1 = -0.5 * g * t * t + vy0 * t + y0;
-            putVertex((float)x1, (float)y1, 0);
+            putVertex((float) x1, (float) y1, 0);
         }
         copyBuffer(gl, nPunkte);
         gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nPunkte);
@@ -95,7 +95,7 @@ public class Wurfparabel extends GLBase1 {
     public void zeichneSpeer(GL3 gl, float w, float h) {
         w *= 0.5f;
         h *= 0.5f;
-        float w2 = 0.8f*w;
+        float w2 = 0.8f * w;
         rewindBuffer(gl);
         putVertex(-w, 0, 0);
         putVertex(-w2, -h, 0);
@@ -132,13 +132,13 @@ public class Wurfparabel extends GLBase1 {
         zeichneBahn(gl, left, 0, vx0, vy0, 0.1, 100);
         setColor(1, 0, 0);
         translate(gl, x, y, 0);
-        double alpha = Math.toDegrees(Math.atan(vy/vx));
-        rotate(gl, (float)alpha, 0, 0, 1);
+        double alpha = Math.toDegrees(Math.atan(vy / vx));
+        rotate(gl, (float) alpha, 0, 0, 1);
         zeichneSpeer(gl, 10, 0.5f);
-        x += vx*dt;
-        y += vy*dt;
-        vx += ax*dt;
-        vy += ay*dt;
+        x += vx * dt;
+        y += vy * dt;
+        vx += ax * dt;
+        vy += ay * dt;
         if (x > right || y < bottom) {
             x = x0;
             y = y0;
@@ -154,7 +154,7 @@ public class Wurfparabel extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
-        float aspect = (float)height / width;
+        float aspect = (float) height / width;
         bottom = aspect * left;
         top = aspect * right;
         // -----  Projektionsmatrix festlegen  -----

@@ -17,7 +17,7 @@ public class Trike extends AbstractVehicle {
         this.backAxis = 0.8f;
         this.wheelSize = 0.6f;
         this.wheelWidth = 0.35f;
-        this.axisDistance = this.length-this.backAxis-this.wheelSize/2-0.01f;
+        this.axisDistance = this.length - this.backAxis - this.wheelSize / 2 - 0.01f;
         this.maxAlpha = 60;
         this.minAlpha = this.maxAlpha * -1;
         this.wheelDistance = 0;

@@ -68,7 +68,7 @@ public class GLBase1
     protected JPanel headerPanel;
     protected JFrame jFrame;
     private int shadingLevel = 0;
-    private Vec4 lightPosition = new Vec4(0,0,10,1);
+    private Vec4 lightPosition = new Vec4(0, 0, 10, 1);
 
 
     //  ------------- Methoden  ---------------------------
@@ -148,7 +148,7 @@ public class GLBase1
         gl.glEnableVertexAttribArray(vNormalLocation);
         gl.glVertexAttribPointer(vPositionLocation, 4, GL3.GL_FLOAT, false, vertexSize, 0);
         gl.glVertexAttribPointer(vColorLocation, 4, GL3.GL_FLOAT, false, vertexSize, vPositionSize);
-        gl.glVertexAttribPointer(vNormalLocation, 4, GL.GL_FLOAT, false, vertexSize, vPositionSize+vColorSize);
+        gl.glVertexAttribPointer(vNormalLocation, 4, GL.GL_FLOAT, false, vertexSize, vPositionSize + vColorSize);
 
 
     }
@@ -192,6 +192,7 @@ public class GLBase1
         currentColor[2] = b;
         currentColor[3] = 1;
     }
+
     @Override
     public void setColor(float r, float g, float b, float a)             // aktuelle Vertexfarbe setzen
     {
@@ -211,16 +212,17 @@ public class GLBase1
 
     @Override
     public void setColor(Color c) {
-        currentColor[0] = c.getRed()/255.0f;
-        currentColor[1] = c.getGreen()/255.0f;
-        currentColor[2] = c.getBlue()/255.0f;
-        currentColor[3] = c.getAlpha()/255.0f;
+        currentColor[0] = c.getRed() / 255.0f;
+        currentColor[1] = c.getGreen() / 255.0f;
+        currentColor[2] = c.getBlue() / 255.0f;
+        currentColor[3] = c.getAlpha() / 255.0f;
     }
 
     @Override
     public float[] getColor() {
         return Arrays.copyOf(currentColor, currentColor.length);
     }
+
     @Override
     public void setNormal(float x, float y, float z) {
         currentNormal[0] = x;
@@ -228,6 +230,7 @@ public class GLBase1
         currentNormal[2] = z;
         currentNormal[3] = 0;
     }
+
     @Override
     public void setNormal(float[] normal) {
         if (normal.length != 4) {

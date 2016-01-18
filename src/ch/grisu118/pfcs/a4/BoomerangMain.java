@@ -1,7 +1,6 @@
 package ch.grisu118.pfcs.a4;
 
 import ch.fhnw.pfcs.GLBase1;
-import ch.fhnw.util.MeshUtils;
 import ch.grisu118.pfcs.util.Animatable;
 import ch.grisu118.pfcs.util.Simulator;
 import com.jogamp.opengl.util.FPSAnimator;
@@ -70,7 +69,7 @@ public class BoomerangMain extends GLBase1 {
         //setShadingLevel(gl, 1);
         setCameraSystem(gl, dCam, elevation, azimut);
         //setLightPosition(gl, 1, 0, 0);
-                 //  Koordinatenachsen
+        //  Koordinatenachsen
         bomerang.draw(gl);
         bomerang2.draw(gl);
     }

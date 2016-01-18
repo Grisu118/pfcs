@@ -16,8 +16,8 @@ public class FlyingBall implements Animatable {
     private float px, py, pz;
     private float rx, ry, rz;
     private float phi;
-    private float speed = (float) (Math.random()*10);
-    private float rotSpeed = (float) (Math.random()*100);
+    private float speed = (float) (Math.random() * 10);
+    private float rotSpeed = (float) (Math.random() * 100);
 
     public FlyingBall(RotKoerper ball, Storm2Main rd) {
         this.ball = ball;
@@ -40,7 +40,7 @@ public class FlyingBall implements Animatable {
     }
 
     public void setRotAngle(double angle) {
-        this.phi = (float)angle%360;
+        this.phi = (float) angle % 360;
     }
 
     public double getRotAngle() {
@@ -49,7 +49,7 @@ public class FlyingBall implements Animatable {
 
     public void setZ(double z) {
         this.pz = (float) z;
-        if(pz > 1.0) pz = -100;
+        if (pz > 1.0) pz = -100;
     }
 
     public double getZ() {

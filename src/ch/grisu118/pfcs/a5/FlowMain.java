@@ -86,7 +86,7 @@ public class FlowMain extends GLBase1 {
     void update(float dt) {
         line.update(dt);
         if (isCirc) {
-            phi += 100*dt;
+            phi += 100 * dt;
             phi %= 360;
         }
     }
@@ -180,7 +180,7 @@ public class FlowMain extends GLBase1 {
         }
 
         void addLines() {
-            for(float f = -1.01f; f < 1.02; f += 0.05f) {
+            for (float f = -1.01f; f < 1.02; f += 0.05f) {
                 list.add(new FlowLine(f));
             }
         }
@@ -220,12 +220,12 @@ public class FlowMain extends GLBase1 {
             ideal = new FlowIdeal();
             circ = new FlowCirc();
             f = _f;
-            color = color.WHITE;
+            color = Color.WHITE;
         }
 
         void add() {
             if (random) {
-                list.add(new Point(new double[]{-1, Math.random()*2-1}, color.YELLOW));
+                list.add(new Point(new double[]{-1, Math.random() * 2 - 1}, color.YELLOW));
             } else {
                 if (c++ > (20)) {
                     changeColor();
@@ -242,7 +242,7 @@ public class FlowMain extends GLBase1 {
         @Override
         public void update(double dt) {
             for (Point p : list) {
-                if (isIdeal)  {
+                if (isIdeal) {
                     double[] a = ideal.runge(p.pos, dt);
                     p.pos[0] = a[0];
                     p.pos[1] = a[1];
@@ -262,7 +262,7 @@ public class FlowMain extends GLBase1 {
             gl.glPointSize(1.5f);
             for (Point p : list) {
                 setColor(p.c);
-                putVertex((float)p.pos[0], (float)p.pos[1], 0);
+                putVertex((float) p.pos[0], (float) p.pos[1], 0);
             }
             copyBuffer(gl, list.size());
             gl.glDrawArrays(GL3.GL_POINTS, 0, list.size());

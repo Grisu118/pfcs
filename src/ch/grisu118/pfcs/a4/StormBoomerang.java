@@ -3,7 +3,6 @@ package ch.grisu118.pfcs.a4;// ----------  Bumerang-Modell  --------------------
 import ch.fhnw.pfcs.MyRenderer1;
 import ch.grisu118.pfcs.util.Animatable;
 
-import javax.media.opengl.GL2;
 import javax.media.opengl.GL3;
 
 /**
@@ -23,11 +22,10 @@ public class StormBoomerang implements Animatable {
     int nVertices;
 
     //Animatable
-    private float alpha =  Math.round(Math.random()*360); //Rotation auf der Bahn
-    private float beta = Math.round(Math.random()*360); //Rotation des Bummerangs
+    private float alpha = Math.round(Math.random() * 360); //Rotation auf der Bahn
+    private float beta = Math.round(Math.random() * 360); //Rotation des Bummerangs
     private float gamma; //Kippwinkel der Bahn
     private float radius;
-
 
 
     //  --------  Methoden  --------------------------
@@ -330,18 +328,18 @@ public class StormBoomerang implements Animatable {
     @Override
     public void draw(GL3 gl) {
         rd.pushMatrix(gl);
-        rd.rotate(gl, 90, 1,0,0);
+        rd.rotate(gl, 90, 1, 0, 0);
         rd.translate(gl, 0, 0, -4);
         if (gamma != 0) {
             rd.translate(gl, 0, 0, (float) (-Math.cos(gamma) * radius));
-            rd.rotate(gl, gamma, 0,1,0);
+            rd.rotate(gl, gamma, 0, 1, 0);
         }
 
-        rd.rotate(gl, alpha, 0,0,1);
+        rd.rotate(gl, alpha, 0, 0, 1);
         rd.translate(gl, radius, 0, 0);
-        rd.rotate(gl, 55, 0,1,0);
-        rd.rotate(gl, beta, 0,0,1);
-        rd.translate(gl, 1.5f,1.5f,0);
+        rd.rotate(gl, 55, 0, 1, 0);
+        rd.rotate(gl, beta, 0, 0, 1);
+        rd.translate(gl, 1.5f, 1.5f, 0);
         zeichneSturmBumerang(gl);
         rd.popMatrix(gl);
     }

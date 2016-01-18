@@ -43,10 +43,10 @@ public class Sat extends GLBase1 {
 
     double r1 = 42.05; //Bahnradius
     double v1 = Math.sqrt(GM / r1); //Bahngeschwindigkeit
-    Satellit sat1 = new Satellit(r1, 0, 0, v1, 0.25 ); //Stationär
+    Satellit sat1 = new Satellit(r1, 0, 0, v1, 0.25); //Stationär
     double r2 = 26.56;
     double v2 = Math.sqrt(GM / r2);
-    Satellit sat2 = new Satellit(r2, 0, 0, v2, 0.25 ); //GPS
+    Satellit sat2 = new Satellit(r2, 0, 0, v2, 0.25); //GPS
 
     RotKoerper rotKoerper = new RotKoerper(this);
 
@@ -108,7 +108,7 @@ public class Sat extends GLBase1 {
         fpsAnimator = new FPSAnimator(drawable, 60, true);
         fpsAnimator.start();
 
-        System.out.println(String.format("Geschwindigkeit Satelit 1: %.2f km/s", v1*1000));
+        System.out.println(String.format("Geschwindigkeit Satelit 1: %.2f km/s", v1 * 1000));
     }
 
 
@@ -136,7 +136,7 @@ public class Sat extends GLBase1 {
         rotate(gl, -90, 1, 0, 0);
         sat2.draw(gl);
         popMatrix(gl);
-        for (int i = 0; i<60; i++) {
+        for (int i = 0; i < 60; i++) {
             sat1.move(dt);
             sat2.move(dt);
         }
@@ -168,13 +168,17 @@ public class Sat extends GLBase1 {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP : elevation++;
+            case KeyEvent.VK_UP:
+                elevation++;
                 break;
-            case KeyEvent.VK_DOWN: elevation--;
+            case KeyEvent.VK_DOWN:
+                elevation--;
                 break;
-            case KeyEvent.VK_LEFT: azimut--;
+            case KeyEvent.VK_LEFT:
+                azimut--;
                 break;
-            case KeyEvent.VK_RIGHT: azimut++;
+            case KeyEvent.VK_RIGHT:
+                azimut++;
                 break;
 
         }
@@ -208,10 +212,10 @@ public class Sat extends GLBase1 {
         }
 
         public void move(double dt) {
-            double lr = Math.sqrt(x*x + y*y);
-            double r3 = lr*lr*lr;
-            double ax = -(GM/r3)*x;
-            double ay = -(GM/r3)*y;
+            double lr = Math.sqrt(x * x + y * y);
+            double r3 = lr * lr * lr;
+            double ax = -(GM / r3) * x;
+            double ay = -(GM / r3) * y;
             x += vx * dt;
             y += vy * dt;
             vx += ax * dt;
@@ -221,7 +225,7 @@ public class Sat extends GLBase1 {
         public void draw(GL3 gl) {
             pushMatrix(gl);
             translate(gl, x, y, z);
-            rotKoerper.zeichneKugel(gl, (float) r, 10,10);
+            rotKoerper.zeichneKugel(gl, (float) r, 10, 10);
             popMatrix(gl);
         }
     }

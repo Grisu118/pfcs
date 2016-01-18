@@ -28,7 +28,7 @@ public class Lorenz extends GLBase1 {
      * Zeitschritt
      */
     double dt = 0.01;
-    double[] x0 = {10,10,10};
+    double[] x0 = {10, 10, 10};
     Satellit sat1 = new Satellit(x0, 1); //Stationär
     Trail t = new Trail(2000);
 

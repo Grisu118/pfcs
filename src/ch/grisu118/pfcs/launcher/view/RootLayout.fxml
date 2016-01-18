@@ -1,54 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.BorderPane?>
-
-<BorderPane prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.grisu118.pfcs.launcher.view.LauncherController">
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
+<BorderPane prefHeight="200.0" prefWidth="350.0" xmlns="http://javafx.com/javafx/8.0.65"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.grisu118.pfcs.launcher.view.LauncherController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#doClose" text="Close"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                   BorderPane.alignment="CENTER">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#doClose" text="Close" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <ComboBox fx:id="comboBox" layoutX="118.0" layoutY="13.0" onAction="#onComboBoxAction"
+                                  prefHeight="25.0" prefWidth="230.0" AnchorPane.rightAnchor="10.0"/>
+                        <Label layoutX="14.0" layoutY="18.0" text="Übung wählen:" AnchorPane.leftAnchor="10.0"/>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                    <children>
+                        <TextArea fx:id="infoArea" editable="false" layoutX="27.0" layoutY="-70.0" prefHeight="83.0"
+                                  prefWidth="298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
+                    </children>
+                </AnchorPane>
             </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
-   <center>
-      <SplitPane dividerPositions="0.4" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <ComboBox fx:id="comboBox" layoutX="118.0" layoutY="13.0" onAction="#onComboBoxAction" prefHeight="25.0" prefWidth="230.0" AnchorPane.rightAnchor="10.0" />
-                  <Label layoutX="14.0" layoutY="18.0" text="Übung wählen:" AnchorPane.leftAnchor="10.0" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-               <children>
-                  <TextArea fx:id="infoArea" editable="false" layoutX="27.0" layoutY="-70.0" prefHeight="83.0" prefWidth="298.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </center>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button mnemonicParsing="false" onAction="#doStart" text="Start" />
-            <Button mnemonicParsing="false" onAction="#doClose" text="Close" />
-        </buttons>
-         <padding>
-            <Insets right="10.0" />
-         </padding>
-      </ButtonBar>
-   </bottom>
+        </SplitPane>
+    </center>
+    <bottom>
+        <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <buttons>
+                <Button mnemonicParsing="false" onAction="#doStart" text="Start"/>
+                <Button mnemonicParsing="false" onAction="#doClose" text="Close"/>
+            </buttons>
+            <padding>
+                <Insets right="10.0"/>
+            </padding>
+        </ButtonBar>
+    </bottom>
 </BorderPane>

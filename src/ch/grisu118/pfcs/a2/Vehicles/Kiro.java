@@ -50,9 +50,9 @@ public class Kiro extends AbstractVehicle {
         double space = 0.5;
         //Front
         context.pushMatrix(gl);
-        context.translate(gl, axisDistance/2, 0, 0);
+        context.translate(gl, axisDistance / 2, 0, 0);
         context.pushMatrix(gl);
-        context.rotate(gl, (float) (alpha), 0,0,1);
+        context.rotate(gl, (float) (alpha), 0, 0, 1);
         context.rewindBuffer(gl);
         context.putVertex(space, +width / 2, 0.01);
         context.putVertex(length - axisDistance / 2 - backAxis, width / 2, 0.01);
@@ -70,8 +70,8 @@ public class Kiro extends AbstractVehicle {
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL3.GL_LINE_LOOP, 0, nVertices);
         context.rewindBuffer(gl);
-        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, width / 2 - wheelWidth/2, false);
-        drawWheels(gl, wheelSize, wheelWidth, axisDistance/2, -width / 2 + wheelWidth/2, false);
+        drawWheels(gl, wheelSize, wheelWidth, axisDistance / 2, width / 2 - wheelWidth / 2, false);
+        drawWheels(gl, wheelSize, wheelWidth, axisDistance / 2, -width / 2 + wheelWidth / 2, false);
         context.popMatrix(gl);
         //Back
         if (debug) {
@@ -93,8 +93,8 @@ public class Kiro extends AbstractVehicle {
         context.copyBuffer(gl, nVertices);
         gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nVertices);
         context.rewindBuffer(gl);
-        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, width / 2 - wheelWidth/2, true);
-        drawWheels(gl, wheelSize, wheelWidth, -axisDistance/2, -width / 2 + wheelWidth/2, true);
+        drawWheels(gl, wheelSize, wheelWidth, -axisDistance / 2, width / 2 - wheelWidth / 2, true);
+        drawWheels(gl, wheelSize, wheelWidth, -axisDistance / 2, -width / 2 + wheelWidth / 2, true);
         context.popMatrix(gl);
     }
 
@@ -103,7 +103,7 @@ public class Kiro extends AbstractVehicle {
         float[] color = context.getColor();
         context.setColor(debugColor);
         context.pushMatrix(gl);
-        context.translate(gl, -axisDistance/2, 0, 0);
+        context.translate(gl, -axisDistance / 2, 0, 0);
         drawCenter(gl);
         drawCircle(gl, 0, ym, ym, false, 100);
         context.drawAxis(gl, length, (float) ym, 1);

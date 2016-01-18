@@ -12,12 +12,12 @@ import java.util.Random;
 /**
  * Created by benjamin on 04.11.2015.
  */
-public class FlyingCuboid extends Dynamics implements Animatable{
+public class FlyingCuboid extends Dynamics implements Animatable {
 
     float px, py, pz;
     float rx, ry, rz;
     float phi;
-    float speed = (float) (Math.random()*10);
+    float speed = (float) (Math.random() * 10);
     Mat4 R = Mat4.ID;
     Cuboid cub;
     Storm2Main renderer;
@@ -52,18 +52,18 @@ public class FlyingCuboid extends Dynamics implements Animatable{
         this.cub = cub;
         renderer = rd;
 
-        double a = cub.getA()*cub.getA(), b = cub.getB()*cub.getB(), c = cub.getC()*cub.getC();
-        double m = cub.getA()*cub.getB()*cub.getC();
+        double a = cub.getA() * cub.getA(), b = cub.getB() * cub.getB(), c = cub.getC() * cub.getC();
+        double m = cub.getA() * cub.getB() * cub.getC();
 
-        I1 = (float)(1/12*m*(b+c));
-        I2 = (float)(1/12*m*(a + c));
-        I3 = (float)(1/12*m*(a + b));
+        I1 = (float) (1 / 12 * m * (b + c));
+        I2 = (float) (1 / 12 * m * (a + c));
+        I3 = (float) (1 / 12 * m * (a + b));
 
         phi = 0;
     }
 
     public FlyingCuboid(Storm2Main rd) {
-        this(new Cuboid((float) Math.random()/10, (float) Math.random()/10, (float) Math.random()/10, rd), rd);
+        this(new Cuboid((float) Math.random() / 10, (float) Math.random() / 10, (float) Math.random() / 10, rd), rd);
     }
 
     @Override
@@ -83,22 +83,22 @@ public class FlyingCuboid extends Dynamics implements Animatable{
         rx = (float) a[0];
         ry = (float) a[1];
         rz = (float) a[2];
-        setRotAngle(Math.sqrt(rx*rx + ry*ry + rz*rz) * dt);
+        setRotAngle(Math.sqrt(rx * rx + ry * ry + rz * rz) * dt);
         R = R.postMultiply(Mat4.rotate(phi, rx, ry, rz));
     }
 
 
     @Override
     public double[] f(double[] x) {
-        return new double[] {
-                (I2-I3) * x[1]*x[2],
-                (I3-I1) * x[2]*x[0],
-                (I1-I2) * x[0]*x[1]
+        return new double[]{
+                (I2 - I3) * x[1] * x[2],
+                (I3 - I1) * x[2] * x[0],
+                (I1 - I2) * x[0] * x[1]
         };
     }
 
     public void setRotAngle(double angle) {
-        this.phi = (float)angle%360;
+        this.phi = (float) angle % 360;
     }
 
     public double getRotAngle() {
@@ -107,7 +107,7 @@ public class FlyingCuboid extends Dynamics implements Animatable{
 
     public void setZ(double z) {
         this.pz = (float) z;
-        if(pz > 1.0) pz = -100;
+        if (pz > 1.0) pz = -100;
     }
 
     public double getZ() {

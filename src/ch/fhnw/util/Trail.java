@@ -37,7 +37,7 @@ public class Trail {
 
     public void draw(MyRenderer1 rd, GL3 gl) {
         rd.rewindBuffer(gl);
-        deque.forEach(v ->  rd.putVertex(v.x, v.y, v.z));
+        deque.forEach(v -> rd.putVertex(v.x, v.y, v.z));
         int nPunkte = deque.size();
         rd.copyBuffer(gl, nPunkte);
         gl.glDrawArrays(GL3.GL_LINE_STRIP, 0, nPunkte);

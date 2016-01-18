@@ -47,7 +47,6 @@ public class ParkingCar extends GLBase1 {
     public ParkingCar() {
 
 
-
         vehicles.add(Car.CarFactory(this, Car.Cars.MercedesBenzGL));
         vehicles.add(Car.CarFactory(this, Car.Cars.VWGolf));
         vehicles.add(new Trike(this, "Dreirad"));
@@ -104,11 +103,11 @@ public class ParkingCar extends GLBase1 {
 
         JTextArea center = new JTextArea(
                 "left/right, A/D: Lenkeinschlag ändern \n" +
-                "up/down, W/S: Beschleunigen / Bremsen \n" +
-                "SPACE: Stark Bremsen \n" +
-                "SHIFT: Schneller Beschleunigen/Bremsen \n" +
-                "R: Reset \n" +
-                "E: Reset Lenkeinschlag");
+                        "up/down, W/S: Beschleunigen / Bremsen \n" +
+                        "SPACE: Stark Bremsen \n" +
+                        "SHIFT: Schneller Beschleunigen/Bremsen \n" +
+                        "R: Reset \n" +
+                        "E: Reset Lenkeinschlag");
         center.setFocusable(false);
         center.setEditable(false);
         center.setBackground(headerPanel.getBackground());
@@ -182,17 +181,17 @@ public class ParkingCar extends GLBase1 {
             mult = 8;
         }
         if (keys[KEY_W]) {
-            activeVehicle.setSpeed(activeVehicle.getSpeed() + mult*dt);
+            activeVehicle.setSpeed(activeVehicle.getSpeed() + mult * dt);
         }
         if (keys[KEY_S]) {
-            activeVehicle.setSpeed(activeVehicle.getSpeed() - mult*dt);
+            activeVehicle.setSpeed(activeVehicle.getSpeed() - mult * dt);
         }
 
         if (keys[KEY_A]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() + activeVehicle.getAngleMofifier()*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() + activeVehicle.getAngleMofifier() * dt);
         }
         if (keys[KEY_D]) {
-            activeVehicle.setAlpha(activeVehicle.getAlpha() - activeVehicle.getAngleMofifier()*dt);
+            activeVehicle.setAlpha(activeVehicle.getAlpha() - activeVehicle.getAngleMofifier() * dt);
         }
         if (keys[KEY_E]) {
             activeVehicle.setAlpha(0);
@@ -209,21 +208,21 @@ public class ParkingCar extends GLBase1 {
 
     private void drawParcArea(GL3 gl) {
         drawParcField(gl, -3, -10);
-        drawParcField(gl, -3+2.35f, -10);
-        drawParcField(gl, -3+2*2.35f, -10);
-        drawParcField(gl, -3+3*2.35f, -10);
-        drawParcField(gl, -3+4*2.35f, -10);
+        drawParcField(gl, -3 + 2.35f, -10);
+        drawParcField(gl, -3 + 2 * 2.35f, -10);
+        drawParcField(gl, -3 + 3 * 2.35f, -10);
+        drawParcField(gl, -3 + 4 * 2.35f, -10);
     }
 
     private void drawParcField(GL3 gl, float x, float y) {
         float width = 2.35f;
         float length = 5;
         float[] c = getColor();
-        setColor(1,1,1);
-        drawLine(gl, x-width*0.5f, y-length*0.5f, x+width*0.5f, y-length*0.5f);
-        drawLine(gl, x+width*0.5f, y-length*0.5f, x+width*0.5f, y+length*0.5f);
-        drawLine(gl, x+width*0.5f, y+length*0.5f, x-width*0.5f, y+length*0.5f);
-        drawLine(gl, x-width*0.5f, y+length*0.5f, x-width*0.5f, y-length*0.5f);
+        setColor(1, 1, 1);
+        drawLine(gl, x - width * 0.5f, y - length * 0.5f, x + width * 0.5f, y - length * 0.5f);
+        drawLine(gl, x + width * 0.5f, y - length * 0.5f, x + width * 0.5f, y + length * 0.5f);
+        drawLine(gl, x + width * 0.5f, y + length * 0.5f, x - width * 0.5f, y + length * 0.5f);
+        drawLine(gl, x - width * 0.5f, y + length * 0.5f, x - width * 0.5f, y - length * 0.5f);
         setColor(c);
     }
 
@@ -234,7 +233,7 @@ public class ParkingCar extends GLBase1 {
     public void init(GLAutoDrawable drawable) {
         super.init(drawable);
         GL3 gl = drawable.getGL().getGL3();
-        gl.glClearColor(160.0f/255, 160.0f/255, 160.0f/255, 1);                         // Hintergrundfarbe (RGBA)
+        gl.glClearColor(160.0f / 255, 160.0f / 255, 160.0f / 255, 1);                         // Hintergrundfarbe (RGBA)
         gl.glDisable(GL3.GL_DEPTH_TEST);                  // ohne Sichtbarkeitstest
 
         FPSAnimator fpsAnimator = new FPSAnimator(drawable, 60, true);

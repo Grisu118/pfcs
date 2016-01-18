@@ -7,7 +7,7 @@ import javax.media.opengl.GL3;
 /**
  * Created by benjamin on 08.10.2015.
  */
-public class BigTruck extends AbstractVehicle{
+public class BigTruck extends AbstractVehicle {
 
     private double alpha2;
     private double alpha5;
@@ -36,13 +36,13 @@ public class BigTruck extends AbstractVehicle{
         drawBody(gl);
         context.setColor(0.01f, 0.01f, 0.01f);
         drawWheels(gl, wheelSize, wheelWidth, 0.7, (+width / 2 - wheelWidth), true); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, 0.7, +width / 2 - 2*wheelWidth-0.008, true);
+        drawWheels(gl, wheelSize, wheelWidth, 0.7, +width / 2 - 2 * wheelWidth - 0.008, true);
         drawWheels(gl, wheelSize, wheelWidth, 0.7, -(width / 2 - wheelWidth), true); //backright
-        drawWheels(gl, wheelSize, wheelWidth, 0.7, -(width / 2 - 2*wheelWidth-0.008), true);
+        drawWheels(gl, wheelSize, wheelWidth, 0.7, -(width / 2 - 2 * wheelWidth - 0.008), true);
         drawWheels(gl, wheelSize, wheelWidth, -0.7, (+width / 2 - wheelWidth), true); //backleft
-        drawWheels(gl, wheelSize, wheelWidth, -0.7, +width / 2 - 2*wheelWidth-0.008, true);
+        drawWheels(gl, wheelSize, wheelWidth, -0.7, +width / 2 - 2 * wheelWidth - 0.008, true);
         drawWheels(gl, wheelSize, wheelWidth, -0.7, -(width / 2 - wheelWidth), true); //backright
-        drawWheels(gl, wheelSize, wheelWidth, -0.7, -(width / 2 - 2*wheelWidth-0.008), true);
+        drawWheels(gl, wheelSize, wheelWidth, -0.7, -(width / 2 - 2 * wheelWidth - 0.008), true);
         if (debug) {
             drawDebug(gl);
         }

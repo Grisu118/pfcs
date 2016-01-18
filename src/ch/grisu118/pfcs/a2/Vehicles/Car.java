@@ -37,7 +37,7 @@ public class Car extends AbstractVehicle {
         return c;
     }
 
-    private Car (ParkingCar context, String name) {
+    private Car(ParkingCar context, String name) {
         super(context, name);
         this.type = "Car";
 

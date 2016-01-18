@@ -77,8 +77,8 @@ public class FPendel extends GLBase1 {
         setColor(1, 0, 0);
         zeichneKreis(gl, 0, 0, R, false, 40);
 
-        zeichneKreis(gl,(float) (R*Math.cos(phi)), (float)(R*Math.sin(phi)), 0.25f, true, 30);
-        zeichneKreis(gl,0, (float)(R*Math.sin(phi)), 0.25f, true, 30);
+        zeichneKreis(gl, (float) (R * Math.cos(phi)), (float) (R * Math.sin(phi)), 0.25f, true, 30);
+        zeichneKreis(gl, 0, (float) (R * Math.sin(phi)), 0.25f, true, 30);
         phi += 0.01;
     }
 
@@ -89,7 +89,7 @@ public class FPendel extends GLBase1 {
         GL3 gl = drawable.getGL().getGL3();
         // Set the viewport to be the entire window
         gl.glViewport(0, 0, width, height);
-        float aspect = (float)height / width;
+        float aspect = (float) height / width;
         bottom = aspect * left;
         top = aspect * right;
         // -----  Projektionsmatrix festlegen  -----

@@ -7,13 +7,11 @@ import ch.grisu118.pfcs.a4.BoomerangMain;
 import ch.grisu118.pfcs.a5.FlowMain;
 import ch.grisu118.pfcs.a6.Storm2Main;
 import ch.grisu118.pfcs.launcher.Main;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 
 /**
  * Created by benjamin on 18.11.2015.
@@ -101,7 +99,7 @@ public class LauncherController {
         switch (v) {
             case EX1:
                 SwingUtilities.invokeLater(AirTrain::new);
-            break;
+                break;
             case EX2:
                 SwingUtilities.invokeLater(ParkingCar::new);
                 break;

@@ -5,6 +5,7 @@ import java.util.Random;
 
 /**
  * Class for a Train object on the AirTrain line.
+ *
  * @author Benjamin Leber
  */
 public class Train {

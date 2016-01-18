@@ -35,9 +35,9 @@ public class Brett extends GLBase1 {
      * Position
      */
 
-    float x0 = (float) (a*Math.cos(phi0));
+    float x0 = (float) (a * Math.cos(phi0));
     float x = x0;
-    float y0 = (float) (a*Math.sin(phi0));
+    float y0 = (float) (a * Math.sin(phi0));
     float y = y0;
     /**
      * Geschwindigkeit
@@ -128,7 +128,7 @@ public class Brett extends GLBase1 {
         zeichneRechteck(gl, (float) a, (float) b);
 
         if (phi > 0) {
-            phi += omega*dt;
+            phi += omega * dt;
             double alpha = -(a / 2 * m * g * Math.cos(phi)) / I;
             omega += alpha * dt;
             x += vx * dt;

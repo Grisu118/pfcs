@@ -9,6 +9,7 @@ import javax.swing.*;
 
 /**
  * Main Class for jar.
+ *
  * @author Benjamin Leber
  */
 public class JarMain {
@@ -25,7 +26,7 @@ public class JarMain {
     }
 
     public JarMain() {
-        Icon icon =  new ImageIcon("res/icon.png");
+        Icon icon = new ImageIcon("res/icon.png");
         if (icon.getIconHeight() < 0) {
             icon = new ImageIcon(getClass().getClassLoader().getResource("icon.png"));
         }

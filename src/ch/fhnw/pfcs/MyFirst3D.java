@@ -25,8 +25,8 @@ public class MyFirst3D extends GLBase1 {
                                float x3, float y3, float z3) {
         rewindBuffer(gl);
 
-        Vec3 u = new Vec3(x2-x1, y2-y1, z2-z1);
-        Vec3 v = new Vec3(x3-x1, y3-y1, z3-z1);
+        Vec3 u = new Vec3(x2 - x1, y2 - y1, z2 - z1);
+        Vec3 v = new Vec3(x3 - x1, y3 - y1, z3 - z1);
         Vec3 n = u.cross(v);
         setNormal(n.x, n.y, n.z);
         putVertex(x1, y1, z1);           // Eckpunkte in VertexArray speichern
@@ -62,8 +62,8 @@ public class MyFirst3D extends GLBase1 {
         zeichneDreieck(gl, 3, 2, 4, 5, 1.8f, 8, 5, 2, 3);
         setColor(0.2f, 0.2f, 0.2f);
         zeichneDreieck(gl, 3, 0, 4, 5, 0, 8, 5, 0, 3);
-        setColor(0.8f, 0.4f,0);
-        setLightPosition(gl, 0,6,10);
+        setColor(0.8f, 0.4f, 0);
+        setLightPosition(gl, 0, 6, 10);
         Cuboid c = new Cuboid(2, 1, 3, this);
         c.draw(gl);
     }
@@ -94,13 +94,17 @@ public class MyFirst3D extends GLBase1 {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_UP : elevation++;
+            case KeyEvent.VK_UP:
+                elevation++;
                 break;
-            case KeyEvent.VK_DOWN: elevation--;
+            case KeyEvent.VK_DOWN:
+                elevation--;
                 break;
-            case KeyEvent.VK_LEFT: azimut--;
+            case KeyEvent.VK_LEFT:
+                azimut--;
                 break;
-            case KeyEvent.VK_RIGHT: azimut++;
+            case KeyEvent.VK_RIGHT:
+                azimut++;
                 break;
 
         }

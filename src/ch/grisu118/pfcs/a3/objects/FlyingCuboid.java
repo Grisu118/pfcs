@@ -1,23 +1,21 @@
 package ch.grisu118.pfcs.a3.objects;
 
-import ch.fhnw.pfcs.MyRenderer1;
 import ch.fhnw.pfcs.objects.Cuboid;
 import ch.grisu118.pfcs.a3.StormMain;
 import ch.grisu118.pfcs.util.Animatable;
-import sun.text.resources.cldr.yav.FormatData_yav;
 
 import javax.media.opengl.GL3;
 
 /**
  * Created by benjamin on 04.11.2015.
  */
-public class FlyingCuboid implements Animatable{
+public class FlyingCuboid implements Animatable {
 
     float px, py, pz;
     float rx, ry, rz;
     float phi;
-    float speed = (float) (Math.random()*10);
-    float rotSpeed = (float) (Math.random()*100);
+    float speed = (float) (Math.random() * 10);
+    float rotSpeed = (float) (Math.random() * 100);
     Cuboid cub;
     StormMain renderer;
 
@@ -65,7 +63,7 @@ public class FlyingCuboid implements Animatable{
     }
 
     public void setRotAngle(double angle) {
-        this.phi = (float)angle%360;
+        this.phi = (float) angle % 360;
     }
 
     public double getRotAngle() {
@@ -74,7 +72,7 @@ public class FlyingCuboid implements Animatable{
 
     public void setZ(double z) {
         this.pz = (float) z;
-        if(pz > 1.0) pz = -100;
+        if (pz > 1.0) pz = -100;
     }
 
     public double getZ() {

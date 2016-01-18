@@ -61,7 +61,7 @@ public class AirTrain extends GLBase1 {
         }
 
         jFrame.setIconImage(icon.getImage());
-        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH );
+        jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         box.addActionListener(e -> colorExChange = box.isSelected());
@@ -184,7 +184,9 @@ public class AirTrain extends GLBase1 {
                 Train t2 = trainList.get(j);
                 if (t.checkCollision(t2)) {
                     calcNewSpeed(t, t2);
-                    if (colorExChange) { t.colorChange(t2); }
+                    if (colorExChange) {
+                        t.colorChange(t2);
+                    }
                 }
             }
 

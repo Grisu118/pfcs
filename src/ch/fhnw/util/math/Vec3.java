@@ -37,130 +37,130 @@ import java.util.List;
  * @author radar
  */
 public class Vec3 implements IVec3 {
-	public static final Vec3 ZERO = new Vec3(0, 0, 0);
-	public static final Vec3 ONE = new Vec3(1, 1, 1);
-	public static final Vec3 X = new Vec3(1, 0, 0);
-	public static final Vec3 Y = new Vec3(0, 1, 0);
-	public static final Vec3 Z = new Vec3(0, 0, 1);
-	public static final Vec3 X_NEG = new Vec3(-1, 0, 0);
-	public static final Vec3 Y_NEG = new Vec3(0, -1, 0);
-	public static final Vec3 Z_NEG = new Vec3(0, 0, -1);
+    public static final Vec3 ZERO = new Vec3(0, 0, 0);
+    public static final Vec3 ONE = new Vec3(1, 1, 1);
+    public static final Vec3 X = new Vec3(1, 0, 0);
+    public static final Vec3 Y = new Vec3(0, 1, 0);
+    public static final Vec3 Z = new Vec3(0, 0, 1);
+    public static final Vec3 X_NEG = new Vec3(-1, 0, 0);
+    public static final Vec3 Y_NEG = new Vec3(0, -1, 0);
+    public static final Vec3 Z_NEG = new Vec3(0, 0, -1);
 
-	public final float x;
-	public final float y;
-	public final float z;
+    public final float x;
+    public final float y;
+    public final float z;
 
-	public Vec3(float x, float y, float z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
+    public Vec3(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
 
-	public Vec3(double x, double y, double z) {
-		this((float) x, (float) y, (float) z);
-	}
+    public Vec3(double x, double y, double z) {
+        this((float) x, (float) y, (float) z);
+    }
 
-	public Vec3(float[] vec) {
-		this(vec[0], vec[1], vec[2]);
-	}
+    public Vec3(float[] vec) {
+        this(vec[0], vec[1], vec[2]);
+    }
 
-	public Vec3(Vec4 v) {
-		this(v.x, v.y, v.z);
-	}
+    public Vec3(Vec4 v) {
+        this(v.x, v.y, v.z);
+    }
 
-	@Override
-	public float x() {
-		return x;
-	}
-	
-	@Override
-	public float y() {
-		return y;
-	}
+    @Override
+    public float x() {
+        return x;
+    }
 
-	@Override
-	public float z() {
-		return z;
-	}
+    @Override
+    public float y() {
+        return y;
+    }
 
-	public float length() {
-		return MathUtil.length(x, y, z);
-	}
+    @Override
+    public float z() {
+        return z;
+    }
 
-	public float distance(Vec3 v) {
-		return (float) Math.sqrt((v.x - x) * (v.x - x) + (v.y - y) * (v.y - y) + (v.z - z) * (v.z - z));
-	}
+    public float length() {
+        return MathUtil.length(x, y, z);
+    }
 
-	public Vec3 add(Vec3 v) {
-		return new Vec3(x + v.x, y + v.y, z + v.z);
-	}
+    public float distance(Vec3 v) {
+        return (float) Math.sqrt((v.x - x) * (v.x - x) + (v.y - y) * (v.y - y) + (v.z - z) * (v.z - z));
+    }
 
-	public Vec3 subtract(Vec3 v) {
-		return new Vec3(x - v.x, y - v.y, z - v.z);
-	}
+    public Vec3 add(Vec3 v) {
+        return new Vec3(x + v.x, y + v.y, z + v.z);
+    }
 
-	public Vec3 scale(float s) {
-		return new Vec3(x * s, y * s, z * s);
-	}
+    public Vec3 subtract(Vec3 v) {
+        return new Vec3(x - v.x, y - v.y, z - v.z);
+    }
 
-	public Vec3 negate() {
-		return scale(-1);
-	}
+    public Vec3 scale(float s) {
+        return new Vec3(x * s, y * s, z * s);
+    }
 
-	public Vec3 normalize() {
-		float l = length();
-		if (MathUtil.isZero(l) || l == 1)
-			return this;
-		return new Vec3(x / l, y / l, z / l);
-	}
+    public Vec3 negate() {
+        return scale(-1);
+    }
 
-	public float dot(Vec3 a) {
-		return MathUtil.dot(x, y, z, a.x, a.y, a.z);
-	}
+    public Vec3 normalize() {
+        float l = length();
+        if (MathUtil.isZero(l) || l == 1)
+            return this;
+        return new Vec3(x / l, y / l, z / l);
+    }
 
-	public Vec3 cross(Vec3 a) {
-		return new Vec3(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x);
-	}
+    public float dot(Vec3 a) {
+        return MathUtil.dot(x, y, z, a.x, a.y, a.z);
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
+    public Vec3 cross(Vec3 a) {
+        return new Vec3(y * a.z - z * a.y, z * a.x - x * a.z, x * a.y - y * a.x);
+    }
 
-		if (obj instanceof Vec3) {
-			final Vec3 v = (Vec3) obj;
-			return (x == v.x) && (y == v.y) && (z == v.z);
-		}
-		return false;
-	}
-	
-	@Override
-	public Vec3 toVec3() {
-		return this;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
 
-	@Override
-	public float[] toArray() {
-		return new float[] { x, y, z };
-	}
+        if (obj instanceof Vec3) {
+            final Vec3 v = (Vec3) obj;
+            return (x == v.x) && (y == v.y) && (z == v.z);
+        }
+        return false;
+    }
 
-	@Override
-	public String toString() {
-		return String.format("[% .2f,% .2f,% .2f]", x, y, z);
-	}
+    @Override
+    public Vec3 toVec3() {
+        return this;
+    }
 
-	public static float[] toArray(List<? extends Vec3> vectors) {
-		if (vectors == null)
-			return null;
+    @Override
+    public float[] toArray() {
+        return new float[]{x, y, z};
+    }
 
-		float[] result = new float[vectors.size() * 3];
-		int i = 0;
-		for (Vec3 v : vectors) {
-			result[i++] = v.x;
-			result[i++] = v.y;
-			result[i++] = v.z;
-		}
-		return result;
-	}
+    @Override
+    public String toString() {
+        return String.format("[% .2f,% .2f,% .2f]", x, y, z);
+    }
+
+    public static float[] toArray(List<? extends Vec3> vectors) {
+        if (vectors == null)
+            return null;
+
+        float[] result = new float[vectors.size() * 3];
+        int i = 0;
+        for (Vec3 v : vectors) {
+            result[i++] = v.x;
+            result[i++] = v.y;
+            result[i++] = v.z;
+        }
+        return result;
+    }
 }

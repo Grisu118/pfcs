@@ -10,30 +10,36 @@ import javax.media.opengl.awt.GLCanvas;
 import java.awt.*;
 
 
-public interface MyRenderer1
-{
+public interface MyRenderer1 {
 
     GLCanvas getGLCanvas();                         // OpenGL-Window
 
     //  --------  Vertex-Methoden  -----------
 
     void setColor(float r, float g, float b);       // aktuelle Vertexfarbe setzen
+
     void setColor(float r, float g, float b, float a);
+
     void setColor(float[] color);
+
     void setColor(Color c);
+
     float[] getColor();
 
     void setNormal(float x, float y, float z);
+
     void setNormal(float[] normal);
 
     void setShadingLevel(GL3 gl, int level);
+
     void setLightPosition(GL3 gl, double x, double y, double z);
 
 
     void putVertex(float x, float y, float z);             // Vertex-Daten in Buffer speichern
+
     void putVertex(double x, double y, double z);
 
-    void copyBuffer(GL gl,int nVertices);           // Vertex-Array in OpenGL-Buffer kopieren
+    void copyBuffer(GL gl, int nVertices);           // Vertex-Array in OpenGL-Buffer kopieren
 
     void rewindBuffer(GL gl);                       // Bufferposition zuruecksetzen
 
@@ -76,13 +82,13 @@ public interface MyRenderer1
     //  ---------  Projektion auf Bildebene -------------------
 
     public void setOrthogonalProjection(GL3 gl, float left, float right,           // Grenzen des ViewingVolumes
-                                      float bottom, float top,
-                                      float near, float far);
+                                        float bottom, float top,
+                                        float near, float far);
 
 
     public void setPerspectiveProjection(GL3 gl, float left, float right,          // Grenzen des ViewingVolumes
-                                      float bottom, float top,
-                                      float near, float far);
+                                         float bottom, float top,
+                                         float near, float far);
 
 
 }

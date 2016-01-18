@@ -12,18 +12,23 @@ public interface Vehicle {
     void draw(GL3 gl);
 
     void setSpeed(double speed);
+
     double getSpeed();
 
     void setAngle(double angle);
+
     double getAngle();
 
     double getAngleMofifier();
 
     double getX();
+
     void setX(double x);
 
     double getAlpha();
+
     void setAlpha(double alpha);
+
     double getYm();
 
     double getZentripetalForce();
@@ -31,6 +36,7 @@ public interface Vehicle {
     double getMaxZentripetalForce();
 
     Mat4 getMatrix();
+
     void setMatrix(Mat4 matrix);
 
     void setDebug(boolean debug);
