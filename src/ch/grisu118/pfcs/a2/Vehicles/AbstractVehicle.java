@@ -65,16 +65,19 @@ public abstract class AbstractVehicle implements Vehicle {
             this.beta = Math.toDegrees(Math.atan(axisDistance / (ym + b)));
             this.gamma = Math.toDegrees(Math.atan(axisDistance / (ym - b)));
             if (!calcZentripetalForce()) {
-                /*
                 this.alpha = a;
                 this.ym = ym2;
                 this.beta = be;
-                */
+                this.gamma = Math.toDegrees(Math.atan(axisDistance / (ym - b)));
+                calcZentripetalForce();
             }
         }
     }
 
     protected boolean calcZentripetalForce() {
+        if (this.ym == 0) {
+            return true;
+        }
         this.zentripetalForce = Math.pow(this.speed, 2) / ym;
         return Math.abs(this.zentripetalForce) <= Math.abs(maxZentripetalForce);
     }
@@ -84,8 +87,9 @@ public abstract class AbstractVehicle implements Vehicle {
         double s = this.speed;
         this.speed = speed;
 
-        if (!calcZentripetalForce()) {
-           // this.speed = s;
+        if (!calcZentripetalForce() && speed > s) {
+            this.speed = s;
+            calcZentripetalForce();
         }
     }
 
@@ -182,7 +186,7 @@ public abstract class AbstractVehicle implements Vehicle {
 
         //Max
         context.setColor(0, 0, 255);
-        double m = maxZentripetalForce  * (ym/ Math.abs(ym));
+        double m = maxZentripetalForce * (ym / Math.abs(ym));
         context.drawLine(gl, 0, 0, 0, m);
         context.drawLine(gl, -0.2, m, 0.2, m);
 
@@ -263,7 +267,7 @@ public abstract class AbstractVehicle implements Vehicle {
             context.setColor(debugColor);
             context.rewindBuffer(gl);
             context.putVertex(x, y, 0);
-            double l = Math.sqrt(Math.pow(axisDistance, 2) + Math.pow(ym + y, 2)) * (ym/Math.abs(ym));
+            double l = Math.sqrt(Math.pow(axisDistance, 2) + Math.pow(ym + y, 2)) * (ym / Math.abs(ym));
             context.putVertex(x, l, 0);
             nVertices = 2;
             context.copyBuffer(gl, nVertices);

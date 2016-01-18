@@ -74,7 +74,7 @@ public class AirTrain extends GLBase1 {
             } catch (NumberFormatException ex) {
                 kt.setText("1");
             }
-            if (k1 < 0 || k1 > 1) {
+            if (k1 < 0) {
                 kt.setText("1");
             }
             k = Float.parseFloat(kt.getText());

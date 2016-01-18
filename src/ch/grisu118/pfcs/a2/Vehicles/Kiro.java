@@ -28,9 +28,14 @@ public class Kiro extends AbstractVehicle {
             if (this.alpha < 0 && alpha > 0 || this.alpha > 0 && alpha < 0) {
                 alpha = 0;
             }
+            double a = this.alpha;
             this.alpha = alpha;
             this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
-            calcZentripetalForce();
+            if (!calcZentripetalForce()) {
+                this.alpha = a;
+                this.ym = axisDistance / Math.tan(Math.toRadians(alpha));
+                calcZentripetalForce();
+            }
         }
     }
 
