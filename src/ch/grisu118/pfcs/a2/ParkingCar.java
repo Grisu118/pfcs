@@ -43,6 +43,7 @@ public class ParkingCar extends GLBase1 {
     private final static int KEY_SPACE = 5;
     private final static int KEY_E = 6;
     private final JLabel speedLabel;
+    private final JLabel forceLabel;
 
     public ParkingCar() {
 
@@ -126,6 +127,15 @@ public class ParkingCar extends GLBase1 {
         c.gridy = 0;
         rightPanel.add(speedLabel, c);
 
+        forceLabel = new JLabel("0 N");
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.weightx = 0.0;
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 1;
+        rightPanel.add(forceLabel, c);
+
         jFrame.setExtendedState(jFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         runSimulation();
     }
@@ -169,10 +179,15 @@ public class ParkingCar extends GLBase1 {
         activeVehicle.setAngle(Math.toDegrees(omega * dt));
         activeVehicle.setX(activeVehicle.getSpeed() * dt);
         this.setSpeedLabel(activeVehicle.getSpeed());
+        this.setForceLabel(activeVehicle.getZentripetalForce());
     }
 
     private void setSpeedLabel(double speed) {
         speedLabel.setText(String.format("%.2f km/h", speed * 3.6));
+    }
+
+    private void setForceLabel(double force) {
+        forceLabel.setText(String.format("%.2f N", Math.abs(force)));
     }
 
     private void handleInput(float dt) {
