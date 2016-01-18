@@ -53,12 +53,15 @@ public class Storm2Main extends GLBase1 {
     private int prevX;
     private final Thread thread;
 
+    private boolean preCalc;
 
     //  ---------  Methoden  ----------------------------------
 
-    public Storm2Main() {
+    public Storm2Main(boolean preCalc) {
         super();
         vShader = "vShader_fog.glsl";
+
+        this.preCalc = preCalc;
 
         createUI();
 
@@ -79,15 +82,21 @@ public class Storm2Main extends GLBase1 {
         thread.start();
     }
 
+    public Storm2Main() {
+        this(true);
+    }
+
     public void regenerateObjects(int n) {
         objects = new Animatable[n];
         for (int i = 0; i < objects.length; i++) {
             objects[i] = generateObject();
         }
 
-        for (int i = 0; i < 100; i++) {
-            for (Animatable object : objects) {
-                object.update(0.1);
+        if (this.preCalc) {
+            for (int i = 0; i < 100; i++) {
+                for (Animatable object : objects) {
+                    object.update(0.1);
+                }
             }
         }
     }

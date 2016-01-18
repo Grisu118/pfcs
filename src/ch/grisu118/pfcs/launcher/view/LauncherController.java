@@ -24,8 +24,10 @@ public class LauncherController {
     private static final String EX4 = "Übung 4 - Bumerang";
     private static final String EX5 = "Übung 5 - Strömung um Zylinder";
     private static final String EX6 = "Übung 6 - Fliegende Quader";
+    private static final String EX6b = "Übung 6 - Fliegende Quader - ohne PreCalc";
 
-    private static final String[] exercises = {EX1, EX2, EX3, EX4, EX5, EX6};
+
+    private static final String[] exercises = {EX1, EX2, EX3, EX4, EX5, EX6, EX6b};
 
     private static final String EX1_DESC = "Eindimensionale Bewegung\n" +
             "Stoss mit Reibungsfrei gleitenden Wagen.";
@@ -34,6 +36,7 @@ public class LauncherController {
     private static final String EX4_DESC = "Fliegende Bumerangs";
     private static final String EX5_DESC = "Strömung Simuliert mit Runge Kutta.\nZufälliges erzeugen von Punkten mit Taste 4 ein und ausschalten!";
     private static final String EX6_DESC = "Drücken Sie F11 für Vollbildmodus!\n";
+    private static final String EX6b_DESC = "Drücken Sie F11 für Vollbildmodus!\nOhne Vorberechnen => Objekte kommen aus dem Nebel";
 
     @FXML
     private ComboBox<String> comboBox;
@@ -81,6 +84,9 @@ public class LauncherController {
             case EX6:
                 infoArea.setText(EX6_DESC);
                 break;
+            case EX6b:
+                infoArea.setText(EX6b_DESC);
+                break;
             default:
                 infoArea.setText("");
                 break;
@@ -114,6 +120,9 @@ public class LauncherController {
                 break;
             case EX6:
                 SwingUtilities.invokeLater(Storm2Main::new);
+                break;
+            case EX6b:
+                SwingUtilities.invokeLater(() -> new Storm2Main(false));
                 break;
             default:
                 break;
