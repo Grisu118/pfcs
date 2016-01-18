@@ -182,6 +182,7 @@ public abstract class AbstractVehicle implements Vehicle {
     }
 
     protected void drawZentriPetal(GL3 gl) {
+        /*
         float[] c = context.getColor();
 
         //Max
@@ -196,6 +197,7 @@ public abstract class AbstractVehicle implements Vehicle {
 
 
         context.setColor(c);
+        */
     }
 
     protected void drawCenter(GL3 gl) {
